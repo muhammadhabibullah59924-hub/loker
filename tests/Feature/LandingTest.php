@@ -43,4 +43,15 @@ class LandingTest extends TestCase
         $response->assertSee('Daftar');
         $response->assertSee('logo.svg');
     }
+
+    /**
+     * Pengunjung tamu tidak diminta masuk lebih dulu untuk melihat halaman depan.
+     */
+    public function test_halaman_depan_bisa_dibuka_tanpa_masuk(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+        $this->assertGuest();
+    }
 }

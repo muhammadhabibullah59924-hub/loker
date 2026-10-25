@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body class="d-flex flex-column min-vh-100">
-    {{-- Navbar sesi tamu. Setelah T-004, bagian ini menampilkan nama pengguna dan tombol Keluar. --}}
+    {{-- Navbar menampilkan tombol Masuk/Daftar untuk tamu, dan nama + Keluar setelah F1 (T-004). --}}
     <nav class="navbar navbar-expand-lg site-navbar border-bottom" aria-label="Navigasi utama">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2 text-dark text-decoration-none" href="/">
@@ -26,15 +26,31 @@
 
             <div class="collapse navbar-collapse" id="menuUtama">
                 <div class="navbar-nav ms-auto align-items-lg-center gap-2 flex-row">
-                    {{-- Tautan sementara; rute bernama /login dan /register dibuat pada T-004 --}}
-                    <a class="btn btn-outline-secondary btn-sm" href="/login">Masuk</a>
-                    <a class="btn btn-primary btn-sm" href="/register">Daftar</a>
+                    @guest
+                        <a class="btn btn-outline-secondary btn-sm" href="{{ route('login') }}">Masuk</a>
+                        <a class="btn btn-primary btn-sm" href="{{ route('register') }}">Daftar</a>
+                    @else
+                        <span class="navbar-text me-2">Halo, {{ auth()->user()->name }}</span>
+                        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-secondary btn-sm">Keluar</button>
+                        </form>
+                    @endguest
                 </div>
             </div>
         </div>
     </nav>
 
     <main class="flex-grow-1">
+        @if (session('status'))
+            <div class="container mt-3">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('status') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup pesan"></button>
+                </div>
+            </div>
+        @endif
+
         @yield('content')
     </main>
 

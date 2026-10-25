@@ -17,8 +17,8 @@
             </p>
 
             <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
-                <a href="/register" class="btn btn-primary btn-lg">Daftar dan lihat loker terdekat</a>
-                <a href="/login" class="btn btn-outline-secondary btn-lg">Masuk</a>
+                <a href="{{ route('register') }}" class="btn btn-primary btn-lg">Daftar dan lihat loker terdekat</a>
+                <a href="{{ route('login') }}" class="btn btn-outline-secondary btn-lg">Masuk</a>
             </div>
         </div>
     </section>
