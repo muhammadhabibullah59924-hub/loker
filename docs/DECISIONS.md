@@ -36,7 +36,7 @@ Semua ADR di bawah memakai tanggal 2026-10-25 kecuali dibuat kemudian.
 - **Tanggal:** 2026-10-25
 - **Konteks:** Mahasiswa memilih Laravel dan MySQL/MariaDB bawaan XAMPP; alasan stack: "Sudah dipelajari di kelas." Model data pokok: `users`, `jobs`, dan `favorites`.
 - **Keputusan:** Laravel menangani routing, validasi (Form Request), autentikasi, dan logika pengurutan jarak melalui `DistanceService`; MySQL menyimpan tiga tabel dengan `jobs.latitude`/`jobs.longitude` sebagai kunci fitur urutan terdekat.
-- **Konsekuensi:** Pengurutan jarak dihitung di server sehingga konsisten; seluruh loker aktif dibaca tiap permintaan, masih wajar untuk ukuran data tugas; perlu verifikasi kompatibilitas MariaDB 10.1 XAMPP.
+- **Konsekuensi:** Pengurutan jarak dihitung di server sehingga konsisten; seluruh loker aktif dibaca tiap permintaan, masih wajar untuk ukuran data tugas; kompatibilitas MariaDB 10.1 XAMPP sudah diverifikasi saat `T-002` dan membutuhkan charset `utf8` (lihat ADR-008).
 - **Alternatif yang dipertimbangkan:** PostgreSQL (rekomendasi kit, tidak dipakai), SQLite (terlalu terbatas untuk banyak penulis), API terpisah (menambah kompleksitas tanpa kebutuhan).
 
 ### ADR-004: Autentikasi dan keamanan
@@ -65,6 +65,24 @@ Semua ADR di bawah memakai tanggal 2026-10-25 kecuali dibuat kemudian.
 - **Keputusan:** Piramida condong ke unit test untuk logika jarak, validasi, dan otorisasi; satu alur E2E untuk jalur utama; gerbang dijalankan lokal sebelum PR lalu diulang CI; level dasar menetapkan pemeriksaan manusia setiap task.
 - **Konsekuensi:** Cakupan UI tidak dipaksa 100 persen; cek manual lewat checklist di `docs/TESTING.md`; jumlah task dibatasi 14 sesuai panduan 1 minggu.
 - **Alternatif yang dipertimbangkan:** Level menengah (CI wajib dan review rutin, cocok bila durasi 3–6 minggu), level loop (menambah `docs/LOOP.md`, di luar kebutuhan saat ini).
+
+### ADR-007: Tabel `jobs` khusus data loker, antrean dimatikan
+
+- **Status:** Accepted
+- **Tanggal:** 2026-10-25
+- **Konteks:** `SPEC.json` menetapkan tabel `jobs` untuk 24 loker, sedangkan kerangka Laravel 13 juga membawa migrasi bawaan bernama `jobs` untuk antrean (queue) — keduanya bertabrakan pada nama tabel yang sama. Aplikasi ini tidak memakai pekerjaan latar apa pun.
+- **Keputusan:** Menghapus migrasi antrean bawaan (`0001_01_01_000002_create_jobs_table.php`) dan menyetel `QUEUE_CONNECTION=sync` di `.env` serta `.env.example`, sehingga tabel `jobs` seluruhnya dipakai untuk data loker sesuai SPEC.
+- **Konsekuensi:** Bila kelak butuh pekerjaan latar, tabel antrean harus dibuat ulang dengan nama berbeda dan `QUEUE_CONNECTION` diubah dari `sync`; tabel `failed_jobs` dan `job_batches` tidak ada.
+- **Alternatif yang dipertimbangkan:** Mengganti nama tabel loker menjadi `loker`/`job_listings` (melanggar `SPEC.json` yang sudah dikonfirmasi), memindahkan antrean ke `queue_jobs` (menyimpang dari berkas bawaan tanpa kebutuhan nyata).
+
+### ADR-008: Charset `utf8` untuk MariaDB 10.1 XAMPP
+
+- **Status:** Accepted
+- **Tanggal:** 2026-10-25
+- **Konteks:** Migrasi pertama gagal dengan galat `1071 Specified key was too long; max key length is 767 bytes`. MariaDB 10.1.32 XAMPP membatasi indeks 767 byte, sedangkan `varchar(255)` utf8mb4 membutuhkan 1020 byte untuk kolom unik `users.email`. Hasil migrasi yang gagal menyisakan tabel `users` setengah jadi tanpa data di basis data `db_loker`.
+- **Keputusan:** Membuat basis data baru `db_loker_v2` dengan `CHARACTER SET utf8 COLLATE utf8_general_ci` dan menyetel `DB_CHARSET=utf8` serta `DB_COLLATION=utf8_general_ci` di `.env`/`.env.example`; seluruh kolom berindeks kini memakai 3 byte per karakter sehingga batas 767 byte terpenuhi.
+- **Konsekuensi:** Teks dibatasi 3 byte per karakter sehingga emoji dan aksara di luar BMP tidak tersimpan — teks Indonesia pada aplikasi ini aman; nama basis data di seluruh dokumen memakai `db_loker_v2`; basis data lama `db_loker` ditinggalkan apa adanya dan tidak dipakai.
+- **Alternatif yang dipertimbangkan:** Membatasi kolom berindeks ke 191 karakter (tetap utf8mb4), mengaktifkan `innodb_large_prefix`/`file_format=Barracuda` di `my.ini` XAMPP (mengubah konfigurasi global dan perlu restart MySQL), memakai nama kolom indeks yang lebih pendek.
 
 ## Delegated Choices
 
@@ -98,7 +116,7 @@ Semua pilihan dibuat langsung oleh mahasiswa.
 | Hal yang belum pasti | Perintah verifikasi | Pemilik | Kapan diputuskan |
 |---|---|---|---|
 | ~~Versi Laravel terbaru~~ **Terverifikasi 2026-10-25:** `laravel/framework v13.38.0`, PHP 8.3.35, MariaDB 10.1.32 | `composer show laravel/framework`, `php -v`, `mysql --version` | mahasiswa | selesai saat `T-001` |
-| Kompatibilitas MariaDB 10.1 dengan Laravel 13 saat menjalankan migrasi | `php artisan migrate` pada `db_loker` | mahasiswa | saat `T-002` |
+| ~~Kompatibilitas MariaDB 10.1 dengan Laravel 13 saat menjalankan migrasi~~ **Selesai 2026-10-25 saat `T-002`:** gagal awal karena batas indeks 767 byte, diselesaikan dengan charset `utf8` pada `db_loker_v2` (ADR-008) | `php artisan migrate` pada `db_loker_v2` | mahasiswa | selesai saat `T-002` |
 | Batas paket gratis bila kelak butuh hosting publik | cek paket terbaru di situs penyedia | mahasiswa | setelah tugas selesai |
 | Penentuan koordinat pusat Probolinggo sebagai konfigurasi atau seeder | pilih salah satu lalu catat di ADR baru | mahasiswa | saat `T-007` |
 | Kebutuhan verifikasi email di masa depan | putuskan bersama dosen | dosen | setelah penilaian |

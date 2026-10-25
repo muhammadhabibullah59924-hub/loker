@@ -135,7 +135,7 @@ Tidak ada layanan berbayar dan tidak ada API key yang disimpan di repositori.
 
 | Lingkungan | Perbedaan |
 |---|---|
-| Lokal | XAMPP Apache + MySQL di komputer pengembang, `APP_ENV=local`, `APP_DEBUG=true`, basis data `db_loker` |
+| Lokal | XAMPP Apache + MySQL di komputer pengembang, `APP_ENV=local`, `APP_DEBUG=true`, basis data `db_loker_v2` dengan charset `utf8` (batas indeks MariaDB 10.1, ADR-008) |
 | Staging/preview | Salinan basis data dengan data dummy, `APP_DEBUG=false`, dipakai untuk memeriksa tampilan sebelum diserahkan |
 | Produksi | Belum ditentukan untuk tugas ini; bila ada, `APP_ENV=production`, `APP_DEBUG=false`, HTTPS aktif |
 

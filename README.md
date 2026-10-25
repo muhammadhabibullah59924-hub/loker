@@ -31,11 +31,12 @@ Versi tidak ditulis di sini karena belum diverifikasi; periksa dengan `composer 
 1. Pastikan terpasang: PHP 8.3 (atau versi yang didukung Laravel terbaru), Composer, dan XAMPP (Apache + MySQL).
 2. Clone repositori ini ke folder web, misalnya `C:\xampp\htdocs\loker`.
 3. Jalankan instalasi dependensi: `composer install`.
-4. Salin `.env.example` menjadi `.env` lalu isi nilainya (`DB_DATABASE=db_loker`, `DB_USERNAME`, `DB_PASSWORD`).
+4. Salin `.env.example` menjadi `.env` lalu isi nilainya (`DB_DATABASE=db_loker_v2`, `DB_USERNAME`, `DB_PASSWORD`).
 5. Jalankan persiapan lingkungan: `cp .env.example .env && php artisan key:generate` (lewati langkah salin bila `.env` sudah ada).
-6. Nyalakan Apache dan MySQL lewat XAMPP Control Panel, lalu buat basis data `db_loker`.
-7. Jalankan migrasi dan seeder, kemudian mode pengembangan: `php artisan serve` (tersedia setelah `T-001`).
+6. Nyalakan Apache dan MySQL lewat XAMPP Control Panel, lalu buat basis data `db_loker_v2` dengan charset `utf8` (`CREATE DATABASE db_loker_v2 CHARACTER SET utf8 COLLATE utf8_general_ci;`) — lihat ADR-008.
+7. Jalankan migrasi dan seeder: `php artisan migrate --seed`, kemudian mode pengembangan: `php artisan serve` (tersedia setelah `T-001`).
 8. Buka `http://localhost:8000` (atau `http://localhost/loker` bila dijalankan lewat Apache) di browser.
+9. Akun demo hasil seeder: `admin@lokerdekat.test` (admin) dan `pencari@lokerdekat.test` (pengguna), kata sandi `password`.
 
 ## Scripts and Commands
 

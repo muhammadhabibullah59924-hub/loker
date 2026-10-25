@@ -16,7 +16,7 @@ Batas yang tidak boleh dilanggar agen AI maupun pengembang. Jika ragu, **berhent
 10. Mengarang API, versi paket, hasil tes, atau angka statistik.
 11. Menyimpan koordinat lokasi pengguna ke basis data — `SPEC.json` menetapkannya hanya dipakai selama sesi.
 12. Menayangkan loker ber-`is_active` false di dasbor, atau memaksa loker tanpa koordinat tampil (melanggar R2).
-13. Menjalankan perintah yang mengosongkan basis data kerja (`db_loker`) tanpa konfirmasi eksplisit.
+13. Menjalankan perintah yang mengosongkan basis data kerja (`db_loker_v2`) tanpa konfirmasi eksplisit.
 
 ## Ask Before (Approval Required)
 
@@ -53,7 +53,7 @@ Perintah berikut butuh konfirmasi eksplisit manusia — tampilkan perintah lengk
 - `DROP TABLE`, `TRUNCATE`, `DELETE FROM jobs` tanpa klausa seleksi sempit
 - `php artisan migrate:fresh` pada basis data yang berisi data uji penting
 - `git push --force`, `git reset --hard`, `git clean -fdx`
-- Mengosongkan basis data `db_loker` lewat phpMyAdmin
+- Mengosongkan basis data `db_loker_v2` lewat phpMyAdmin
 - Menghapus akun admin bawaan
 
 ## Prompt Injection Policy
