@@ -103,6 +103,36 @@ a:hover {
     font-weight: 600;
 }
 
+/* Kartu loker dasbor: urutan isi nama PT, alamat, divisi, jarak (AGENTS.md);
+   angka jarak diletakkan di sudut kanan atas sesuai prinsip 1 DESIGN_SYSTEM. */
+.job-card {
+    position: relative;
+}
+
+.job-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+    padding-right: 84px;
+}
+
+.job-card__jarak {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background-color: var(--color-primary);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 4px 8px;
+}
+
+.job-card__divisi {
+    background-color: #e0f2fe;
+    color: #0f172a;
+    font-size: 14px;
+}
+
 .site-footer {
     background-color: var(--color-surface);
     border-top: 1px solid var(--color-border);

@@ -12,7 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Pengguna yang sudah masuk selalu diarahkan ke dasbor (F2),
+        // bukan ke /dashboard bawaan yang tidak ada di proyek ini.
+        $middleware->redirectUsersTo('/dasbor');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

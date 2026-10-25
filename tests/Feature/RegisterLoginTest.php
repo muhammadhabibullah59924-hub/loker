@@ -23,7 +23,7 @@ class RegisterLoginTest extends TestCase
             'password_confirmation' => 'katasandi123',
         ]);
 
-        $response->assertRedirect(route('home'));
+        $response->assertRedirect(route('dasbor'));
         $response->assertSessionHasNoErrors();
         $this->assertAuthenticated();
 
@@ -98,7 +98,7 @@ class RegisterLoginTest extends TestCase
             'password' => 'katasandi123',
         ]);
 
-        $response->assertRedirect(route('home'));
+        $response->assertRedirect(route('dasbor'));
         $response->assertSessionHasNoErrors();
         $this->assertAuthenticated();
     }
@@ -134,7 +134,7 @@ class RegisterLoginTest extends TestCase
     }
 
     /**
-     * Pengguna yang sudah masuk tidak melihat form Masuk lagi.
+     * Pengguna yang sudah masuk tidak melihat form Masuk lagi, melainkan dasbor.
      */
     public function test_pengguna_masuk_dialihkan_dari_form_masuk(): void
     {
@@ -142,6 +142,6 @@ class RegisterLoginTest extends TestCase
 
         $response = $this->get('/login');
 
-        $response->assertRedirect(route('home'));
+        $response->assertRedirect('/dasbor');
     }
 }

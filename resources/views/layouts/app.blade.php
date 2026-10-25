@@ -30,6 +30,7 @@
                         <a class="btn btn-outline-secondary btn-sm" href="{{ route('login') }}">Masuk</a>
                         <a class="btn btn-primary btn-sm" href="{{ route('register') }}">Daftar</a>
                     @else
+                        <a class="nav-link" href="{{ route('dasbor') }}">Dasbor</a>
                         <span class="navbar-text me-2">Halo, {{ auth()->user()->name }}</span>
                         <form method="POST" action="{{ route('logout') }}" class="d-inline">
                             @csrf
@@ -62,5 +63,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    @yield('scripts')
 </body>
 </html>

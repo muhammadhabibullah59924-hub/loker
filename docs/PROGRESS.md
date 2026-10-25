@@ -6,7 +6,7 @@ Dokumen hidup. Diperbarui di **akhir setiap sesi** supaya sesi berikutnya (oleh 
 
 Tanggal: 2026-10-25
 
-Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori Git sudah ada (commit awal `main`), dan seluruh perintah `stack.commands` lulus. `T-002` juga selesai: basis data `db_loker_v2` (charset `utf8`, ADR-008) berisi tabel `users`, `jobs`, `favorites`, model Eloquent dengan relasi, serta seeder 1 admin, 1 pengguna, dan 24 loker Probolinggo berkoordinat. `QUEUE_CONNECTION=sync` dan penghapusan migrasi antrean bawaan tercatat di ADR-007. Tiga migrasi bawaan + dua migrasi aplikasi sudah dijalankan, `php artisan test` lulus 2/2, dan `vendor/bin/pint --test` bersih. `T-003` juga selesai: halaman depan berisi logo, tagline, tombol Masuk/Daftar, dan panduan tiga langkah (R3) di atas layout Bootstrap 5.3.8 CDN; jembatan `index.php` + `.htaccess` di root membuat `http://localhost/loker/` berfungsi lewat Apache (ADR-005) dan berkas sensitif terjawab 404. `T-004` selesai: rute `/register`, `/login`, `/logout` dengan Form Request berpesan bahasa Indonesia, navbar menampilkan nama pengguna dan tombol Keluar, limiter 5 percobaan masuk per menit (OWASP A07), dan 13 tes lulus. `T-006` selesai: `DistanceService::distanceInKm` sesuai contoh di `docs/CODE_STYLE.md` beserta 5 unit test, sehingga total tes menjadi 18. Yang belum: CI hijau menunggu remote GitHub (mahasiswa push sendiri; `feat/T-003-landing` dan `feat/T-004-auth` belum ter-push), cek tampilan 360 px masih manual, dan status `T-001`–`T-004` serta `T-006` masih `review` menunggu review manusia.
+Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori Git sudah ada (commit awal `main`), dan seluruh perintah `stack.commands` lulus. `T-002` juga selesai: basis data `db_loker_v2` (charset `utf8`, ADR-008) berisi tabel `users`, `jobs`, `favorites`, model Eloquent dengan relasi, serta seeder 1 admin, 1 pengguna, dan 24 loker Probolinggo berkoordinat. `QUEUE_CONNECTION=sync` dan penghapusan migrasi antrean bawaan tercatat di ADR-007. Tiga migrasi bawaan + dua migrasi aplikasi sudah dijalankan, `php artisan test` lulus 2/2, dan `vendor/bin/pint --test` bersih. `T-003` juga selesai: halaman depan berisi logo, tagline, tombol Masuk/Daftar, dan panduan tiga langkah (R3) di atas layout Bootstrap 5.3.8 CDN; jembatan `index.php` + `.htaccess` di root membuat `http://localhost/loker/` berfungsi lewat Apache (ADR-005) dan berkas sensitif terjawab 404. `T-004` selesai: rute `/register`, `/login`, `/logout` dengan Form Request berpesan bahasa Indonesia, navbar menampilkan nama pengguna dan tombol Keluar, limiter 5 percobaan masuk per menit (OWASP A07), dan 13 tes lulus. `T-006` selesai: `DistanceService::distanceInKm` sesuai contoh di `docs/CODE_STYLE.md` beserta 5 unit test. `T-007` selesai: rute `/dasbor` dijaga middleware `auth`, kartu diurut menaik dengan angka km, Geolocation API meminta izin saat halaman dibuka, penolakan izin jatuh ke urutan pusat Probolinggo dari `config/loker.php` (ADR-009), dan redirect setelah masuk/daftar kini menuju dasbor. Total tes saat ini 24, seluruh gerbang hijau. Yang belum: CI hijau menunggu remote GitHub (mahasiswa push sendiri; cabang `feat/T-007-dasbor` belum ter-push), cek tampilan 360 px masih manual, dan status `T-001`–`T-004`, `T-006`, `T-007` masih `review` menunggu review manusia.
 
 ## Completed
 
@@ -17,6 +17,7 @@ Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori
 | 2026-10-25 | T-003 Halaman depan dengan panduan tiga langkah | branch `feat/T-003-landing` | Landing + layout Bootstrap 5.3.8 CDN, jembatan `index.php`/`.htaccess` agar `/loker` jalan; 5 tes lulus |
 | 2026-10-25 | T-004 Registrasi, masuk, dan keluar | branch `feat/T-004-auth` | FormRequest, AuthController, limiter 5×/menit; 13 tes lulus; alur login→navbar→logout diuji lewat Apache |
 | 2026-10-26 | T-006 Service jarak Haversine + unit test | branch `feat/T-006-jarak` | `DistanceService::distanceInKm` (acos, radius 6371 km, bulat 1 desimal); 5 unit test; total 18 tes lulus |
+| 2026-10-26 | T-007 Dasbor loker terurut + cadangan lokasi default | branch `feat/T-007-dasbor` | Rute `/dasbor` dijaga `auth`, GPS via Geolocation API, fallback `config/loker.php` (ADR-009), 24 kartu terurut; 24 tes lulus |
 
 ## In Progress
 
@@ -25,8 +26,8 @@ Tidak ada
 ## Next Up
 
 1. `T-005` — Middleware peran dan kerangka panel admin.
-2. `T-007` — Dasbor loker terurut terdekat dengan cadangan lokasi default (butuh T-004 + T-006, keduanya sudah selesai).
-3. `T-008` — Peta Leaflet pada halaman detail loker.
+2. `T-008` — Halaman detail loker dengan peta Leaflet (syarat T-007 sudah selesai).
+3. `T-009` — Form tambah, ubah, nonaktif, dan hapus loker (butuh T-005).
 
 ## Blockers
 
@@ -47,3 +48,5 @@ Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan
 `2026-10-25 | agen coding (T-004) | T-004 | RegisterRequest + LoginRequest (pesan galat Indonesia), AuthController daftar/masuk/keluar, navbar menampilkan nama + Keluar, limiter login 5 percobaan per menit (A07) di AppServiceProvider; 13 tes lulus, pint bersih, validasi kit 21 PASS; diuji lewat Apache dengan akun seeder: login 302, navbar tampil, logout kembali tamu, GET /logout = 405 | status T-004 = review; catatan: render halaman galat 405 lambat (~5 dtk) dan pernah sekali kena timeout 30 dtk saat kompilasi view pertama, belum merusak fungsi; lanjut T-005 (middleware admin) atau T-006 (DistanceService)`
 
 `2026-10-26 | agen coding (T-006) | T-006 | DistanceService::distanceInKm dibuat persis contoh CODE_STYLE (acos, radius 6371 km, bulat 1 desimal) plus pembatasan argumen acos ke [-1,1] agar tidak NAN saat titik berimpit; 5 unit test (London-Paris 343,5 km, Probolinggo-Surabaya 72 km, simetris, nol, pembulatan); total 18 tes lulus dan pint bersih | status T-006 = review; T-003 dan T-004 ternyata belum ter-push (hanya T-001 dan T-002 yang ada di remote); lanjut T-005 (middleware admin) lalu T-007 (dasbor urut jarak)`
+
+`2026-10-26 | agen coding (T-007) | T-007 | Route /dasbor (auth) + DashboardController + DashboardRequest (koordinat tidak valid jatuh ke default, bukan halaman galat), kartu sesuai urutan wajib nama PT-alamat-divisi-jarak dengan angka km di sudut kanan atas, Geolocation API minta izin saat dibuka dan redirect bila disetujui, peringatan bila ditolak; pusat Probolinggo disimpan di config/loker.php (ADR-009); redirect sesi setelah masuk/daftar kini ke /dasbor | status T-007 = review; teruji lewat Apache: 24 kartu urut 0,2-0,5-0,8 km, tamu dialihkan ke /login; 24 tes lulus, pint bersih, validator 21 PASS; lanjut T-005 (middleware admin)`

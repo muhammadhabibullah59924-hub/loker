@@ -84,6 +84,15 @@ Semua ADR di bawah memakai tanggal 2026-10-25 kecuali dibuat kemudian.
 - **Konsekuensi:** Teks dibatasi 3 byte per karakter sehingga emoji dan aksara di luar BMP tidak tersimpan — teks Indonesia pada aplikasi ini aman; nama basis data di seluruh dokumen memakai `db_loker_v2`; basis data lama `db_loker` ditinggalkan apa adanya dan tidak dipakai.
 - **Alternatif yang dipertimbangkan:** Membatasi kolom berindeks ke 191 karakter (tetap utf8mb4), mengaktifkan `innodb_large_prefix`/`file_format=Barracuda` di `my.ini` XAMPP (mengubah konfigurasi global dan perlu restart MySQL), memakai nama kolom indeks yang lebih pendek.
 
+### ADR-009: Koordinat pusat Probolinggo disimpan sebagai konfigurasi
+
+- **Status:** Accepted
+- **Tanggal:** 2026-10-26
+- **Konteks:** PRD meminta urutan cadangan berupa pusat Probolinggo ketika pengguna menolak izin lokasi, dan daftar pertanyaan terbuka di dokumen ini menugaskan pemilihan antara konfigurasi tetap atau data seeder sebelum `T-007` dikerjakan. Dasbor membutuhkan titik pusat ini pada setiap permintaan tanpa izin lokasi.
+- **Keputusan:** Menaruh koordinat pusat Kota Probolinggo (lintang -7.7145, bujur 113.2146, alun-alun) di `config/loker.php` pada kunci `lokasi_default`, dibaca lewat `config('loker.lokasi_default.*')` oleh `DashboardController`.
+- **Konsekuensi:** Tidak ada query tambahan dan tidak ada tabel baru; mengubah pusat kota cukup mengedit satu berkas konfigurasi lalu `php artisan config:clear`; nilai default ini tidak bisa diubah lewat panel admin.
+- **Alternatif yang dipertimbangkan:** Menyimpan di tabel seeder/basis data (butuh skema baru dan query tiap permintaan, berguna hanya bila pusat kota sering berubah), menaruhnya langsung di dalam kode controller (menyulitkan perubahan dan pengujian).
+
 ## Delegated Choices
 
 Semua pilihan dibuat langsung oleh mahasiswa.
@@ -118,5 +127,5 @@ Semua pilihan dibuat langsung oleh mahasiswa.
 | ~~Versi Laravel terbaru~~ **Terverifikasi 2026-10-25:** `laravel/framework v13.38.0`, PHP 8.3.35, MariaDB 10.1.32 | `composer show laravel/framework`, `php -v`, `mysql --version` | mahasiswa | selesai saat `T-001` |
 | ~~Kompatibilitas MariaDB 10.1 dengan Laravel 13 saat menjalankan migrasi~~ **Selesai 2026-10-25 saat `T-002`:** gagal awal karena batas indeks 767 byte, diselesaikan dengan charset `utf8` pada `db_loker_v2` (ADR-008) | `php artisan migrate` pada `db_loker_v2` | mahasiswa | selesai saat `T-002` |
 | Batas paket gratis bila kelak butuh hosting publik | cek paket terbaru di situs penyedia | mahasiswa | setelah tugas selesai |
-| Penentuan koordinat pusat Probolinggo sebagai konfigurasi atau seeder | pilih salah satu lalu catat di ADR baru | mahasiswa | saat `T-007` |
+| ~~Penentuan koordinat pusat Probolinggo sebagai konfigurasi atau seeder~~ **Diputuskan 2026-10-26 saat `T-007`:** konfigurasi `config/loker.php` (ADR-009) | baca ADR-009 dan jalankan tes `DashboardOrderTest` | mahasiswa | selesai saat `T-007` |
 | Kebutuhan verifikasi email di masa depan | putuskan bersama dosen | dosen | setelah penilaian |

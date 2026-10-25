@@ -1,15 +1,19 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+// Dasbor F2 hanya untuk pengguna yang sudah masuk.
+Route::get('/dasbor', [DashboardController::class, 'index'])->middleware('auth')->name('dasbor');
+
 /*
  * Rute tamu (dijaga middleware `guest`): pengguna yang sudah masuk akan
- * diarahkan kembali ke halaman depan.
+ * diarahkan ke dasbor (lihat bootstrap/app.php).
  */
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
