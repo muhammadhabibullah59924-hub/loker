@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PanelController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -24,3 +25,12 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+/*
+ * Panel admin (F4): seluruh rute diawali `auth` lalu `admin` sehingga tamu
+ * dialihkan ke halaman Masuk dan pengguna biasa dialihkan keluar dari /admin.
+ * Rute CRUD loker ditambahkan pada T-009 di dalam grup ini.
+ */
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/', [PanelController::class, 'index'])->name('panel');
+});

@@ -31,6 +31,9 @@
                         <a class="btn btn-primary btn-sm" href="{{ route('register') }}">Daftar</a>
                     @else
                         <a class="nav-link" href="{{ route('dasbor') }}">Dasbor</a>
+                        @if (auth()->user()->isAdmin())
+                            <a class="nav-link" href="{{ route('admin.panel') }}">Panel Admin</a>
+                        @endif
                         <span class="navbar-text me-2">Halo, {{ auth()->user()->name }}</span>
                         <form method="POST" action="{{ route('logout') }}" class="d-inline">
                             @csrf
@@ -43,6 +46,12 @@
     </nav>
 
     <main class="flex-grow-1">
+        @if (session('peringatan'))
+            <div class="container mt-3">
+                <div class="alert alert-warning" role="alert">{{ session('peringatan') }}</div>
+            </div>
+        @endif
+
         @if (session('status'))
             <div class="container mt-3">
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
