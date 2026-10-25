@@ -53,8 +53,8 @@ Semua ADR di bawah memakai tanggal 2026-10-25 kecuali dibuat kemudian.
 - **Status:** Accepted
 - **Tanggal:** 2026-10-25
 - **Konteks:** Mahasiswa memilih localhost XAMPP (W-06) untuk keperluan tugas; tidak ada kebutuhan akses publik.
-- **Keputusan:** Aplikasi berjalan di Apache + MySQL XAMPP pada komputer pengembang, dibuka lewat `http://localhost/loker`; CI GitHub Actions tetap disiapkan agar setiap PR teruji.
-- **Konsekuensi:** Tidak ada domain, TLS, atau cadangan otomatis; deployment produksi ditunda dan bila ada nanti perlu HTTPS karena Geolocation API menuntut origin aman.
+- **Keputusan:** Aplikasi berjalan di Apache + MySQL XAMPP pada komputer pengembang, dibuka lewat `http://localhost/loker`; karena document root XAMPP menunjuk ke folder proyek sementara titik masuk Laravel berada di `public/`, dibuat `index.php` di root beserta `.htaccess` yang meneruskan permintaan ke `public/` (jembatan subfolder) sehingga alamat `/loker` berfungsi tanpa menyentuh `httpd-vhosts.conf`; CI GitHub Actions tetap disiapkan agar setiap PR teruji.
+- **Konsekuensi:** Tidak ada domain, TLS, atau cadangan otomatis; deployment produksi ditunda dan bila ada nanti perlu HTTPS karena Geolocation API menuntut origin aman; `.htaccess` memuat nama folder proyek sehingga harus disesuaikan bila folder dipindah.
 - **Alternatif yang dipertimbangkan:** Vercel/Cloudflare (cocok untuk framework JavaScript), Render/Railway, VPS + Docker (butuh pemeliharaan), hosting kampus.
 
 ### ADR-006: Strategi pengujian dan level proses

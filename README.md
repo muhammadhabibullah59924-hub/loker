@@ -35,7 +35,7 @@ Versi tidak ditulis di sini karena belum diverifikasi; periksa dengan `composer 
 5. Jalankan persiapan lingkungan: `cp .env.example .env && php artisan key:generate` (lewati langkah salin bila `.env` sudah ada).
 6. Nyalakan Apache dan MySQL lewat XAMPP Control Panel, lalu buat basis data `db_loker_v2` dengan charset `utf8` (`CREATE DATABASE db_loker_v2 CHARACTER SET utf8 COLLATE utf8_general_ci;`) — lihat ADR-008.
 7. Jalankan migrasi dan seeder: `php artisan migrate --seed`, kemudian mode pengembangan: `php artisan serve` (tersedia setelah `T-001`).
-8. Buka `http://localhost:8000` (atau `http://localhost/loker` bila dijalankan lewat Apache) di browser.
+8. Buka `http://localhost/loker` di browser. Berkas `index.php` dan `.htaccess` pada root proyek menjadi jembatan menuju `public/` (ADR-005) sehingga tidak perlu mengubah konfigurasi XAMPP. Bila memakai `php artisan serve`, buka `http://127.0.0.1:8000`.
 9. Akun demo hasil seeder: `admin@lokerdekat.test` (admin) dan `pencari@lokerdekat.test` (pengguna), kata sandi `password`.
 
 ## Scripts and Commands
