@@ -1,0 +1,232 @@
+{
+  "meta": {
+    "app_name": "LokerDekat",
+    "slug": "lokerdekat",
+    "one_liner": "Website info loker yang mengurutkan lowongan dari yang paling dekat ke lokasi pengguna, lengkap dengan peta dan divisi yang lowong.",
+    "platform": "web",
+    "level": "dasar",
+    "language": "id",
+    "ai_tools": ["GitHub Copilot"],
+    "team_size": 1,
+    "duration_weeks": 1,
+    "delegated_questions": [],
+    "secondary_platforms": [],
+    "starting_point": "new",
+    "created_date": "2026-10-25",
+    "assistant_proposed": [
+      "meta.one_liner",
+      "features.acceptance",
+      "features.priority",
+      "goals",
+      "metrics",
+      "non_goals",
+      "users",
+      "design",
+      "data.entities",
+      "risks",
+      "stack.custom_layers"
+    ]
+  },
+  "problem": {
+    "statement": "Anak muda yang tidak tahu harus melangkah ke mana untuk mencari loker akhirnya tidak bergerak, sehingga pengangguran di kalangan anak muda makin banyak. Belum ada satu tempat yang menunjukkan lowongan terdekat dari posisi mereka lengkap dengan nama PT, alamat, dan divisi yang lowong.",
+    "who": "Anak muda yang masih lontang-lantung mencari loker",
+    "current_alternative": "Hanya mengikuti grup lowongan (masuk grup tapi tidak ada aksi) dan mengandalkan info offline/kenalan - cara yang paling sering ditemui akhir-akhir ini."
+  },
+  "goals": [
+    "Pengguna menemukan loker terdekat dari lokasinya dalam hitungan detik lewat dasbor yang terurut dari jarak terkecil.",
+    "Admin mengelola data loker (tambah, ubah, nonaktif) sendiri tanpa menyentuh kode atau database."
+  ],
+  "non_goals": [
+    "Tidak ada fitur lamaran atau unggah CV/berkas - website ini murni informasi lowongan.",
+    "Tidak ada pembayaran, notifikasi, atau chat antar pengguna.",
+    "Tidak ada aplikasi mobile native (hanya web di browser)."
+  ],
+  "users": [
+    {
+      "persona": "Pemuda di Probolinggo yang baru mulai mencari loker dan belum tahu harus mulai dari mana",
+      "need": "Melihat daftar lowongan terdekat dari lokasinya, lengkap dengan nama PT, alamat jalan, dan divisi yang lowong.",
+      "quote": "(ilustrasi asisten) Tiap hari buka grup cuma dapat info basi, tidak tahu harus mulai dari mana."
+    }
+  ],
+  "user_conditions": [
+    "antarmuka berbahasa Indonesia",
+    "perangkat spesifikasi rendah",
+    "pengguna dengan kebutuhan aksesibilitas"
+  ],
+  "features": [
+    {
+      "id": "F1",
+      "name": "Masuk dan daftar akun",
+      "description": "Pengguna mendaftar dengan nama, email, dan password lalu masuk ke aplikasi; sesi berjalan sampai ia menekan Keluar.",
+      "priority": "must",
+      "acceptance": [
+        "Pengguna menekan Daftar lalu mengisi nama, email, dan password yang valid - akun tersimpan dan ia langsung bisa Masuk.",
+        "Pengguna memasukkan password yang salah saat Masuk - muncul pesan galat dan ia tetap berada di halaman login.",
+        "Setelah Masuk, nama pengguna tampil di navbar; menekan Keluar mengakhiri sesi dan mengembalikan ke halaman depan."
+      ]
+    },
+    {
+      "id": "F2",
+      "name": "Dasbor loker terurut terdekat",
+      "description": "Halaman utama setelah login menampilkan kartu loker (nama PT, alamat jalan, divisi lowong) diurutkan dari yang paling dekat ke lokasi pengguna.",
+      "priority": "must",
+      "acceptance": [
+        "Pengguna mengizinkan lokasi - kartu loker tampil urut menaik sesuai jarak dan setiap kartu menampilkan angka jarak dalam km.",
+        "Pengguna menolak izin lokasi - daftar tetap tampil memakai urutan default pusat Probolinggo dan muncul peringatan untuk mengizinkan lokasi.",
+        "Saat tidak ada pencarian atau filter aktif, dasbor menampilkan minimal 3 loker terdekat lengkap dengan nama PT, alamat, dan divisi (R1).",
+        "Saat filter radius dipilih, hanya loker dalam radius itu yang tampil; tanpa radius semua loker aktif tampil."
+      ]
+    },
+    {
+      "id": "F3",
+      "name": "Peta dan lokasi loker",
+      "description": "Setiap loker mempunyai titik koordinat yang ditampilkan sebagai peta Leaflet/OpenStreetMap di halaman detail.",
+      "priority": "must",
+      "acceptance": [
+        "Pengguna membuka detail satu loker - peta termuat dan menampilkan marker di titik latitude/longitude loker tersebut.",
+        "Alamat yang tertulis di halaman detail sama persis dengan nilai field alamat di database."
+      ]
+    },
+    {
+      "id": "F4",
+      "name": "Kelola data loker (admin)",
+      "description": "Admin menambah, mengubah, menonaktifkan, dan menghapus loker lewat panel admin tanpa menyentuh database.",
+      "priority": "must",
+      "acceptance": [
+        "Admin mengisi form tambah loker (nama PT, alamat, divisi, kota, titik peta) lalu menyimpan - loker langsung muncul di dasbor.",
+        "Form menolak disimpan bila nama PT, alamat, divisi, atau titik koordinat kosong - muncul pesan validasi dan loker tidak tersimpan (R2).",
+        "Loker tanpa titik koordinat tidak pernah ditayangkan di dasbor (R2).",
+        "Pengguna biasa membuka halaman admin - ia ditolak dan dialihkan keluar dari halaman tersebut.",
+        "Admin menonaktifkan satu loker - loker hilang dari dasbor tetapi datanya masih ada di database."
+      ]
+    },
+    {
+      "id": "F5",
+      "name": "Pencarian dan filter loker",
+      "description": "Pengguna mencari loker berdasarkan nama PT atau divisi, dan menyaring menurut radius jarak.",
+      "priority": "should",
+      "acceptance": [
+        "Pengguna mengetik nama PT atau nama divisi - hanya loker yang cocok yang tampil.",
+        "Kata kunci yang tidak cocok dengan loker mana pun - muncul pesan bahwa tidak ada hasil.",
+        "Pencarian dan filter tetap mempertahankan urutan jarak dari yang terdekat."
+      ]
+    },
+    {
+      "id": "F6",
+      "name": "Simpan loker favorit",
+      "description": "Pengguna menandai loker yang diminati dan menemukannya kembali di halaman Favorit.",
+      "priority": "could",
+      "acceptance": [
+        "Pengguna menekan tombol simpan pada sebuah loker - loker masuk ke halaman Favorit miliknya.",
+        "Pengguna menekan tombol lepas pada loker tersimpan - loker hilang dari daftar Favorit.",
+        "Daftar Favorit tetap berisi loker yang sama setelah pengguna keluar lalu masuk kembali."
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "name": "Urutan dasbor sesuai jarak",
+      "target": "Semua loker di dasbor tampil menaik mulai dari jarak terkecil",
+      "how_measured": "Membandingkan angka jarak pada tiap kartu di dasbor dengan perhitungan jarak di database."
+    },
+    {
+      "name": "Data loker hasil input admin tampil lengkap",
+      "target": "10 loker yang ditambahkan admin muncul semua di dasbor pada posisi sesuai jaraknya",
+      "how_measured": "Menambah 10 loker lewat panel admin lalu menghitung kartu yang muncul di dasbor beserta urutannya."
+    }
+  ],
+  "stack": {
+    "frontend": "Blade templates + Bootstrap 5 via CDN (tanpa build npm)",
+    "backend": "Laravel (latest stable - verifikasi: composer show -a laravel/framework)",
+    "database": "MySQL/MariaDB bawaan XAMPP",
+    "auth": "Email + password dengan hash bcrypt bawaan Laravel, tanpa verifikasi email",
+    "hosting": "localhost XAMPP (Apache + MySQL) untuk pengembangan tugas",
+    "testing": "PHPUnit (unit) + Playwright (satu alur E2E utama)",
+    "keywords": ["Laravel", "PHP", "MySQL", "Bootstrap 5", "Leaflet", "Blade"],
+    "extra": ["Leaflet + OpenStreetMap (peta)", "Penyimpanan file (logo)"],
+    "source": "custom",
+    "custom_reason": "Sudah dipelajari di kelas.",
+    "custom_layers": ["backend", "frontend", "database", "auth", "hosting", "testing"],
+    "ecosystems": ["php"],
+    "commands": {
+      "install": "composer install",
+      "dev": "php artisan serve",
+      "lint": "vendor/bin/pint --test",
+      "typecheck": "",
+      "test": "php artisan test",
+      "build": "composer install --no-dev --optimize-autoloader",
+      "ci_setup": "cp .env.example .env && php artisan key:generate"
+    },
+    "versions": []
+  },
+  "data": {
+    "entities": [
+      {
+        "name": "users",
+        "fields": ["id", "name", "email", "password", "role", "created_at", "updated_at"]
+      },
+      {
+        "name": "jobs",
+        "fields": [
+          "id",
+          "company_name",
+          "address",
+          "division",
+          "city",
+          "description",
+          "requirements",
+          "deadline",
+          "latitude",
+          "longitude",
+          "is_active",
+          "posted_by",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      {
+        "name": "favorites",
+        "fields": ["id", "user_id", "job_id", "created_at", "updated_at"]
+      }
+    ],
+    "personal_data": "location_contact",
+    "sensitive_notes": "Data pribadi terbatas pada nama, email, dan password (tersimpan sebagai hash). Koordinat lokasi pengguna hanya dikirim saat sesi berlangsung untuk mengurutkan jarak dan tidak disimpan ke database."
+  },
+  "security": {
+    "roles": ["user", "admin"],
+    "auth_method": "Email + password dengan hash bcrypt bawaan Laravel; registrasi langsung aktif tanpa verifikasi email.",
+    "secrets_handling": ".env lokal, tidak di-commit; nilai produksi di pengelola rahasia hosting"
+  },
+  "ai_in_app": {
+    "mode": "none",
+    "purpose": ""
+  },
+  "design": {
+    "tone": "Ramah dan mudah dibaca oleh pelamar muda",
+    "primary_color": "#0D9488",
+    "font": "Font bawaan Bootstrap 5 (system-ui)",
+    "dark_mode": false
+  },
+  "platform_specific": {
+    "web": {
+      "rendering": "fullstack-framework",
+      "i18n": false,
+      "seo": false
+    }
+  },
+  "risks": [
+    "Titik koordinat loker bisa salah sehingga urutan jarak di dasbor menjadi menyesatkan.",
+    "XAMPP memakai MariaDB 10.1 yang mungkin lebih lama dari versi yang didukung Laravel terbaru (verifikasi dengan composer show -a laravel/framework).",
+    "Fitur lokasi GPS hanya berjalan di origin aman (localhost atau HTTPS); di luar itu permintaan lokasi ditolak browser.",
+    "Waktu 1 minggu dengan 1 pengembang sangat ketat untuk 6 fitur sekaligus."
+  ],
+  "student_reflection": {
+    "biggest_risk": "resiko terbesar proyek ini menurutku adalah kecenderungan tidak kerja bagi anak muda karena masih tidak tahu untuk melangkah kmn untuk mencari loker",
+    "why_this_project": "proyek ini penting bagiku karena berkaitan dengan nilai saya dan juga anak muda yg lebih mudah untuk mencari pekerjaan",
+    "risk_controls": [
+      "R1: Dasbor langsung menampilkan loker terdekat + jarak + divisi begitu lokasi diizinkan (atau kota dipilih). Hasil teramati: dalam satu layar terlihat minimal 3 opsi loker lengkap dengan nama PT, alamat, divisi, dan jarak.",
+      "R2: Loker tidak bisa disimpan tanpa nama PT, alamat, divisi, dan titik koordinat. Hasil teramati: 100% kartu di dasbor menampilkan keempat informasi itu.",
+      "R3: Tampil panduan 3 langkah di halaman depan atau dasbor: Izinkan lokasi - lihat urut terdekat - buka detail dan peta. Hasil teramati: pengguna baru melihat urutan langkah tanpa perlu bertanya ke siapa pun."
+    ]
+  }
+}
