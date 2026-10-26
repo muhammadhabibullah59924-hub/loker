@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\PanelController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JobDetailController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -11,6 +12,12 @@ Route::get('/', function () {
 
 // Dasbor F2 hanya untuk pengguna yang sudah masuk.
 Route::get('/dasbor', [DashboardController::class, 'index'])->middleware('auth')->name('dasbor');
+
+// Detail satu loker beserta peta (F3): hanya loker yang tayang, id berupa angka.
+Route::get('/lowongan/{id}', [JobDetailController::class, 'show'])
+    ->middleware('auth')
+    ->whereNumber('id')
+    ->name('lowongan.show');
 
 /*
  * Rute tamu (dijaga middleware `guest`): pengguna yang sudah masuk akan

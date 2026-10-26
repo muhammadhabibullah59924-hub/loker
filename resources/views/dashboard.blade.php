@@ -37,7 +37,9 @@
                             <div class="card-body">
                                 {{-- Urutan isi wajib: nama PT, alamat, divisi, jarak (AGENTS.md) --}}
                                 <span class="job-card__jarak">{{ number_format($item['jarak'], 1, ',', '.') }} km</span>
-                                <h3 class="mb-2">{{ $item['loker']->company_name }}</h3>
+                                <h3 class="mb-2">
+                                    <a class="job-card__judul" href="{{ route('lowongan.show', $item['loker']->id) }}">{{ $item['loker']->company_name }}</a>
+                                </h3>
                                 <p class="text-secondary mb-2">{{ $item['loker']->address }}</p>
                                 <p class="mb-0">
                                     <span class="badge border job-card__divisi">{{ $item['loker']->division }}</span>
