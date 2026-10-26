@@ -20,6 +20,7 @@ class PanelController extends Controller
         return view('admin.panel', [
             'jumlahAktif' => Job::where('is_active', true)->count(),
             'jumlahNonaktif' => Job::where('is_active', false)->count(),
+            'lokers' => Job::orderByDesc('id')->get(),
         ]);
     }
 }

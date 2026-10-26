@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\PanelController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -40,4 +41,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
  */
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [PanelController::class, 'index'])->name('panel');
+
+    // CRUD loker (F4). Rute /admin/loker/create harus dideklarasikan sebelum
+    // pemetaan {loker} supaya kata "create" tidak dianggap sebuah id.
+    Route::get('loker/create', [JobController::class, 'create'])->name('loker.create');
+    Route::post('loker', [JobController::class, 'store'])->name('loker.store');
+    Route::get('loker/{loker}/edit', [JobController::class, 'edit'])->whereNumber('loker')->name('loker.edit');
+    Route::put('loker/{loker}', [JobController::class, 'update'])->whereNumber('loker')->name('loker.update');
+    Route::patch('loker/{loker}/nonaktif', [JobController::class, 'toggle'])->whereNumber('loker')->name('loker.toggle');
+    Route::delete('loker/{loker}', [JobController::class, 'destroy'])->whereNumber('loker')->name('loker.destroy');
 });

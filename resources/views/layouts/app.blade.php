@@ -73,6 +73,17 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Konfirmasi penghapusan memakai atribut data supaya tanda kutip
+        // di nama PT tidak merusak markup (docs/DESIGN_SYSTEM.md).
+        document.querySelectorAll('form[data-konfirmasi]').forEach(function (form) {
+            form.addEventListener('submit', function (peristiwa) {
+                if (!window.confirm(form.dataset.konfirmasi)) {
+                    peristiwa.preventDefault();
+                }
+            });
+        });
+    </script>
     @yield('scripts')
 </body>
 </html>
