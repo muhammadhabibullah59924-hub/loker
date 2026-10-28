@@ -84,6 +84,10 @@
                                     <span class="badge border job-card__divisi">{{ $item['loker']->division }}</span>
                                     <span class="text-secondary small ms-1">{{ $item['loker']->city }}</span>
                                 </p>
+                                <form method="POST" action="{{ route('favorit.store', $item['loker']->id) }}" class="mt-2">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">Simpan favorit</button>
+                                </form>
                             </div>
                         </article>
                     </div>

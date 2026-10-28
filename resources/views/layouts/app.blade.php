@@ -35,6 +35,7 @@
                         @if (auth()->user()->isAdmin())
                             <a class="nav-link" href="{{ route('admin.panel') }}">Panel Admin</a>
                         @endif
+                        <a class="nav-link" href="{{ route('favorit.index') }}">Favorit</a>
                         <span class="navbar-text me-2">Halo, {{ auth()->user()->name }}</span>
                         <form method="POST" action="{{ route('logout') }}" class="d-inline">
                             @csrf

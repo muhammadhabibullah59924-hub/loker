@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\PanelController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\JobDetailController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,19 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+/*
+ * Daftar loker favorit pengguna (F6).
+ */
+Route::get('/favorit', [FavoriteController::class, 'index'])->middleware('auth')->name('favorit.index');
+Route::post('/favorit/{loker}', [FavoriteController::class, 'store'])
+    ->middleware('auth')
+    ->whereNumber('loker')
+    ->name('favorit.store');
+Route::delete('/favorit/{loker}', [FavoriteController::class, 'destroy'])
+    ->middleware('auth')
+    ->whereNumber('loker')
+    ->name('favorit.destroy');
 
 /*
  * Panel admin (F4): seluruh rute diawali `auth` lalu `admin` sehingga tamu
