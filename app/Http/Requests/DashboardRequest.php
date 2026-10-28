@@ -22,7 +22,7 @@ class DashboardRequest extends FormRequest
     }
 
     /**
-     * Aturan validasi parameter lat dan lng.
+     * Aturan validasi parameter lat, lng, kata kunci, dan radius pada dasbor.
      *
      * @return array<string, array<int, string>>
      */
@@ -31,11 +31,14 @@ class DashboardRequest extends FormRequest
         return [
             'lat' => ['sometimes', 'nullable', 'numeric', 'between:-90,90'],
             'lng' => ['sometimes', 'nullable', 'numeric', 'between:-180,180'],
+            'q' => ['sometimes', 'nullable', 'string', 'max:100'],
+            'radius' => ['sometimes', 'nullable', 'integer', 'min:1', 'max:1000'],
         ];
     }
 
     /**
-     * Buang koordinat yang tidak lengkap atau tidak masuk akal sebelum validasi.
+     * Buang parameter yang tidak lengkap atau tidak masuk akal sebelum validasi,
+     * supaya dasbor tetap memakai urutan default alih-alih menampilkan halaman galat.
      */
     protected function prepareForValidation(): void
     {
@@ -43,11 +46,33 @@ class DashboardRequest extends FormRequest
         $lng = $this->input('lng');
 
         $sah = is_numeric($lat) && is_numeric($lng)
-            && $lat >= -90 && $lat <= 90
-            && $lng >= -180 && $lng <= 180;
+            && (float) $lat >= -90 && (float) $lat <= 90
+            && (float) $lng >= -180 && (float) $lng <= 180;
 
         if (! $sah) {
             $this->merge(['lat' => null, 'lng' => null]);
+        }
+
+        // Kata kunci: dianggap tidak ada bila bukan teks atau hanya spasi.
+        $kataKunci = $this->input('q');
+
+        if (! is_string($kataKunci)) {
+            $kataKunci = '';
+        }
+
+        $kataKunci = trim($kataKunci);
+
+        if ($kataKunci === '') {
+            $this->merge(['q' => null]);
+        } else {
+            $this->merge(['q' => mb_strtolower($kataKunci)]);
+        }
+
+        // Radius: bila bukan angka atau di luar rentang, dianggap tanpa filter.
+        $radius = $this->input('radius');
+
+        if ($radius === null || ! is_numeric($radius) || (int) $radius < 1 || (int) $radius > 1000) {
+            $this->merge(['radius' => null]);
         }
     }
 

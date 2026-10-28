@@ -20,14 +20,53 @@
             </div>
         @endunless
 
+        <form method="GET" action="{{ route('dasbor') }}" class="card panduan-card mb-4">
+            <div class="card-body">
+                <div class="row g-3 align-items-end">
+                    <div class="col-12 col-md-8">
+                        <label class="form-label" for="cari-loker">Cari loker</label>
+                        <input class="form-control" id="cari-loker" name="q" type="search" maxlength="100" value="{{ $q ?? '' }}" placeholder="Nama PT atau divisi">
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="form-label" for="radius-loker">Radius jarak</label>
+                        <select class="form-select" id="radius-loker" name="radius">
+                            <option value="" @selected(($radius ?? null) === null)>Semua radius</option>
+                            @foreach ([1, 5, 10, 25, 50] as $radiusOpsi)
+                                <option value="{{ $radiusOpsi }}" @selected((int) ($radius ?? 0) === $radiusOpsi)>{{ $radiusOpsi }} km</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Cari loker</button>
+                    </div>
+                </div>
+
+                @if ($dari_lokasi_pengguna)
+                    <input type="hidden" name="lat" value="{{ $titik['lat'] }}">
+                    <input type="hidden" name="lng" value="{{ $titik['lng'] }}">
+                @endif
+            </div>
+        </form>
+
         @if ($lokers->isEmpty())
             <div class="card panduan-card">
                 <div class="card-body text-center py-5">
-                    <p class="mb-2">Belum ada loker yang tayang saat ini.</p>
-                    <p class="text-secondary mb-0">Coba buka lagi beberapa saat lagi, atau daftar untuk menyimpan loker favorit.</p>
+                    @if ($q)
+                        <p class="mb-2">Belum ada loker yang cocok. Coba ubah kata kunci pencarianmu.</p>
+                        <p class="text-secondary mb-0">Coba kata kunci lain, atau lihat loker terdekat dari lokasimu.</p>
+                    @elseif ($radius)
+                        <p class="mb-2">Belum ada loker dalam radius {{ $radius }} km. Coba pilih radius yang lebih luas.</p>
+                        <p class="text-secondary mb-0">Coba pilih radius yang lebih besar, atau ajak admin memasukkan loker.</p>
+                    @else
+                        <p class="mb-2">Belum ada loker yang tayang saat ini.</p>
+                        <p class="text-secondary mb-0">Coba buka lagi beberapa saat lagi, atau daftar untuk menyimpan loker favorit.</p>
+                    @endif
                 </div>
             </div>
         @else
+            @if ($radius)
+                <p class="text-secondary mb-3">Menampilkan loker terdekat dalam radius {{ $radius }} km dari lokasimu.</p>
+            @endif
             <h2 class="h4 mb-3">Daftar loker</h2>
 
             <div class="row g-3">

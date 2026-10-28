@@ -27,11 +27,22 @@ class DashboardController extends Controller
             'lng' => (float) config('loker.lokasi_default.lng'),
         ];
 
-        // Loker tanpa koordinat tidak pernah ditayangkan (kendali R2).
-        $lokers = Job::query()
+        $query = Job::query()
             ->where('is_active', true)
             ->whereNotNull('latitude')
-            ->whereNotNull('longitude')
+            ->whereNotNull('longitude');
+
+        // Pencarian nama PT atau divisi hanya menampilkan yang cocok (F5).
+        $kataKunci = $request->input('q');
+
+        if ($kataKunci !== null && $kataKunci !== '') {
+            $query->where(function ($queryPencarian) use ($kataKunci) {
+                $queryPencarian->where('company_name', 'like', '%'.$kataKunci.'%')
+                    ->orWhere('division', 'like', '%'.$kataKunci.'%');
+            });
+        }
+
+        $lokers = $query
             ->get()
             ->map(fn (Job $loker): array => [
                 'loker' => $loker,
@@ -45,10 +56,22 @@ class DashboardController extends Controller
             ->sortBy('jarak')
             ->values();
 
+        // Filter radius memakai hasil perhitungan jarak, supaya urutan tetap menaik.
+        $radius = $request->input('radius');
+
+        if ($radius !== null) {
+            $lokers = $lokers->filter(
+                fn (array $item) => $item['jarak'] <= (float) $radius
+            )->values();
+        }
+
         return view('dashboard', [
             'lokers' => $lokers,
             'dari_lokasi_pengguna' => $pengguna !== null,
             'lokasi_default' => config('loker.lokasi_default.nama'),
+            'q' => $request->input('q'),
+            'radius' => $request->input('radius'),
+            'titik' => $titik,
         ]);
     }
 }
