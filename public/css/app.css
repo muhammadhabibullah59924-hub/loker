@@ -21,6 +21,26 @@ body {
     line-height: 1.5;
 }
 
+/* Tipografi halaman mengikuti docs/DESIGN_SYSTEM.md (T-013).
+   Judul halaman 32 px, subjudul 24 px, judul kartu 18 px; isi tetap 16 px. */
+h1 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+h3 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
 /* Tautan dan tombol utama memakai warna primer proyek */
 .btn-primary {
     background-color: var(--color-primary);
@@ -128,8 +148,8 @@ a:hover {
 }
 
 .job-card__divisi {
-    background-color: #e0f2fe;
-    color: #0f172a;
+    background-color: var(--color-secondary);
+    color: #ffffff;
     font-size: 14px;
 }
 
@@ -163,6 +183,24 @@ a:hover {
 .job-status-nonaktif {
     background-color: #e2e8f0;
     color: #334155;
+}
+
+.alert-warning {
+    background-color: #fdf6ec;
+    border-color: var(--color-warning);
+    color: var(--color-warning);
+}
+
+.alert-danger {
+    background-color: #fdecec;
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+}
+
+.alert-success {
+    background-color: #ecf7f0;
+    border-color: var(--color-success);
+    color: var(--color-success);
 }
 
 /* Tombol aksi admin disusun rapat dan tetap mudah ditekan. */

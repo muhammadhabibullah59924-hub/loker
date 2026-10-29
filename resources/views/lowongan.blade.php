@@ -26,17 +26,17 @@
                     <p class="text-secondary mb-4">Batas kirim lamaran: {{ $loker->deadline->format('d-m-Y') }}</p>
                 @endif
 
-                <h2 class="h4 mb-2">Deskripsi pekerjaan</h2>
+                <h2 class="mb-2">Deskripsi pekerjaan</h2>
                 <p>{{ $loker->description }}</p>
 
-                <h2 class="h4 mb-2">Syarat</h2>
+                <h2 class="mb-2">Syarat</h2>
                 <p class="mb-0">{{ $loker->requirements }}</p>
             </div>
 
             <div class="col-12 col-lg-5">
                 <div class="card panduan-card">
                     <div class="card-body">
-                        <h2 class="h5 mb-2">Lokasi PT</h2>
+                        <h2 class="mb-2">Lokasi PT</h2>
 
                         <div id="peta-loker" class="job-map"
                              data-lat="{{ $loker->latitude }}"

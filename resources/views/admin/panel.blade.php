@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <h2 class="h4 mb-3">Daftar loker</h2>
+        <h2 class="mb-3">Daftar loker</h2>
 
         @if ($lokers->isEmpty())
             <div class="card panduan-card">

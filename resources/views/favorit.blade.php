@@ -25,7 +25,7 @@
                 </div>
             </div>
         @else
-            <h2 class="h4 mb-3">Loker favorit kamu</h2>
+            <h2 class="mb-3">Loker favorit kamu</h2>
 
             <div class="row g-3">
                 @foreach ($favorit as $item)

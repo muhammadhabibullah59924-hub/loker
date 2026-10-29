@@ -67,7 +67,7 @@
             @if ($radius)
                 <p class="text-secondary mb-3">Menampilkan loker terdekat dalam radius {{ $radius }} km dari lokasimu.</p>
             @endif
-            <h2 class="h4 mb-3">Daftar loker</h2>
+            <h2 class="mb-3">Daftar loker</h2>
 
             <div class="row g-3">
                 @foreach ($lokers as $item)

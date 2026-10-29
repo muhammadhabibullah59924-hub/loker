@@ -84,6 +84,17 @@
                 }
             });
         });
+
+        // Notifikasi alert hilang otomatis setelah beberapa saat (docs/DESIGN_SYSTEM.md).
+        document.querySelectorAll('.alert').forEach(function (elemen) {
+            window.setTimeout(function () {
+                const tombolTutup = elemen.querySelector('.btn-close');
+
+                if (tombolTutup) {
+                    bootstrap.Alert.getOrCreateInstance(tombolTutup).close();
+                }
+            }, 5000);
+        });
     </script>
     @yield('scripts')
 </body>
