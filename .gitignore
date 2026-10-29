@@ -54,3 +54,8 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 /.npmrc
+
+# Playwright (T-012)
+/test-results/
+/playwright-report/
+/playwright/.cache/
