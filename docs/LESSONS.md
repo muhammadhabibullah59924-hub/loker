@@ -18,6 +18,8 @@ Kesalahan berulang dan pelajaran dari proyek ini. **Dibaca agen di awal setiap s
 | Awal (belum terjadi di proyek ini) | Mengerjakan lebih dari satu task dalam satu sesi sehingga diff sulit ditinjau | Task terasa saling terkait | Satu task per sesi, satu cabang satu PR | `docs/GUARDRAILS.md` bagian Ask Before |
 | Awal (belum terjadi di proyek ini) | Menaruh rahasia (`APP_KEY`, `DB_PASSWORD`) di kode atau konfigurasi CI | Kebiasaan menyalin `.env` sebagai contoh | Rahasia hanya lewat variabel lingkungan; `.env` tidak pernah di-commit | `docs/SECURITY.md` bagian Secrets Management |
 | Awal (belum terjadi di proyek ini) | Mengabaikan keadaan galat jaringan sehingga halaman kosong total | Hanya menguji pada keadaan berhasil | Setiap fitur punya jalur gagal (izin lokasi ditolak, peta gagal, koneksi putus) yang diuji | `docs/TESTING.md` bagian Manual Test Checklist |
+| 2026-10-26 | Menyatakan task fitur lulus berdasarkan tes lama, padahal eval menyebut nama tes lain yang belum ada (`DashboardNearestVisibleTest`, `JobRequiredFieldsTest`) | Eval `docs/EVALS.md` menjadi source of truth perintah gerbang, tetapi daftar eval belum dikonsultasi dengan daftar file tes | Sebel menjalankan perintah eval, cocokkan setiap eval dengan nama kelas tes yang benar-benar ada sebelum menulis laporan kelayakan | `docs/EVALS.md` bagian Feature Acceptance Evals |
+| 2026-10-26 | Menulis ekspektasi urutan pada tes dasbor sebelum memastikan urutan data uji | Koordinat uji dan jarak antar titik harus dihitung sebelum assertion urutan dipakai | Hitung ulang jarak dan susun urutan ekspektasi sebelum menulis `assertSeeInOrder` pada tes dasbor | `docs/TESTING.md` bagian Tes |
 
 ## Patterns to Watch
 

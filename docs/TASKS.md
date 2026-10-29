@@ -34,7 +34,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-011 | Loker favorit | F6 | M | review | feat/T-011-favorit | T-004, T-007 | Menyimpan dan melepas favorit bekerja; daftar bertahan setelah keluar lalu masuk lagi; hanya milik pengguna sendiri yang tampil; ada tes `FavoriteTest` |
 | T-012 | Satu alur E2E dengan Playwright | dokumen | M | review | test/T-012-e2e | T-008 | Skrip E2E menjalankan daftar → masuk → dasbor → detail loker dan lulus; `npx playwright test` bisa dijalankan ulang |
 | T-013 | Penyempurnaan tampilan dan aksesibilitas | F2 | M | review | feat/T-013-ui-aksesibilitas | T-008 | Warna, tipografi, dan komponen mengikuti `docs/DESIGN_SYSTEM.md`; navigasi keyboard berfungsi; target sentuh ≥ 24 px; checklist manual di `docs/TESTING.md` tercentang |
-| T-014 | Rilis, README, dan refleksi | dokumen | S | todo | docs/T-014-rilis | T-009, T-010, T-011, T-012, T-013 | Seluruh gerbang `docs/EVALS.md` lulus; `README.md` berisi cara menjalankan; `docs/LESSONS.md` diisi; PR di-review sebelum merge |
+| T-014 | Rilis, README, dan refleksi | dokumen | S | review | docs/T-014-rilis | T-009, T-010, T-011, T-012, T-013 | Seluruh gerbang `docs/EVALS.md` lulus; `README.md` berisi cara menjalankan; `docs/LESSONS.md` diisi; PR di-review sebelum merge |
 
 ## Backlog
 

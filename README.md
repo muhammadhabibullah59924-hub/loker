@@ -96,4 +96,4 @@ Proyek ini disusun dengan bantuan alat AI, yaitu **GitHub Copilot**, termasuk pe
 
 ## Status
 
-Tahap perencanaan; paket dokumen proyek siap, implementasi belum dimulai — lihat [docs/PROGRESS.md](docs/PROGRESS.md).
+Implementasi inti LokerDekat sudah berjalan menyusul F1–F6, dan seluruh gerbang `docs/EVALS.md` lulus secara lokal; tahap terakhir menuai review manusia sebelum PR ke `main`. Lihat [docs/PROGRESS.md](docs/PROGRESS.md) dan [docs/EVALS.md](docs/EVALS.md).
