@@ -6,14 +6,18 @@
 
 Anak muda di Probolinggo sering hanya ikut grup lowongan tanpa tahu harus melangkah ke mana mencari loker yang benar-benar bisa mereka datangi. LokerDekat menjawabnya dengan menampilkan lowongan **diurutkan dari yang paling dekat** ke lokasi pengguna, lengkap dengan nama PT, alamat jalan, dan divisi yang lowong. Pengguna umum cukup mendaftar, mengizinkan lokasi, lalu memilih loker; admin mengelola isi katalog lewat panel tersendiri. Website ini murni informasi lowongan — tidak ada fitur lamaran atau unggah CV.
 
+## Misi
+
+LokerDekat lahir dari semangat membantu mengurangi angka pengangguran. Dengan menyajikan lowongan secara terdekat-first, kami membantu para pencari kerja menemukan peluang yang cocok lebih cepat dan tepat.
+
 ## Features
 
-- `F1` — Masuk dan daftar akun (must) — **direncanakan**
-- `F2` — Dasbor loker terurut terdekat (must) — **direncanakan**
-- `F3` — Peta dan lokasi loker (must) — **direncanakan**
-- `F4` — Kelola data loker (admin) (must) — **direncanakan**
-- `F5` — Pencarian dan filter loker (should) — **direncanakan**
-- `F6` — Simpan loker favorit (could) — **direncanakan**
+- `F1` — Masuk dan daftar akun (must) — **selesai**
+- `F2` — Dasbor loker terurut terdekat (must) — **selesai**
+- `F3` — Peta dan lokasi loker (must) — **selesai**
+- `F4` — Kelola data loker (admin) (must) — **selesai**
+- `F5` — Pencarian dan filter loker (should) — **selesai**
+- `F6` — Simpan loker favorit (could) — **selesai**
 
 ## Tech Stack
 
