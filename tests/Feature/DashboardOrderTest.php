@@ -123,6 +123,34 @@ class DashboardOrderTest extends TestCase
     }
 
     /**
+     * T-015: loker yang batas waktunya sudah lewat tidak tampil di dasbor.
+     */
+    public function test_loker_yang_deadline_melebihi_batas_tidak_tampil(): void
+    {
+        $this->buatLoker('PT Waktu Sudah Habis', -7.7145, 113.2150, true, 'Jl. Kadaluarsa No. 1', 'Produksi', '2026-10-01');
+        $this->buatLoker('PT Masih Buka', -7.7145, 113.2160, true, 'Jl. Buka No. 2', 'Gudang', '2026-12-31');
+
+        $response = $this->actingAs($this->admin)->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('PT Masih Buka');
+        $response->assertDontSee('PT Waktu Sudah Habis');
+    }
+
+    /**
+     * T-015: loker tanpa batas waktu (deadline null) tetap tampil di dasbor.
+     */
+    public function test_loker_tanpa_deadline_tetap_tampil(): void
+    {
+        $this->buatLoker('PT Tanpa Batas Waktu', -7.7145, 113.2170, true, 'Jl. Tanpa Batas No. 3', 'Kasir', null);
+
+        $response = $this->actingAs($this->admin)->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('PT Tanpa Batas Waktu');
+    }
+
+    /**
      * Buat satu loker dengan admin sebagai pemilik untuk keperluan uji.
      */
     private function buatLoker(
@@ -132,6 +160,7 @@ class DashboardOrderTest extends TestCase
         bool $aktif = true,
         string $alamat = 'Jl. Contoh No. 1, Mayangan',
         string $divisi = 'Produksi',
+        ?string $deadline = '2026-11-30',
     ): Job {
         return Job::create([
             'company_name' => $nama,
@@ -140,7 +169,7 @@ class DashboardOrderTest extends TestCase
             'city' => 'Kota Probolinggo',
             'description' => 'Deskripsi loker untuk keperluan uji.',
             'requirements' => 'Syarat loker untuk keperluan uji.',
-            'deadline' => '2026-11-30',
+            'deadline' => $deadline,
             'latitude' => $lat,
             'longitude' => $lng,
             'is_active' => $aktif,

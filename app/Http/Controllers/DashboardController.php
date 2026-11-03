@@ -30,7 +30,13 @@ class DashboardController extends Controller
         $query = Job::query()
             ->where('is_active', true)
             ->whereNotNull('latitude')
-            ->whereNotNull('longitude');
+            ->whereNotNull('longitude')
+            ->where(function ($queryKadaluarsa) {
+                // Loker yang batas waktunya sudah lewat dianggap kadaluarsa
+                // dan tidak ditampilkan di dasbor (T-015).
+                $queryKadaluarsa->whereNull('deadline')
+                    ->orWhereDate('deadline', '>=', today());
+            });
 
         // Pencarian nama PT atau divisi hanya menampilkan yang cocok (F5).
         $kataKunci = $request->input('q');
