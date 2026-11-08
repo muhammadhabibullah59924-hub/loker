@@ -80,3 +80,5 @@ Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan
 `2026-11-08 | agen coding (T-016) | T-016 | Layanan Apache + MySQL aktif dan `http://localhost/loker/` mengembalikan 200; login demo admin → dasbor 200; pint lulus, phpunit 68/68 lulus, tes EVALS 53 lulus; task selesai dan siap PR | status T-016 = review; lanjut review manusia sebelum PR dari `fix/T-016-akses-website`
 
 `2026-11-08 | agen coding (T-017) | T-017 | Seeder ditambah 6 loker baru (30 total) dengan `deadline` masa depan; DB re-seed sukses, dashboard terverifikasi menampilkan loker baru; pint, phpunit 68/68 lulus | status T-017 = review; lanjut review manusia sebelum PR dari feat/T-017-tambah-loker-baru`
+
+`2026-11-08 | agen coding (T-018) | T-018 | Migrasi `opens_at`/`closes_at` ditambah, model/form/controller/view/tes diperbarui; pint, phpunit 69/69 lulus, migrasi DB sukses | status T-018 = review; lanjut review manusia sebelum PR dari feat/T-018-tambah-tanggal-buka-tutup`
