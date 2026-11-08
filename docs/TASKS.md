@@ -37,6 +37,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-014 | Rilis, README, dan refleksi | dokumen | S | review | docs/T-014-rilis | T-009, T-010, T-011, T-012, T-013 | Seluruh gerbang `docs/EVALS.md` lulus; `README.md` berisi cara menjalankan; `docs/LESSONS.md` diisi; PR di-review sebelum merge |
 | T-015 | Loker kadaluarsa melebihi batas waktu tidak tampil di dasbor | F2, R2 | M | review | feat/T-015-loker-kadaluarsa | T-007, T-014 | Loker dengan `deadline` sudah lewat tidak tampil di dasbor; loker tanpa deadline tetap tampil; ada tes `DashboardOrderTest` |
 | T-016 | Layanan lokal tidak aktif sehingga website tidak bisa dibuka | setup | S | review | fix/T-016-akses-website | - | Apache + MySQL aktif; `GET /loker/` mengembalikan 200; alur login → dasbor teruji; gerbang EVALS lulus |
+| T-017 | Menambah loker baru agar dasbor lebih banyak untuk pengguna | F2 | S | review | feat/T-017-tambah-loker-baru | T-015 | Seeder ditambah loker baru dengan `deadline` masa depan; dasbor menampilkan lebih banyak loker; gerbang EVALS lulus |
 
 ## Backlog
 

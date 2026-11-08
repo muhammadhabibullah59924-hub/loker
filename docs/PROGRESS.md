@@ -78,3 +78,5 @@ Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan
 `2026-11-03 | agen coding (T-015) | T-015 | Dasbor menambahkan filter kadaluarsa: loker dengan `deadline` di masa lalu tidak tampil, tanpa deadline tetap tampil; tes `DashboardOrderTest` bertambah 2 (deadline masa lalu tidak tampil, tanpa deadline tampil); pint, phpunit 68/68 lulus | status T-015 = review; lanjut review manusia sebelum PR dari `feat/T-015-loker-kadaluarsa`
 
 `2026-11-08 | agen coding (T-016) | T-016 | Layanan Apache + MySQL aktif dan `http://localhost/loker/` mengembalikan 200; login demo admin → dasbor 200; pint lulus, phpunit 68/68 lulus, tes EVALS 53 lulus; task selesai dan siap PR | status T-016 = review; lanjut review manusia sebelum PR dari `fix/T-016-akses-website`
+
+`2026-11-08 | agen coding (T-017) | T-017 | Seeder ditambah 6 loker baru (30 total) dengan `deadline` masa depan; DB re-seed sukses, dashboard terverifikasi menampilkan loker baru; pint, phpunit 68/68 lulus | status T-017 = review; lanjut review manusia sebelum PR dari feat/T-017-tambah-loker-baru`
