@@ -36,6 +36,8 @@ class JobController extends Controller
             'description',
             'requirements',
             'deadline',
+            'opens_at',
+            'closes_at',
             'latitude',
             'longitude',
         ]) + ['is_active' => true, 'posted_by' => $request->user()->id]);
@@ -68,6 +70,8 @@ class JobController extends Controller
             'description',
             'requirements',
             'deadline',
+            'opens_at',
+            'closes_at',
             'latitude',
             'longitude',
         ]));

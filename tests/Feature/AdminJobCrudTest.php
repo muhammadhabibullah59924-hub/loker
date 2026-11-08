@@ -100,6 +100,25 @@ class AdminJobCrudTest extends TestCase
     }
 
     /**
+     * F4: loker baru bisa menyimpan rentang tanggal buka-tutup.
+     */
+    public function test_admin_menambah_loker_dengan_tanggal_buka_tutup(): void
+    {
+        $response = $this->actingAs($this->admin)->post('/admin/loker', array_merge($this->dataValid(), [
+            'opens_at' => '2026-11-10',
+            'closes_at' => '2026-12-01',
+        ]));
+
+        $response->assertRedirect(route('admin.panel'));
+        $response->assertSessionHasNoErrors();
+
+        $loker = Job::where('company_name', 'PT Uji Tambah Baru')->firstOrFail();
+
+        $this->assertSame('2026-11-10', $loker->opens_at->toDateString());
+        $this->assertSame('2026-12-01', $loker->closes_at->toDateString());
+    }
+
+    /**
      * F4: perubahan data tersimpan dan tercermin di halaman detail.
      */
     public function test_admin_mengubah_loker(): void

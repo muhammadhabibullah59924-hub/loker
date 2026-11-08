@@ -36,6 +36,8 @@ class JobFormRequest extends FormRequest
             'description' => ['required', 'string', 'max:2000'],
             'requirements' => ['required', 'string', 'max:2000'],
             'deadline' => ['nullable', 'date'],
+            'opens_at' => ['nullable', 'date'],
+            'closes_at' => ['nullable', 'date'],
             'latitude' => ['required', 'numeric', 'between:-90,90'],
             'longitude' => ['required', 'numeric', 'between:-180,180'],
         ];
@@ -68,6 +70,8 @@ class JobFormRequest extends FormRequest
             'requirements.string' => 'Syarat harus berupa teks.',
             'requirements.max' => 'Syarat maksimal 2000 karakter.',
             'deadline.date' => 'Batas kirim lamaran harus berupa tanggal, misalnya 2026-11-30.',
+            'opens_at.date' => 'Tanggal buka harus berupa tanggal yang valid.',
+            'closes_at.date' => 'Tanggal tutup harus berupa tanggal yang valid.',
             'latitude.required' => 'Titik lintang wajib diisi agar loker tampil di dasbor.',
             'latitude.numeric' => 'Titik lintang harus berupa angka, misalnya -7.7145.',
             'latitude.between' => 'Titik lintang harus antara -90 sampai 90.',
@@ -92,6 +96,8 @@ class JobFormRequest extends FormRequest
             'description' => 'deskripsi pekerjaan',
             'requirements' => 'syarat',
             'deadline' => 'batas kirim lamaran',
+            'opens_at' => 'tanggal buka',
+            'closes_at' => 'tanggal tutup',
             'latitude' => 'titik lintang',
             'longitude' => 'titik bujur',
         ];

@@ -100,6 +100,26 @@
                     @enderror
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label" for="opens_at">Tanggal buka <span class="text-secondary">(opsional)</span></label>
+                    <input class="form-control @error('opens_at') is-invalid @enderror"
+                           id="opens_at" name="opens_at" type="date"
+                           value="{{ old('opens_at', $loker?->opens_at?->format('Y-m-d')) }}">
+                    @error('opens_at')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="closes_at">Tanggal tutup <span class="text-secondary">(opsional)</span></label>
+                    <input class="form-control @error('closes_at') is-invalid @enderror"
+                           id="closes_at" name="closes_at" type="date"
+                           value="{{ old('closes_at', $loker?->closes_at?->format('Y-m-d')) }}">
+                    @error('closes_at')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <fieldset class="mb-0">
                     <legend class="form-label">Titik peta</legend>
                     <p class="text-secondary mb-2">
