@@ -35,6 +35,7 @@ Tidak ada
 ## Next Up
 
 1. Review manusia untuk T-015 sebelum PR dari `feat/T-015-loker-kadaluarsa` (lihat `docs/WORKFLOW.md`).
+2. Review manusia untuk T-016 sebelum PR dari `fix/T-016-akses-website` (lihat `docs/WORKFLOW.md`).
 
 ## Blockers
 
@@ -75,3 +76,5 @@ Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan
 `2026-10-26 | agen coding (T-014) | T-014 | Membuat tes eval yang hilang (`DashboardNearestVisibleTest` R1, `JobRequiredFieldsTest` R2) agar seluruh perintah di `docs/EVALS.md` bisa lulus; membarui README status tahap, `docs/LESSONS.md`, `docs/TASKS.md`, `docs/PROGRESS.md` | status T-014 = review; pint, phpunit 66/66, validator 21 PASS, E2E Playwright lulus; lanjut review manusia sebelum PR ke main`
 
 `2026-11-03 | agen coding (T-015) | T-015 | Dasbor menambahkan filter kadaluarsa: loker dengan `deadline` di masa lalu tidak tampil, tanpa deadline tetap tampil; tes `DashboardOrderTest` bertambah 2 (deadline masa lalu tidak tampil, tanpa deadline tampil); pint, phpunit 68/68 lulus | status T-015 = review; lanjut review manusia sebelum PR dari `feat/T-015-loker-kadaluarsa`
+
+`2026-11-08 | agen coding (T-016) | T-016 | Layanan Apache + MySQL aktif dan `http://localhost/loker/` mengembalikan 200; login demo admin → dasbor 200; pint lulus, phpunit 68/68 lulus, tes EVALS 53 lulus; task selesai dan siap PR | status T-016 = review; lanjut review manusia sebelum PR dari `fix/T-016-akses-website`

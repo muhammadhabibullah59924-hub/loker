@@ -36,6 +36,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-013 | Penyempurnaan tampilan dan aksesibilitas | F2 | M | review | feat/T-013-ui-aksesibilitas | T-008 | Warna, tipografi, dan komponen mengikuti `docs/DESIGN_SYSTEM.md`; navigasi keyboard berfungsi; target sentuh ≥ 24 px; checklist manual di `docs/TESTING.md` tercentang |
 | T-014 | Rilis, README, dan refleksi | dokumen | S | review | docs/T-014-rilis | T-009, T-010, T-011, T-012, T-013 | Seluruh gerbang `docs/EVALS.md` lulus; `README.md` berisi cara menjalankan; `docs/LESSONS.md` diisi; PR di-review sebelum merge |
 | T-015 | Loker kadaluarsa melebihi batas waktu tidak tampil di dasbor | F2, R2 | M | review | feat/T-015-loker-kadaluarsa | T-007, T-014 | Loker dengan `deadline` sudah lewat tidak tampil di dasbor; loker tanpa deadline tetap tampil; ada tes `DashboardOrderTest` |
+| T-016 | Layanan lokal tidak aktif sehingga website tidak bisa dibuka | setup | S | review | fix/T-016-akses-website | - | Apache + MySQL aktif; `GET /loker/` mengembalikan 200; alur login → dasbor teruji; gerbang EVALS lulus |
 
 ## Backlog
 
