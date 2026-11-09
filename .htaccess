@@ -1,0 +1,31 @@
+# Jembatan Laravel untuk XAMPP (lihat ADR-005).
+#
+# Document root XAMPP menunjuk ke folder proyek, sedangkan aplikasi Laravel
+# berada di folder public/. Aturan di bawah ini memastikan:
+#   1. aset yang ada di public/ (css, js, uploads) dilayani langsung;
+#   2. permintaan lain masuk ke index.php pada root ini, sehingga alamat
+#      http://localhost/loker/ berfungsi seperti aplikasi pada umumnya;
+#   3. berkas rahasia atau sumber (.env, vendor, docs) tidak pernah tersaji
+#      apa adanya karena selalu diteruskan ke Laravel yang menjawab 404.
+#
+# Catatan: kata 'loker' pada RewriteCond di bawah harus diganti bila folder
+# proyek dipindah atau diganti nama.
+
+RewriteEngine On
+
+# Pengaman: jangan putar balik permintaan yang sudah menunjuk ke public/
+RewriteRule ^public/ - [L]
+
+# Pengaman: jangan putar balik permintaan ke front controller root ini
+RewriteRule ^index\.php$ - [L]
+
+# 1. Aset yang benar-benar ada di dalam public/
+RewriteCond %{DOCUMENT_ROOT}/loker/public/$1 -f
+RewriteRule ^(.*)$ public/$1 [L]
+
+# 2. Sisanya diteruskan ke front controller (jalur rute Laravel)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L]
+
+# 3. Folder itu sendiri (mis. /loker/) juga masuk ke front controller
+RewriteRule ^$ index.php [L]

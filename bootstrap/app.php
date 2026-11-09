@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureUserIsAdmin;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,7 +13,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Pengguna yang sudah masuk selalu diarahkan ke dasbor (F2),
+        // bukan ke /dashboard bawaan yang tidak ada di proyek ini.
+        $middleware->redirectUsersTo('/dasbor');
+
+        // Peran admin dijaga di server untuk seluruh prefix /admin (F4,
+        // lihat docs/SECURITY.md) — bukan lewat penyembunyian tautan.
+        $middleware->alias([
+            'admin' => EnsureUserIsAdmin::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

@@ -2,18 +2,35 @@
 
 > Website info loker yang mengurutkan lowongan dari yang paling dekat ke lokasi pengguna, lengkap dengan peta dan divisi yang lowong.
 
+[![CI](https://github.com/muhammadhabibullah59924-hub/loker/actions/workflows/ci.yml/badge.svg)](https://github.com/muhammadhabibullah59924-hub/loker/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+
 ## About
 
 Anak muda di Probolinggo sering hanya ikut grup lowongan tanpa tahu harus melangkah ke mana mencari loker yang benar-benar bisa mereka datangi. LokerDekat menjawabnya dengan menampilkan lowongan **diurutkan dari yang paling dekat** ke lokasi pengguna, lengkap dengan nama PT, alamat jalan, dan divisi yang lowong. Pengguna umum cukup mendaftar, mengizinkan lokasi, lalu memilih loker; admin mengelola isi katalog lewat panel tersendiri. Website ini murni informasi lowongan — tidak ada fitur lamaran atau unggah CV.
 
+## Misi
+
+LokerDekat lahir dari semangat membantu mengurangi angka pengangguran. Dengan menyajikan lowongan secara terdekat-first, kami membantu para pencari kerja menemukan peluang yang cocok lebih cepat dan tepat.
+
 ## Features
 
-- `F1` — Masuk dan daftar akun (must) — **direncanakan**
-- `F2` — Dasbor loker terurut terdekat (must) — **direncanakan**
-- `F3` — Peta dan lokasi loker (must) — **direncanakan**
-- `F4` — Kelola data loker (admin) (must) — **direncanakan**
-- `F5` — Pencarian dan filter loker (should) — **direncanakan**
-- `F6` — Simpan loker favorit (could) — **direncanakan**
+- `F1` — Masuk dan daftar akun (must) — **selesai**
+- `F2` — Dasbor loker terurut terdekat (must) — **selesai**
+- `F3` — Peta dan lokasi loker (must) — **selesai**
+- `F4` — Kelola data loker (admin) (must) — **selesai**
+- `F5` — Pencarian dan filter loker (should) — **selesai**
+- `F6` — Simpan loker favorit (could) — **selesai**
+
+## Screenshots
+
+Tampilan dasbor setelah login:
+
+![Dasbor LokerDekat](docs/screenshots/dashboard.png)
+
+Halaman detail loker dengan peta:
+
+![Detail Loker](docs/screenshots/detail-loker.png)
 
 ## Tech Stack
 
@@ -35,7 +52,7 @@ Versi tidak ditulis di sini karena belum diverifikasi; periksa dengan `composer 
 5. Jalankan persiapan lingkungan: `cp .env.example .env && php artisan key:generate` (lewati langkah salin bila `.env` sudah ada).
 6. Nyalakan Apache dan MySQL lewat XAMPP Control Panel, lalu buat basis data `db_loker_v2` dengan charset `utf8` (`CREATE DATABASE db_loker_v2 CHARACTER SET utf8 COLLATE utf8_general_ci;`) — lihat ADR-008.
 7. Jalankan migrasi dan seeder: `php artisan migrate --seed`, kemudian mode pengembangan: `php artisan serve` (tersedia setelah `T-001`).
-8. Buka `http://localhost:8000` (atau `http://localhost/loker` bila dijalankan lewat Apache) di browser.
+8. Buka `http://localhost/loker` di browser. Berkas `index.php` dan `.htaccess` pada root proyek menjadi jembatan menuju `public/` (ADR-005) sehingga tidak perlu mengubah konfigurasi XAMPP. Bila memakai `php artisan serve`, buka `http://127.0.0.1:8000`.
 9. Akun demo hasil seeder: `admin@lokerdekat.test` (admin) dan `pencari@lokerdekat.test` (pengguna), kata sandi `password`.
 
 ## Scripts and Commands
@@ -86,6 +103,10 @@ loker/
 | [docs/REVIEW.md](docs/REVIEW.md) | Checklist review dan template PR |
 | [docs/LESSONS.md](docs/LESSONS.md) | Kesalahan berulang dan pelajaran |
 
+## License
+
+Proyek ini menggunakan lisensi [MIT License](LICENSE).
+
 ## Contributing
 
 Ikuti `docs/WORKFLOW.md`: satu task per cabang, PR kecil, CI hijau, dan review manusia sebelum merge. Pesan commit mengikuti `docs/CODE_STYLE.md` (Conventional Commits). Agen AI bekerja mengikuti `AGENTS.md` dan `docs/GUARDRAILS.md`.
@@ -96,4 +117,4 @@ Proyek ini disusun dengan bantuan alat AI, yaitu **GitHub Copilot**, termasuk pe
 
 ## Status
 
-Tahap perencanaan; paket dokumen proyek siap, implementasi belum dimulai — lihat [docs/PROGRESS.md](docs/PROGRESS.md).
+Implementasi inti LokerDekat sudah berjalan menyusul F1–F6, dan seluruh gerbang `docs/EVALS.md` lulus secara lokal; tahap terakhir menuai review manusia sebelum PR ke `main`. Lihat [docs/PROGRESS.md](docs/PROGRESS.md) dan [docs/EVALS.md](docs/EVALS.md).

@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
     'description',
     'requirements',
     'deadline',
+    'opens_at',
+    'closes_at',
     'latitude',
     'longitude',
     'is_active',
@@ -36,6 +38,8 @@ class Job extends Model
     {
         return [
             'deadline' => 'date',
+            'opens_at' => 'date',
+            'closes_at' => 'date',
             'latitude' => 'decimal:7',
             'longitude' => 'decimal:7',
             'is_active' => 'boolean',

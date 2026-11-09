@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Seeder data awal: 1 admin, 1 pencari kerja, dan 24 loker di Kota Probolinggo.
+ * Seeder data awal: 1 admin, 1 pencari kerja, dan 30 loker di Kota Probolinggo.
  *
  * Koordinat adalah data dummy perkiraan di dalam wilayah Kota Probolinggo
  * (memakai tujuh kecamatan sebagai titik acuan) — dipakai untuk menguji
@@ -62,7 +62,7 @@ class LokerSeeder extends Seeder
     }
 
     /**
-     * Daftar 24 loker dummy di Kota Probolinggo.
+     * Daftar 30 loker dummy di Kota Probolinggo.
      *
      * @return array<int, array<string, mixed>>
      */
@@ -339,6 +339,85 @@ class LokerSeeder extends Seeder
                 'deadline' => '2026-12-08',
                 'latitude' => -7.7316000,
                 'longitude' => 113.2437000,
+            ],
+            // Tambahan loker (T-017): kelanjutan data dummy untuk dasbor.
+            [
+                'company_name' => 'PT Sentra Boga Nusantara',
+                'address' => 'Jl. Cendekia No. 9, Gading',
+                'division' => 'Pengolahan',
+                'city' => 'Kota Probolinggo',
+                'description' => 'Pengolahan bahan pangan menjadi produk siap saji untuk ritel modern.',
+                'requirements' => 'Minimal SMA/SMK, paham food safety, siap kerja shift pagi.',
+                'deadline' => '2026-12-15',
+                'opens_at' => '2026-11-12',
+                'closes_at' => '2026-12-15',
+                'latitude' => -7.6935000,
+                'longitude' => 113.2010000,
+            ],
+            [
+                'company_name' => 'CV Dapur Sejahtera',
+                'address' => 'Jl. Raya Gading No. 77, Gading',
+                'division' => 'Pelayanan',
+                'city' => 'Kota Probolinggo',
+                'description' => 'Kuliner dengan menu segar lokal dan catering harian.',
+                'requirements' => 'Minimal SMA, kreatif, siap kerja tim.',
+                'deadline' => '2026-12-18',
+                'opens_at' => '2026-11-15',
+                'closes_at' => '2026-12-18',
+                'latitude' => -7.6990000,
+                'longitude' => 113.2055000,
+            ],
+            [
+                'company_name' => 'PT Mitra Logistik Sejahtera',
+                'address' => 'Jl. Raya Kedopok No. 101, Kedopok',
+                'division' => 'Logistik',
+                'city' => 'Kota Probolinggo',
+                'description' => 'Pengiriman barang dalam kota dengan armada mini dan dokumentasi rute.',
+                'requirements' => 'SIM B1, berpengalaman, jujur.',
+                'deadline' => '2026-12-20',
+                'opens_at' => '2026-11-18',
+                'closes_at' => '2026-12-20',
+                'latitude' => -7.7028000,
+                'longitude' => 113.2089000,
+            ],
+            [
+                'company_name' => 'CV Arsitek Nusantara',
+                'address' => 'Jl. Diponegoro No. 88, Kedopok',
+                'division' => 'Konstruksi',
+                'city' => 'Kota Probolinggo',
+                'description' => 'Perencanaan dan konstruksi renovasi interior kantor.',
+                'requirements' => 'SMK Arsitek, bisa AutoCAD, pengalaman proyek minimal 2.',
+                'deadline' => '2026-12-22',
+                'opens_at' => '2026-11-20',
+                'closes_at' => '2026-12-22',
+                'latitude' => -7.7050000,
+                'longitude' => 113.2123000,
+            ],
+            [
+                'company_name' => 'PT Dana Karya Sentosa',
+                'address' => 'Jl. Merdeka No. 45, Mayangan',
+                'division' => 'Keuangan',
+                'city' => 'Kota Probolinggo',
+                'description' => 'Pelayanan pembukuan, perpajakan kecil, dan konsultasi keuangan UMKM.',
+                'requirements' => 'Minimal SMA/SMK, paham akuntansi dasar.',
+                'deadline' => '2026-12-25',
+                'opens_at' => '2026-11-22',
+                'closes_at' => '2026-12-25',
+                'latitude' => -7.7100000,
+                'longitude' => 113.2150000,
+            ],
+            [
+                'company_name' => 'CV Kreatif Media Nusantara',
+                'address' => 'Jl. Suroso No. 27, Mayangan',
+                'division' => 'Kreatif',
+                'city' => 'Kota Probolinggo',
+                'description' => 'Perancang kampanye media sosial dan desain konten merek lokal.',
+                'requirements' => 'SMK Desain/Kreatif, bisa Adobe suite, siap kolaborasi.',
+                'deadline' => '2026-12-28',
+                'opens_at' => '2026-11-25',
+                'closes_at' => '2026-12-28',
+                'latitude' => -7.7160000,
+                'longitude' => 113.2180000,
             ],
         ];
     }
