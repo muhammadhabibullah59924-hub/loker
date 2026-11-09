@@ -12,6 +12,7 @@ Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori
 
 | Tanggal | Task | PR/Commit | Catatan |
 |---|---|---|---|
+| 2026-11-09 | T-019 Perbaikan tampilan GitHub agar terlihat profesional | branch `docs/T-019-tampilan-github` | Berkas `LICENSE` (MIT) terpasang; README berisi badge CI dan seksi lisensi; pint, phpunit 69/69 lulus | status T-019 = review; menunggu PR ke `main` sebelum merge |
 | 2026-10-25 | T-001 Setup repositori, tooling, kerangka Laravel | commit awal `main` | Laravel 13.38.0 + PHP 8.3.35; pint, phpunit (2 tes), dan build lulus |
 | 2026-10-25 | T-002 Migrasi dan seeder tiga tabel + model Eloquent | branch `feat/T-002-migrasi` | `db_loker_v2` (utf8), 2 user + 24 loker terseeder; relasi teruji; pint + tes lulus |
 | 2026-10-25 | T-003 Halaman depan dengan panduan tiga langkah | branch `feat/T-003-landing` | Landing + layout Bootstrap 5.3.8 CDN, jembatan `index.php`/`.htaccess` agar `/loker` jalan; 5 tes lulus |
@@ -82,3 +83,5 @@ Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan
 `2026-11-08 | agen coding (T-017) | T-017 | Seeder ditambah 6 loker baru (30 total) dengan `deadline` masa depan; DB re-seed sukses, dashboard terverifikasi menampilkan loker baru; pint, phpunit 68/68 lulus | status T-017 = review; lanjut review manusia sebelum PR dari feat/T-017-tambah-loker-baru`
 
 `2026-11-08 | agen coding (T-018) | T-018 | Migrasi `opens_at`/`closes_at` ditambah, model/form/controller/view/tes diperbarui; pint, phpunit 69/69 lulus, migrasi DB sukses | status T-018 = review; lanjut review manusia sebelum PR dari feat/T-018-tambah-tanggal-buka-tutup`
+
+`2026-11-09 | agen coding (T-019) | T-019 | Berkas `LICENSE` (MIT) terpasang sesuai `composer.json`; badge CI dan badge lisensi ditambahkan di `README.md`, seksi License ditambah; pint lulus, phpunit 69/69 lulus; build terkendali karena `composer` tidak tersedia di lingkungan agent | status T-019 = review; lanjut review manusia sebelum PR dari docs/T-019-tampilan-github`
