@@ -84,4 +84,4 @@ Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan
 
 `2026-11-08 | agen coding (T-018) | T-018 | Migrasi `opens_at`/`closes_at` ditambah, model/form/controller/view/tes diperbarui; pint, phpunit 69/69 lulus, migrasi DB sukses | status T-018 = review; lanjut review manusia sebelum PR dari feat/T-018-tambah-tanggal-buka-tutup`
 
-`2026-11-09 | agen coding (T-019) | T-019 | Berkas `LICENSE` (MIT) terpasang sesuai `composer.json`; badge CI dan badge lisensi ditambahkan di `README.md`, seksi License ditambah; pint lulus, phpunit 69/69 lulus; build terkendali karena `composer` tidak tersedia di lingkungan agent | status T-019 = review; lanjut review manusia sebelum PR dari docs/T-019-tampilan-github`
+`2026-11-09 | agen coding (T-019) | T-019 | Screenshot dashboard + detail loker berhasil di-capture lewat Playwright ke `docs/screenshots/dashboard.png` dan `detail-loker.png`; ditempa di README bagian `## Screenshots`; pint, phpunit 69/69 lulus | status T-019 = review; lanjut review manusia sebelum PR dari docs/T-019-tampilan-github`
