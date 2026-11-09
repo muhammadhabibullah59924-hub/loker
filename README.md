@@ -22,6 +22,16 @@ LokerDekat lahir dari semangat membantu mengurangi angka pengangguran. Dengan me
 - `F5` — Pencarian dan filter loker (should) — **selesai**
 - `F6` — Simpan loker favorit (could) — **selesai**
 
+## Screenshots
+
+Tampilan dasbor setelah login:
+
+![Dasbor LokerDekat](docs/screenshots/dashboard.png)
+
+Halaman detail loker dengan peta:
+
+![Detail Loker](docs/screenshots/detail-loker.png)
+
 ## Tech Stack
 
 - **Laravel** — framework backend PHP
