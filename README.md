@@ -2,6 +2,9 @@
 
 > Website info loker yang mengurutkan lowongan dari yang paling dekat ke lokasi pengguna, lengkap dengan peta dan divisi yang lowong.
 
+[![CI](https://github.com/muhammadhabibullah59924-hub/loker/actions/workflows/ci.yml/badge.svg)](https://github.com/muhammadhabibullah59924-hub/loker/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+
 ## About
 
 Anak muda di Probolinggo sering hanya ikut grup lowongan tanpa tahu harus melangkah ke mana mencari loker yang benar-benar bisa mereka datangi. LokerDekat menjawabnya dengan menampilkan lowongan **diurutkan dari yang paling dekat** ke lokasi pengguna, lengkap dengan nama PT, alamat jalan, dan divisi yang lowong. Pengguna umum cukup mendaftar, mengizinkan lokasi, lalu memilih loker; admin mengelola isi katalog lewat panel tersendiri. Website ini murni informasi lowongan — tidak ada fitur lamaran atau unggah CV.
@@ -89,6 +92,10 @@ loker/
 | [docs/DECISIONS.md](docs/DECISIONS.md) | ADR dan alasan keputusan |
 | [docs/REVIEW.md](docs/REVIEW.md) | Checklist review dan template PR |
 | [docs/LESSONS.md](docs/LESSONS.md) | Kesalahan berulang dan pelajaran |
+
+## License
+
+Proyek ini menggunakan lisensi [MIT License](LICENSE).
 
 ## Contributing
 
