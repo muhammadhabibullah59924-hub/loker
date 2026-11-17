@@ -71,8 +71,33 @@ class DashboardController extends Controller
             )->values();
         }
 
+        // Loker populer: loker aktif, berkoordinat, belum kadaluarsa, dan butuh
+        // lebih dari satu orang, diurut dari yang butuh paling banyak (T-020).
+        $lokerPopuler = Job::query()
+            ->where('is_active', true)
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->where(function ($queryKadaluarsa) {
+                $queryKadaluarsa->whereNull('deadline')
+                    ->orWhereDate('deadline', '>=', today());
+            })
+            ->where('positions_needed', '>', 1)
+            ->orderByDesc('positions_needed')
+            ->limit(6)
+            ->get()
+            ->map(fn (Job $loker): array => [
+                'loker' => $loker,
+                'jarak' => $jarak->distanceInKm(
+                    $titik['lat'],
+                    $titik['lng'],
+                    (float) $loker->latitude,
+                    (float) $loker->longitude,
+                ),
+            ]);
+
         return view('dashboard', [
             'lokers' => $lokers,
+            'loker_populer' => $lokerPopuler,
             'dari_lokasi_pengguna' => $pengguna !== null,
             'lokasi_default' => config('loker.lokasi_default.nama'),
             'q' => $request->input('q'),

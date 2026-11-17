@@ -40,6 +40,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-017 | Menambah loker baru agar dasbor lebih banyak untuk pengguna | F2 | S | review | feat/T-017-tambah-loker-baru | T-015 | Seeder ditambah loker baru dengan `deadline` masa depan; dasbor menampilkan lebih banyak loker; gerbang EVALS lulus |
 | T-018 | Menambah tanggal buka-tutup loker | F4 | M | review | feat/T-018-tambah-tanggal-buka-tutup | T-017 | Loker punya rentang buka-tutup via `opens_at`/`closes_at`; form admin menyimpan; dasbor menampilkan rentang; gerbang EVALS lulus |
 | T-019 | Perbaikan tampilan GitHub agar terlihat profesional | dokumen | S | review | docs/T-019-tampilan-github | - | Berkas `LICENSE` (MIT) terpasang; README berisi badge dan seksi lisensi; gerbang EVALS lulus |
+| T-020 | Dasbor dan detail loker menampilkan loker populer serta info lengongan lengkap | F2, F3 | M | review | feat/T-020-loker-populer | T-007 | Section "Loker Populer" pada dasbor tampil dari loker butuh terbanyak; kartu loker menampilkan tipe dan jumlah lowongan; `LokerPopularTest` lulus, pint, phpunit 72/72, E2E lulus |
 
 ## Backlog
 

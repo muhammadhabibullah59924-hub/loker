@@ -67,6 +67,40 @@
             @if ($radius)
                 <p class="text-secondary mb-3">Menampilkan loker terdekat dalam radius {{ $radius }} km dari lokasimu.</p>
             @endif
+
+            @if ($loker_populer->isNotEmpty())
+                <h2 class="mb-3">Loker Populer</h2>
+                <div class="row g-3 mb-4">
+                    @foreach ($loker_populer as $item)
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <article class="card panduan-card job-card h-100">
+                                <div class="card-body">
+                                    <span class="job-card__jarak">{{ number_format($item['jarak'], 1, ',', '.') }} km</span>
+                                    <h3 class="mb-2">
+                                        <a class="job-card__judul" href="{{ route('lowongan.show', $item['loker']->id) }}">{{ $item['loker']->company_name }}</a>
+                                    </h3>
+                                    <p class="text-secondary mb-2">{{ $item['loker']->address }}</p>
+                                    <p class="mb-0">
+                                        <span class="badge border job-card__divisi">{{ $item['loker']->division }}</span>
+                                        <span class="text-secondary small ms-1">{{ $item['loker']->city }}</span>
+                                    </p>
+                                    @if ($item['loker']->job_type)
+                                        <p class="mb-0">
+                                            <span class="badge bg-primary">{{ $item['loker']->job_type }}</span>
+                                            <span class="text-secondary small ms-1">Lowongan butuh {{ $item['loker']->positions_needed }} orang</span>
+                                        </p>
+                                    @endif
+                                    <form method="POST" action="{{ route('favorit.store', $item['loker']->id) }}" class="mt-2">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-outline-primary">Simpan favorit</button>
+                                    </form>
+                                </div>
+                            </article>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+
             <h2 class="mb-3">Daftar loker</h2>
 
             <div class="row g-3">

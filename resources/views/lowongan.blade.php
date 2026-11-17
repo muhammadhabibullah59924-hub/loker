@@ -19,6 +19,13 @@
                     <span class="text-secondary ms-1">{{ $loker->city }}</span>
                 </p>
 
+                @if ($loker->job_type)
+                    <p class="mb-3">
+                        <span class="badge bg-primary">{{ $loker->job_type }}</span>
+                        <span class="text-secondary">Lowongan butuh {{ $loker->positions_needed }} orang</span>
+                    </p>
+                @endif
+
                 {{-- Alamat ditulis sebagai teks biasa supaya tetap terbaca bila peta gagal dimuat. --}}
                 <p class="job-detail__alamat mb-4">{{ $loker->address }}</p>
 

@@ -93,6 +93,15 @@ Semua ADR di bawah memakai tanggal 2026-10-25 kecuali dibuat kemudian.
 - **Konsekuensi:** Tidak ada query tambahan dan tidak ada tabel baru; mengubah pusat kota cukup mengedit satu berkas konfigurasi lalu `php artisan config:clear`; nilai default ini tidak bisa diubah lewat panel admin.
 - **Alternatif yang dipertimbangkan:** Menyimpan di tabel seeder/basis data (butuh skema baru dan query tiap permintaan, berguna hanya bila pusat kota sering berubah), menaruhnya langsung di dalam kode controller (menyulitkan perubahan dan pengujian).
 
+### ADR-010: Jenis dan jumlah lowongan pada tabel `jobs`
+
+- **Status:** Accepted
+- **Tanggal:** 2026-11-10
+- **Konteks:** Fitur loker populer dan info lengongan lengkap (selaras dengan arsitektur yang dipelajari dari kebiasaan Glints) membutuhkan dua data baru pada tabel `jobs`: jenis pekerjaan (`Full-Time`, `Part-Time`) dan jumlah lowongan yang dibutuhkan.
+- **Keputusan:** Menambah kolom `job_type` (string, nullable) dan `positions_needed` (integer, not null, default 1) pada tabel `jobs`.
+- **Konsekuensi:** Migrasi baru harus dijalankan lewat `php artisan migrate`; nilai default menjamin loker lama tetap tampil dengan butuh satu orang.
+- **Alternatif yang dipertimbangkan:** Memakai teks bebas pada field `requirements` atau `description` untuk menyimpan jenis dan jumlah lowongan, atau membuat tabel terpisah untuk entri lowongan — keduanya kurang sesuai untuk ukuran tugas dan kebutuhan daftar populer yang sederhana.
+
 ## Delegated Choices
 
 Semua pilihan dibuat langsung oleh mahasiswa.
