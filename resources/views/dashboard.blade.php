@@ -51,7 +51,7 @@
                         <label class="form-label" for="cari-loker">Cari loker</label>
                         <input class="form-control" id="cari-loker" name="q" type="search" maxlength="100" value="{{ $q ?? '' }}" placeholder="Nama PT atau divisi">
                     </div>
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-2">
                         <label class="form-label" for="tipe-loker">Tipe loker</label>
                         <select class="form-select" id="tipe-loker" name="tipe">
                             <option value="" @selected(($tipe ?? null) === null)>Semua tipe</option>
@@ -60,13 +60,21 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-2">
                         <label class="form-label" for="radius-loker">Radius jarak</label>
                         <select class="form-select" id="radius-loker" name="radius">
                             <option value="" @selected(($radius ?? null) === null)>Semua radius</option>
                             @foreach ([1, 5, 10, 25, 50] as $radiusOpsi)
                                 <option value="{{ $radiusOpsi }}" @selected((int) ($radius ?? 0) === $radiusOpsi)>{{ $radiusOpsi }} km</option>
                             @endforeach
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <label class="form-label" for="urut-loker">Urutkan</label>
+                        <select class="form-select" id="urut-loker" name="urut">
+                            <option value="terdekat" @selected(($urut ?? null) === null || ($urut ?? null) === 'terdekat')>Terdekat</option>
+                            <option value="terbaru" @selected(($urut ?? null) === 'terbaru')>Terbaru</option>
+                            <option value="butuh" @selected(($urut ?? null) === 'butuh')>Butuh terbanyak</option>
                         </select>
                     </div>
                     <div class="col-12">

@@ -51,6 +51,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-028 | Desain halaman detail loker ala Glints | F3 | S | review | feat/T-028-detail-loker-desain | T-027 | Blok info detail dibungkus kartu; tes `LokerPopularTest`, pint, phpunit, E2E lulus |
 | T-029 | Desain halaman landing ala Glints | F2 | S | review | feat/T-029-landing-desain | T-028 | Hero landing menampilkan eyebrow "Rekomendasi terdekat" sebelum judul; tes `LandingTest`, pint, phpunit, E2E lulus |
 | T-030 | Filter tipe loker di dasbor | F5 | S | review | feat/T-030-filter-tipe-loker | T-029 | Parameter `tipe` menyaring loker Full-Time/Part-Time/Contract/Internship; tes `SearchFilterTest`, pint, phpunit, E2E lulus |
+| T-031 | Urutkan loker di dasbor | F5 | S | review | feat/T-031-urutkan-loker | T-030 | Parameter `urut` mendukung Terdekat/Terbaru/Butuh terbanyak; tes `SearchFilterTest`, pint, phpunit, E2E lulus |
 
 ## Backlog
 

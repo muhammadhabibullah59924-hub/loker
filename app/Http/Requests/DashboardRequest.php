@@ -34,6 +34,7 @@ class DashboardRequest extends FormRequest
             'q' => ['sometimes', 'nullable', 'string', 'max:100'],
             'radius' => ['sometimes', 'nullable', 'integer', 'min:1', 'max:1000'],
             'tipe' => ['sometimes', 'nullable', 'string', 'in:Full-Time,Part-Time,Contract,Internship'],
+            'urut' => ['sometimes', 'nullable', 'string', 'in:terdekat,terbaru,butuh'],
         ];
     }
 
@@ -81,6 +82,13 @@ class DashboardRequest extends FormRequest
 
         if (! is_string($tipe) || ! in_array($tipe, ['Full-Time', 'Part-Time', 'Contract', 'Internship'], true)) {
             $this->merge(['tipe' => null]);
+        }
+
+        // Urutan loker: terdekat, terbaru, atau butuh terbanyak (T-031).
+        $urut = $this->input('urut');
+
+        if (! is_string($urut) || ! in_array($urut, ['terdekat', 'terbaru', 'butuh'], true)) {
+            $this->merge(['urut' => null]);
         }
     }
 

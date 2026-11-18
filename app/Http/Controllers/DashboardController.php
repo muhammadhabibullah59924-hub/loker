@@ -65,9 +65,16 @@ class DashboardController extends Controller
                     (float) $loker->latitude,
                     (float) $loker->longitude,
                 ),
-            ])
-            ->sortBy('jarak')
-            ->values();
+            ]);
+
+        // Urutan daftar loker (T-031): terdekat (default), terbaru, atau butuh terbanyak.
+        $urut = $request->input('urut');
+
+        $lokers = match ($urut) {
+            'terbaru' => $lokers->sortByDesc(fn (array $item) => $item['loker']->created_at)->values(),
+            'butuh' => $lokers->sortByDesc(fn (array $item) => $item['loker']->positions_needed)->values(),
+            default => $lokers->sortBy('jarak')->values(),
+        };
 
         // Filter radius memakai hasil perhitungan jarak, supaya urutan tetap menaik.
         $radius = $request->input('radius');
@@ -116,6 +123,7 @@ class DashboardController extends Controller
             'q' => $request->input('q'),
             'radius' => $request->input('radius'),
             'tipe' => $request->input('tipe'),
+            'urut' => $request->input('urut'),
             'titik' => $titik,
             'jumlahLokerAktif' => $jumlahLokerAktif,
             'jumlahLokerPopuler' => $jumlahLokerPopuler,

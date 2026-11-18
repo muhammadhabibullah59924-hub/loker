@@ -166,6 +166,39 @@ class SearchFilterTest extends TestCase
     }
 
     /**
+     * T-031: urutan terbaru menampilkan loker yang paling baru lebih dulu.
+     */
+    public function test_urutkan_loker_terbaru(): void
+    {
+        $lama = $this->buatLokerTipe('PT Lama Dekat', 'Operator', 'Full-Time');
+        $lama->forceFill(['created_at' => now()->subDays(3)])->save();
+
+        $baru = $this->buatLokerTipe('PT Baru Jauh', 'Operator', 'Full-Time');
+        $baru->forceFill(['created_at' => now()->subDay()])->save();
+
+        $response = $this->actingAs($this->pengguna)
+            ->get('/dasbor?lat=-7.7145&lng=113.2146&urut=terbaru');
+
+        $response->assertStatus(200);
+        $response->assertSeeInOrder(['PT Baru Jauh', 'PT Lama Dekat']);
+    }
+
+    /**
+     * T-031: urutan butuh terbanyak menampilkan loker dengan kebutuhan terbanyak lebih dulu.
+     */
+    public function test_urutkan_loker_butuh_terbanyak(): void
+    {
+        $this->buatLokerButuh('PT Butuh Dua', 2);
+        $this->buatLokerButuh('PT Butuh Tiga', 3);
+
+        $response = $this->actingAs($this->pengguna)
+            ->get('/dasbor?lat=-7.7145&lng=113.2146&urut=butuh');
+
+        $response->assertStatus(200);
+        $response->assertSeeInOrder(['PT Butuh Tiga', 'PT Butuh Dua']);
+    }
+
+    /**
      * T-030: filter tipe loker hanya menampilkan loker dengan tipe yang dipilih.
      */
     public function test_filter_tipe_loker_hanya_menampilkan_tipe_yang_dipilih(): void
@@ -234,6 +267,28 @@ class SearchFilterTest extends TestCase
             'requirements' => 'Syarat loker untuk keperluan uji.',
             'job_type' => $jobType,
             'positions_needed' => 1,
+            'deadline' => '2026-11-30',
+            'latitude' => -7.7145,
+            'longitude' => 113.2250,
+            'is_active' => true,
+            'posted_by' => $this->admin->id,
+        ]);
+    }
+
+    /**
+     * Buat satu loker dengan jumlah kebutuhan tertentu untuk pengujian urutan (T-031).
+     */
+    private function buatLokerButuh(string $nama, int $positions): Job
+    {
+        return Job::create([
+            'company_name' => $nama,
+            'address' => 'Jl. Uji No. 1, Mayangan',
+            'division' => 'Produksi',
+            'city' => 'Kota Probolinggo',
+            'description' => 'Deskripsi loker untuk keperluan uji.',
+            'requirements' => 'Syarat loker untuk keperluan uji.',
+            'job_type' => 'Full-Time',
+            'positions_needed' => $positions,
             'deadline' => '2026-11-30',
             'latitude' => -7.7145,
             'longitude' => 113.2250,
