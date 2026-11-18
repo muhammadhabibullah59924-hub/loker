@@ -45,6 +45,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-022 | Dasbor menambahkan statistik jumlah loker aktif tersedia | F2 | S | review | feat/T-022-statistik-dasbor | T-020 | Statistik dihitung dari jumlah loker aktif dan tampil di dasbor; tes `LokerPopularTest`, pint, phpunit 73/73, E2E 2/2 lulus |
 | T-023 | Dasbor menambahkan banner CTA loker populer | F2 | S | review | feat/T-023-banner-cta-popular | T-022 | Banner CTA "Lihat loker populer" tampil di atas daftar popular; tes `LokerPopularTest` lulus |
 | T-024 | Dasbor dan detail loker menampilkan badge Premium Employer | F2, F3 | M | review | feat/T-024-badge-premium-employer | T-023 | Loker populer bernilai `is_premium` menampilkan badge Premium Employer; tes `LokerPopularTest` lulus |
+| T-025 | Dasbor menambahkan statistik jumlah loker populer | F2 | S | review | feat/T-025-statistik-loker-popular | T-024 | Statistik jumlah loker populer ditambahkan ke dasbor; tes `LokerPopularTest` lulus |
 
 ## Backlog
 

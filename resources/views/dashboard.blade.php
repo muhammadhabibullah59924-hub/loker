@@ -22,11 +22,19 @@
 
         @if ($jumlahLokerAktif > 0)
             <div class="row g-3 mb-4">
-                <div class="col-12">
+                <div class="col-12 col-md-6">
                     <div class="card panduan-card">
                         <div class="card-body">
                             <p class="text-secondary mb-0">Loker aktif tersedia</p>
                             <p class="display-4 mb-0">{{ $jumlahLokerAktif }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="card panduan-card">
+                        <div class="card-body">
+                            <p class="text-secondary mb-0">Loker populer</p>
+                            <p class="display-4 mb-0">{{ $jumlahLokerPopuler }}</p>
                         </div>
                     </div>
                 </div>

@@ -101,6 +101,20 @@ class LokerPopularTest extends TestCase
     }
 
     /**
+     * Dasbor menampilkan statistik jumlah loker populer (T-025).
+     */
+    public function test_dasbor_menampilkan_statistik_jumlah_loker_populer(): void
+    {
+        $this->buatLoker('PT Butuh Lima', -7.7145, 113.2146, 5, 'Full-Time');
+
+        $response = $this->actingAs($this->pengguna)->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('Loker populer');
+        $this->assertSame(1, (int) Job::where('is_active', true)->where('positions_needed', '>', 1)->count());
+    }
+
+    /**
      * Loker populer bertanda premium menampilkan badge Premium Employer.
      */
     public function test_loker_populer_menampilkan_badge_premium_employer(): void

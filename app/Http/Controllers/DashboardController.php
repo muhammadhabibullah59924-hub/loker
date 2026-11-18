@@ -98,6 +98,9 @@ class DashboardController extends Controller
         // Jumlah loker aktif tersedia dipakai untuk menampilkan statistik di dasbor (T-022).
         $jumlahLokerAktif = (int) Job::where('is_active', true)->count();
 
+        // Jumlah loker populer dipakai untuk statistik tambahan di dasbor (T-025).
+        $jumlahLokerPopuler = (int) Job::where('is_active', true)->where('positions_needed', '>', 1)->count();
+
         return view('dashboard', [
             'lokers' => $lokers,
             'loker_populer' => $lokerPopuler,
@@ -107,6 +110,7 @@ class DashboardController extends Controller
             'radius' => $request->input('radius'),
             'titik' => $titik,
             'jumlahLokerAktif' => $jumlahLokerAktif,
+            'jumlahLokerPopuler' => $jumlahLokerPopuler,
         ]);
     }
 }
