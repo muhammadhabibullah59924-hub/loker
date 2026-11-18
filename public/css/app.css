@@ -93,6 +93,15 @@ a:hover {
     color: var(--color-text-muted);
 }
 
+/* T-029: eyebrow hero halaman depan, sejalan dengan hero dasbor. */
+.hero-eyebrow {
+    color: var(--color-primary);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
 /* T-026: hero dasbor dengan eyebrow, judul besar, dan subjudul. */
 .hero-dasbor {
     background-color: var(--color-surface);

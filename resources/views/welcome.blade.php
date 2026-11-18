@@ -8,6 +8,8 @@
         <div class="container">
             <img src="{{ asset('uploads/logo.svg') }}" alt="Logo LokerDekat" width="64" height="64" class="mb-3">
 
+            <p class="hero-eyebrow mb-3">Rekomendasi terdekat</p>
+
             <h1 id="judul-hero" class="mb-3">Loker terdekat dari lokasimu</h1>
 
             {{-- Tagline persis dari SPEC.json (meta.one_liner) --}}

@@ -49,6 +49,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-026 | Desain hero section dasbor ala Glints | F2 | S | review | feat/T-026-hero-dasbor | T-025 | Hero dasbor tampil dengan eyebrow "Rekomendasi terdekat", judul, dan subjudul; tes `DashboardHeroTest`, pint, phpunit 78/78, E2E 2/2 lulus |
 | T-027 | Desain kartu loker dasbor ala Glints | F2 | S | review | feat/T-027-job-card-desain | T-026 | Kartu populer badge premium + info tipe/kebutuhan dibungkus satu blok; hover card ditambah; tes `LokerPopularTest`, pint, phpunit, E2E lulus |
 | T-028 | Desain halaman detail loker ala Glints | F3 | S | review | feat/T-028-detail-loker-desain | T-027 | Blok info detail dibungkus kartu; tes `LokerPopularTest`, pint, phpunit, E2E lulus |
+| T-029 | Desain halaman landing ala Glints | F2 | S | review | feat/T-029-landing-desain | T-028 | Hero landing menampilkan eyebrow "Rekomendasi terdekat" sebelum judul; tes `LandingTest`, pint, phpunit, E2E lulus |
 
 ## Backlog
 

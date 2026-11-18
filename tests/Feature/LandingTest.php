@@ -54,4 +54,15 @@ class LandingTest extends TestCase
         $response->assertStatus(200);
         $this->assertGuest();
     }
+
+    /**
+     * T-029: hero halaman depan menampilkan eyebrow sebelum judul.
+     */
+    public function test_halaman_depan_menampilkan_hero_dengan_eyebrow(): void
+    {
+        $response = $this->get('http://localhost/');
+
+        $response->assertStatus(200);
+        $response->assertSee('Rekomendasi terdekat');
+    }
 }

@@ -20,6 +20,7 @@ Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori
 | 2026-11-18 | T-026 Desain hero section dasbor ala Glints | branch `feat/T-026-hero-dasbor` | Hero dasbor tampil dengan eyebrow "Rekomendasi terdekat", judul, dan subjudul; tes `DashboardHeroTest`, pint, phpunit 78/78, E2E 2/2 lulus | status T-026 = review; menunggu PR dari `feat/T-026-hero-dasbor` |
 | 2026-11-18 | T-027 Desain kartu loker dasbor ala Glints | branch `feat/T-027-job-card-desain` | Kartu populer badge premium + info tipe/kebutuhan dibungkus satu blok; hover card ditambah; tes `LokerPopularTest`, pint, phpunit, E2E lulus | status T-027 = review; menunggu PR dari `feat/T-027-job-card-desain` |
 | 2026-11-18 | T-028 Desain halaman detail loker ala Glints | branch `feat/T-028-detail-loker-desain` | Blok info detail dibungkus kartu; tes `LokerPopularTest`, pint, phpunit, E2E lulus | status T-028 = review; menunggu PR dari `feat/T-028-detail-loker-desain` |
+| 2026-11-18 | T-029 Desain halaman landing ala Glints | branch `feat/T-029-landing-desain` | Hero landing menampilkan eyebrow "Rekomendasi terdekat" sebelum judul; tes `LandingTest`, pint, phpunit, E2E lulus | status T-029 = review; menunggu PR dari `feat/T-029-landing-desain` |
 | 2026-11-09 | T-019 Perbaikan tampilan GitHub agar terlihat profesional | branch `docs/T-019-tampilan-github` | Berkas `LICENSE` (MIT) terpasang; README berisi badge CI dan seksi lisensi; pint, phpunit 69/69 lulus | status T-019 = review; menunggu PR ke `main` sebelum merge |
 | 2026-10-25 | T-001 Setup repositori, tooling, kerangka Laravel | commit awal `main` | Laravel 13.38.0 + PHP 8.3.35; pint, phpunit (2 tes), dan build lulus |
 | 2026-10-25 | T-002 Migrasi dan seeder tiga tabel + model Eloquent | branch `feat/T-002-migrasi` | `db_loker_v2` (utf8), 2 user + 24 loker terseeder; relasi teruji; pint + tes lulus |
@@ -109,4 +110,6 @@ Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan
 
 `2026-11-18 | agen coding (T-027) | T-027 | Kartu populer badge premium + info tipe/kebutuhan dibungkus satu blok `d-flex flex-wrap gap-2`, hover card ditambah; tes `LokerPopularTest` bertambah 1; pint, phpunit 79/79, E2E 2/2 lulus | status T-027 = review; lanjut review manusia sebelum PR dari feat/T-027-job-card-desain` |
 
-`2026-11-18 | agen coding (T-028) | T-028 | Blok info halaman detail loker dibungkus kartu panduan-card; tes `LokerPopularTest` bertambah 1; pint, phpunit 80/80, E2E 2/2 lulus | status T-028 = review; lanjut review manusia sebelum PR dari feat/T-028-detail-loker-desain` | |
+`2026-11-18 | agen coding (T-028) | T-028 | Blok info halaman detail loker dibungkus kartu panduan-card; tes `LokerPopularTest` bertambah 1; pint, phpunit 80/80, E2E 2/2 lulus | status T-028 = review; lanjut review manusia sebelum PR dari feat/T-028-detail-loker-desain` |
+
+`2026-11-18 | agen coding (T-029) | T-029 | Hero landing menampilkan eyebrow "Rekomendasi terdekat" sebelum judul; style `.hero-eyebrow`; tes `LandingTest` bertambah 1; pint, phpunit 81/81, E2E 2/2 lulus | status T-029 = review; lanjut review manusia sebelum PR dari feat/T-029-landing-desain` | |
