@@ -13,37 +13,41 @@
 
         <div class="row g-4">
             <div class="col-12 col-lg-7">
-                <h1 class="mb-2">{{ $loker->company_name }}</h1>
-                <p class="mb-3">
-                    <span class="badge border job-card__divisi">{{ $loker->division }}</span>
-                    <span class="text-secondary ms-1">{{ $loker->city }}</span>
-                </p>
+                <div class="card panduan-card">
+                    <div class="card-body">
+                        <h1 class="mb-2">{{ $loker->company_name }}</h1>
+                        <p class="mb-3">
+                            <span class="badge border job-card__divisi">{{ $loker->division }}</span>
+                            <span class="text-secondary ms-1">{{ $loker->city }}</span>
+                        </p>
 
-                @if ($loker->job_type)
-                    <p class="mb-3">
-                        <span class="badge bg-primary">{{ $loker->job_type }}</span>
-                        <span class="text-secondary">Lowongan butuh {{ $loker->positions_needed }} orang</span>
-                    </p>
-                @endif
+                        @if ($loker->job_type)
+                            <p class="mb-3">
+                                <span class="badge bg-primary">{{ $loker->job_type }}</span>
+                                <span class="text-secondary">Lowongan butuh {{ $loker->positions_needed }} orang</span>
+                            </p>
+                        @endif
 
-                @if ($loker->is_premium)
-                    <p class="mb-3">
-                        <span class="badge bg-primary">Premium Employer</span>
-                    </p>
-                @endif
+                        @if ($loker->is_premium)
+                            <p class="mb-3">
+                                <span class="badge bg-primary">Premium Employer</span>
+                            </p>
+                        @endif
 
-                {{-- Alamat ditulis sebagai teks biasa supaya tetap terbaca bila peta gagal dimuat. --}}
-                <p class="job-detail__alamat mb-4">{{ $loker->address }}</p>
+                        {{-- Alamat ditulis sebagai teks biasa supaya tetap terbaca bila peta gagal dimuat. --}}
+                        <p class="job-detail__alamat mb-4">{{ $loker->address }}</p>
 
-                @if ($loker->deadline)
-                    <p class="text-secondary mb-4">Batas kirim lamaran: {{ $loker->deadline->format('d-m-Y') }}</p>
-                @endif
+                        @if ($loker->deadline)
+                            <p class="text-secondary mb-4">Batas kirim lamaran: {{ $loker->deadline->format('d-m-Y') }}</p>
+                        @endif
 
-                <h2 class="mb-2">Deskripsi pekerjaan</h2>
-                <p>{{ $loker->description }}</p>
+                        <h2 class="mb-2">Deskripsi pekerjaan</h2>
+                        <p>{{ $loker->description }}</p>
 
-                <h2 class="mb-2">Syarat</h2>
-                <p class="mb-0">{{ $loker->requirements }}</p>
+                        <h2 class="mb-2">Syarat</h2>
+                        <p class="mb-0">{{ $loker->requirements }}</p>
+                    </div>
+                </div>
             </div>
 
             <div class="col-12 col-lg-5">

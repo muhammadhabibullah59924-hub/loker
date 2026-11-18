@@ -156,6 +156,20 @@ class LokerPopularTest extends TestCase
     }
 
     /**
+     * T-028: halaman detail loker menampilkan blok info dalam kartu.
+     */
+    public function test_detail_loker_menampilkan_info_dalam_kartu(): void
+    {
+        $loker = $this->buatLoker('PT Butuh Lima', -7.7145, 113.2146, 3, 'Full-Time', true, true);
+
+        $response = $this->actingAs($this->pengguna)->get('/lowongan/'.$loker->id);
+
+        $response->assertStatus(200);
+        $response->assertSee('card-body');
+        $response->assertSee($loker->company_name);
+    }
+
+    /**
      * Buat satu loker tayang milik admin untuk keperluan uji.
      *
      * @param  array<string, mixed>  $ubah
