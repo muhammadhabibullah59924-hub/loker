@@ -9,41 +9,54 @@
 
 @section('content')
     <div class="container py-4">
-        <a class="d-inline-block mb-3" href="{{ route('dasbor') }}">&larr; Kembali ke dasbor</a>
+        <nav aria-label="Navigasi kembali" class="mb-3">
+            <a class="d-inline-block" href="{{ route('dasbor') }}">&larr; Kembali ke dasbor</a>
+        </nav>
+
+        <p class="hero-dasbor__eyebrow mb-2">Detail loker</p>
 
         <div class="row g-4">
             <div class="col-12 col-lg-7">
-                <div class="card panduan-card">
-                    <div class="card-body">
+                {{-- Identitas loker: urutan isi nama PT, alamat, divisi, jarak (AGENTS.md). --}}
+                <div class="card panduan-card mb-4">
+                    <div class="card-body p-4">
                         <h1 class="mb-2">{{ $loker->company_name }}</h1>
                         <p class="mb-3">
                             <span class="badge border job-card__divisi">{{ $loker->division }}</span>
                             <span class="text-secondary ms-1">{{ $loker->city }}</span>
                         </p>
 
-                        @if ($loker->job_type)
-                            <p class="mb-3">
-                                <span class="badge bg-primary">{{ $loker->job_type }}</span>
-                                <span class="text-secondary">Lowongan butuh {{ $loker->positions_needed }} orang</span>
-                            </p>
-                        @endif
-
-                        @if ($loker->is_premium)
-                            <p class="mb-3">
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            @if ($loker->is_premium)
                                 <span class="badge bg-primary">Premium Employer</span>
-                            </p>
-                        @endif
+                            @endif
+
+                            @if ($loker->job_type)
+                                <span class="badge job-tipe job-tipe--{{ strtolower($loker->job_type) }}">{{ $loker->job_type }}</span>
+                                <span class="text-secondary small">Lowongan butuh {{ $loker->positions_needed }} orang</span>
+                            @endif
+                        </div>
 
                         {{-- Alamat ditulis sebagai teks biasa supaya tetap terbaca bila peta gagal dimuat. --}}
                         <p class="job-detail__alamat mb-4">{{ $loker->address }}</p>
 
                         @if ($loker->deadline)
-                            <p class="text-secondary mb-4">Batas kirim lamaran: {{ $loker->deadline->format('d-m-Y') }}</p>
+                            <p class="text-secondary mb-0">
+                                Batas kirim lamaran: {{ $loker->deadline->locale('id')->translatedFormat('j F Y') }}
+                            </p>
                         @endif
+                    </div>
+                </div>
 
+                <div class="card panduan-card mb-4">
+                    <div class="card-body p-4">
                         <h2 class="mb-2">Deskripsi pekerjaan</h2>
-                        <p>{{ $loker->description }}</p>
+                        <p class="mb-0">{{ $loker->description }}</p>
+                    </div>
+                </div>
 
+                <div class="card panduan-card">
+                    <div class="card-body p-4">
                         <h2 class="mb-2">Syarat</h2>
                         <p class="mb-0">{{ $loker->requirements }}</p>
                     </div>
@@ -51,22 +64,85 @@
             </div>
 
             <div class="col-12 col-lg-5">
-                <div class="card panduan-card">
-                    <div class="card-body">
-                        <h2 class="mb-2">Lokasi PT</h2>
+                <div class="detail-sidebar">
+                    <div class="card panduan-card mb-3">
+                        <div class="card-body p-4">
+                            <h2 class="mb-3">Ringkasan loker</h2>
 
-                        <div id="peta-loker" class="job-map"
-                             data-lat="{{ $loker->latitude }}"
-                             data-lng="{{ $loker->longitude }}"
-                             data-nama="{{ $loker->company_name }}"
-                             aria-label="Peta lokasi {{ $loker->company_name }} di {{ $loker->address }}">
+                            <dl class="ringkasan-loker mb-0">
+                                <div class="ringkasan-loker__baris">
+                                    <dt>Divisi</dt>
+                                    <dd>{{ $loker->division }}</dd>
+                                </div>
+                                <div class="ringkasan-loker__baris">
+                                    <dt>Tipe</dt>
+                                    <dd>
+                                        @if ($loker->job_type)
+                                            <span class="badge job-tipe job-tipe--{{ strtolower($loker->job_type) }}">{{ $loker->job_type }}</span>
+                                        @else
+                                            Belum diisi
+                                        @endif
+                                    </dd>
+                                </div>
+                                <div class="ringkasan-loker__baris">
+                                    <dt>Kebutuhan</dt>
+                                    <dd>{{ $loker->positions_needed }} orang</dd>
+                                </div>
+                                <div class="ringkasan-loker__baris">
+                                    <dt>Batas lamaran</dt>
+                                    <dd>
+                                        @if ($loker->deadline)
+                                            {{ $loker->deadline->locale('id')->translatedFormat('j F Y') }}
+                                        @else
+                                            Tanpa batas waktu
+                                        @endif
+                                    </dd>
+                                </div>
+                                <div class="ringkasan-loker__baris">
+                                    <dt>Kota</dt>
+                                    <dd>{{ $loker->city }}</dd>
+                                </div>
+                            </dl>
                         </div>
+                    </div>
 
-                        <noscript>
-                            <p class="text-secondary mt-2 mb-0">
-                                Peta membutuhkan JavaScript. Alamat lokasi PT: {{ $loker->address }}
-                            </p>
-                        </noscript>
+                    <div class="card panduan-card mb-3">
+                        <div class="card-body p-4">
+                            <h2 class="mb-2">Lokasi PT</h2>
+
+                            <div id="peta-loker" class="job-map"
+                                 data-lat="{{ $loker->latitude }}"
+                                 data-lng="{{ $loker->longitude }}"
+                                 data-nama="{{ $loker->company_name }}"
+                                 aria-label="Peta lokasi {{ $loker->company_name }} di {{ $loker->address }}">
+                            </div>
+
+                            <noscript>
+                                <p class="text-secondary mt-2 mb-0">
+                                    Peta membutuhkan JavaScript. Alamat lokasi PT: {{ $loker->address }}
+                                </p>
+                            </noscript>
+                        </div>
+                    </div>
+
+                    {{-- T-038: aksi simpan favorit langsung dari halaman detail. --}}
+                    <div class="card panduan-card">
+                        <div class="card-body p-4">
+                            @if ($sudahFavorit)
+                                <a class="btn btn-primary w-100" href="{{ route('favorit.index') }}">Lihat di favorit</a>
+                                <p class="text-secondary small text-center mb-0 mt-2">
+                                    Loker ini sudah tersimpan di favoritmu.
+                                </p>
+                            @else
+                                <form method="POST" action="{{ route('favorit.store', $loker->id) }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary w-100">Simpan favorit</button>
+                                </form>
+                                <p class="text-secondary small text-center mb-0 mt-2">
+                                    Simpan loker ini agar mudah kamu buka lagi nanti.
+                                </p>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>

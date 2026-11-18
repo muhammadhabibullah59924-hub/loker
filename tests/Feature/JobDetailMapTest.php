@@ -134,6 +134,52 @@ class JobDetailMapTest extends TestCase
     }
 
     /**
+     * T-038: detail menampilkan ringkasan loker di sidebar.
+     */
+    public function test_detail_menampilkan_ringkasan_loker(): void
+    {
+        $loker = $this->buatLoker(['job_type' => 'Full-Time', 'positions_needed' => 2]);
+
+        $response = $this->actingAs($this->pengguna)->get('/lowongan/'.$loker->id);
+
+        $response->assertStatus(200);
+        $response->assertSee('Ringkasan loker');
+        $response->assertSee('Kebutuhan');
+        $response->assertSee('2 orang');
+        $response->assertSee('30 November 2026');
+    }
+
+    /**
+     * T-038: pengguna masuk bisa menyimpan favorit langsung dari detail.
+     */
+    public function test_detail_menampilkan_tombol_simpan_favorit(): void
+    {
+        $loker = $this->buatLoker();
+
+        $response = $this->actingAs($this->pengguna)->get('/lowongan/'.$loker->id);
+
+        $response->assertStatus(200);
+        $response->assertSee('Simpan favorit');
+        $response->assertSee('action="'.route('favorit.store', $loker->id).'"', false);
+    }
+
+    /**
+     * T-038: loker yang sudah difavoritkan menampilkan tautan ke halaman favorit.
+     */
+    public function test_detail_menandai_loker_yang_sudah_favorit(): void
+    {
+        $loker = $this->buatLoker();
+
+        $this->pengguna->favoritedJobs()->attach($loker->id);
+
+        $response = $this->actingAs($this->pengguna)->get('/lowongan/'.$loker->id);
+
+        $response->assertStatus(200);
+        $response->assertSee('Lihat di favorit');
+        $response->assertSee('sudah tersimpan di favoritmu');
+    }
+
+    /**
      * Buat satu loker tayang milik admin untuk keperluan uji.
      *
      * @param  array<string, mixed>  $ubah

@@ -370,6 +370,44 @@ a:hover {
     background-color: #e2e8f0;
 }
 
+/* T-038: sidebar detail loker lengket di layar lebar. */
+.detail-sidebar {
+    position: static;
+}
+
+@media (min-width: 992px) {
+    .detail-sidebar {
+        position: sticky;
+        top: 88px;
+    }
+}
+
+/* Ringkasan loker berbentuk daftar dua kolom. */
+.ringkasan-loker__baris {
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    padding: 8px 0;
+}
+
+.ringkasan-loker__baris:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.ringkasan-loker dt {
+    color: var(--color-text-muted);
+    font-weight: 400;
+    margin: 0;
+}
+
+.ringkasan-loker dd {
+    font-weight: 600;
+    margin: 0;
+    text-align: right;
+}
+
 .job-status-tayang {
     background-color: #dcfce7;
     color: #166534;
