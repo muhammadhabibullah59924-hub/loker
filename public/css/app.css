@@ -148,6 +148,11 @@ a:hover {
    angka jarak diletakkan di sudut kanan atas sesuai prinsip 1 DESIGN_SYSTEM. */
 .job-card {
     position: relative;
+    transition: box-shadow 150ms ease-out;
+}
+
+.job-card:hover {
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
 }
 
 .job-card h3 {

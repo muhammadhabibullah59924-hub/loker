@@ -141,6 +141,21 @@ class LokerPopularTest extends TestCase
     }
 
     /**
+     * T-027: kartu populer menampilkan badge premium dan info tipe/kebutuhan loker.
+     */
+    public function test_kartu_populer_menampilkan_badge_premium_dan_info_tipe(): void
+    {
+        $this->buatLoker('PT Butuh Lima', -7.7145, 113.2146, 5, 'Full-Time', true, true);
+
+        $response = $this->actingAs($this->pengguna)->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('Premium Employer');
+        $response->assertSee('Full-Time');
+        $response->assertSee('Lowongan butuh 5 orang');
+    }
+
+    /**
      * Buat satu loker tayang milik admin untuk keperluan uji.
      *
      * @param  array<string, mixed>  $ubah
