@@ -33,6 +33,7 @@ class DashboardRequest extends FormRequest
             'lng' => ['sometimes', 'nullable', 'numeric', 'between:-180,180'],
             'q' => ['sometimes', 'nullable', 'string', 'max:100'],
             'radius' => ['sometimes', 'nullable', 'integer', 'min:1', 'max:1000'],
+            'tipe' => ['sometimes', 'nullable', 'string', 'in:Full-Time,Part-Time,Contract,Internship'],
         ];
     }
 
@@ -73,6 +74,13 @@ class DashboardRequest extends FormRequest
 
         if ($radius === null || ! is_numeric($radius) || (int) $radius < 1 || (int) $radius > 1000) {
             $this->merge(['radius' => null]);
+        }
+
+        // Tipe loker: hanya tipe yang dikenal; selain itu dianggap tanpa filter (T-030).
+        $tipe = $this->input('tipe');
+
+        if (! is_string($tipe) || ! in_array($tipe, ['Full-Time', 'Part-Time', 'Contract', 'Internship'], true)) {
+            $this->merge(['tipe' => null]);
         }
     }
 

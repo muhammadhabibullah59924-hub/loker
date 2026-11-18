@@ -47,11 +47,20 @@
         <form method="GET" action="{{ route('dasbor') }}" class="card panduan-card mb-4">
             <div class="card-body">
                 <div class="row g-3 align-items-end">
-                    <div class="col-12 col-md-8">
+                    <div class="col-12 col-md-6">
                         <label class="form-label" for="cari-loker">Cari loker</label>
                         <input class="form-control" id="cari-loker" name="q" type="search" maxlength="100" value="{{ $q ?? '' }}" placeholder="Nama PT atau divisi">
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
+                        <label class="form-label" for="tipe-loker">Tipe loker</label>
+                        <select class="form-select" id="tipe-loker" name="tipe">
+                            <option value="" @selected(($tipe ?? null) === null)>Semua tipe</option>
+                            @foreach (['Full-Time', 'Part-Time', 'Contract', 'Internship'] as $tipeOpsi)
+                                <option value="{{ $tipeOpsi }}" @selected(($tipe ?? null) === $tipeOpsi)>{{ $tipeOpsi }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
                         <label class="form-label" for="radius-loker">Radius jarak</label>
                         <select class="form-select" id="radius-loker" name="radius">
                             <option value="" @selected(($radius ?? null) === null)>Semua radius</option>
@@ -88,6 +97,10 @@
                 </div>
             </div>
         @else
+            @if ($tipe)
+                <p class="text-secondary mb-3">Menampilkan loker bertipe {{ $tipe }}.</p>
+            @endif
+
             @if ($radius)
                 <p class="text-secondary mb-3">Menampilkan loker terdekat dalam radius {{ $radius }} km dari lokasimu.</p>
             @endif

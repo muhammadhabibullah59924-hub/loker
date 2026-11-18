@@ -166,6 +166,39 @@ class SearchFilterTest extends TestCase
     }
 
     /**
+     * T-030: filter tipe loker hanya menampilkan loker dengan tipe yang dipilih.
+     */
+    public function test_filter_tipe_loker_hanya_menampilkan_tipe_yang_dipilih(): void
+    {
+        $this->buatLokerTipe('PT Alpha Energi', 'Operator', 'Full-Time');
+        $this->buatLokerTipe('PT Beta Tekstil', 'Operator', 'Part-Time');
+
+        $response = $this->actingAs($this->pengguna)
+            ->get('/dasbor?lat=-7.7145&lng=113.2146&tipe=Full-Time');
+
+        $response->assertStatus(200);
+        $response->assertSee('PT Alpha Energi');
+        $response->assertDontSee('PT Beta Tekstil');
+        $response->assertSee('Menampilkan loker bertipe Full-Time.');
+    }
+
+    /**
+     * T-030: tipe loker yang tidak dikenal diabaikan tanpa menampilkan galat.
+     */
+    public function test_tipe_loker_tidak_dikenal_diabaikan(): void
+    {
+        $this->buatLokerTipe('PT Alpha Energi', 'Operator', 'Full-Time');
+        $this->buatLokerTipe('PT Beta Tekstil', 'Operator', 'Part-Time');
+
+        $response = $this->actingAs($this->pengguna)
+            ->get('/dasbor?lat=-7.7145&lng=113.2146&tipe=Kontrak');
+
+        $response->assertStatus(200);
+        $response->assertSee('PT Alpha Energi');
+        $response->assertSee('PT Beta Tekstil');
+    }
+
+    /**
      * Buat satu loker berbobot dari titik pusat Probolinggo (lihat ADR-009).
      */
     private function buatLoker(string $nama, string $divisi, float $lng = 113.2250): Job
@@ -185,5 +218,27 @@ class SearchFilterTest extends TestCase
         ]);
 
         return $loker;
+    }
+
+    /**
+     * Buat satu loker dengan tipe tertentu untuk pengujian filter tipe (T-030).
+     */
+    private function buatLokerTipe(string $nama, string $divisi, string $jobType): Job
+    {
+        return Job::create([
+            'company_name' => $nama,
+            'address' => 'Jl. Uji No. 1, Mayangan',
+            'division' => $divisi,
+            'city' => 'Kota Probolinggo',
+            'description' => 'Deskripsi loker untuk keperluan uji.',
+            'requirements' => 'Syarat loker untuk keperluan uji.',
+            'job_type' => $jobType,
+            'positions_needed' => 1,
+            'deadline' => '2026-11-30',
+            'latitude' => -7.7145,
+            'longitude' => 113.2250,
+            'is_active' => true,
+            'posted_by' => $this->admin->id,
+        ]);
     }
 }

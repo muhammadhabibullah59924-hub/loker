@@ -48,6 +48,13 @@ class DashboardController extends Controller
             });
         }
 
+        // Filter tipe loker: hanya tampilkan tipe yang dipilih (T-030).
+        $tipe = $request->input('tipe');
+
+        if ($tipe !== null && $tipe !== '') {
+            $query->where('job_type', $tipe);
+        }
+
         $lokers = $query
             ->get()
             ->map(fn (Job $loker): array => [
@@ -108,6 +115,7 @@ class DashboardController extends Controller
             'lokasi_default' => config('loker.lokasi_default.nama'),
             'q' => $request->input('q'),
             'radius' => $request->input('radius'),
+            'tipe' => $request->input('tipe'),
             'titik' => $titik,
             'jumlahLokerAktif' => $jumlahLokerAktif,
             'jumlahLokerPopuler' => $jumlahLokerPopuler,
