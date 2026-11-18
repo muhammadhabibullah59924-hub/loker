@@ -35,6 +35,7 @@ class DashboardRequest extends FormRequest
             'radius' => ['sometimes', 'nullable', 'integer', 'min:1', 'max:1000'],
             'tipe' => ['sometimes', 'nullable', 'string', 'in:Full-Time,Part-Time,Contract,Internship'],
             'urut' => ['sometimes', 'nullable', 'string', 'in:terdekat,terbaru,butuh'],
+            'divisi' => ['sometimes', 'nullable', 'string', 'max:100'],
         ];
     }
 
@@ -89,6 +90,15 @@ class DashboardRequest extends FormRequest
 
         if (! is_string($urut) || ! in_array($urut, ['terdekat', 'terbaru', 'butuh'], true)) {
             $this->merge(['urut' => null]);
+        }
+
+        // Divisi: teks biasa; kosong atau hanya spasi dianggap tanpa filter (T-032).
+        $divisi = $this->input('divisi');
+
+        if (! is_string($divisi) || trim($divisi) === '') {
+            $this->merge(['divisi' => null]);
+        } else {
+            $this->merge(['divisi' => trim($divisi)]);
         }
     }
 

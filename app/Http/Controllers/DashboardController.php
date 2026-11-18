@@ -55,6 +55,13 @@ class DashboardController extends Controller
             $query->where('job_type', $tipe);
         }
 
+        // Filter divisi lewat chip di dasbor (T-032).
+        $divisi = $request->input('divisi');
+
+        if ($divisi !== null && $divisi !== '') {
+            $query->where('division', $divisi);
+        }
+
         $lokers = $query
             ->get()
             ->map(fn (Job $loker): array => [
@@ -109,6 +116,14 @@ class DashboardController extends Controller
                 ),
             ]);
 
+        // Daftar divisi aktif untuk chip filter di dasbor (T-032).
+        $divisiTersedia = Job::query()
+            ->where('is_active', true)
+            ->whereNotNull('division')
+            ->distinct()
+            ->orderBy('division')
+            ->pluck('division');
+
         // Jumlah loker aktif tersedia dipakai untuk menampilkan statistik di dasbor (T-022).
         $jumlahLokerAktif = (int) Job::where('is_active', true)->count();
 
@@ -124,6 +139,8 @@ class DashboardController extends Controller
             'radius' => $request->input('radius'),
             'tipe' => $request->input('tipe'),
             'urut' => $request->input('urut'),
+            'divisi' => $request->input('divisi'),
+            'divisiTersedia' => $divisiTersedia,
             'titik' => $titik,
             'jumlahLokerAktif' => $jumlahLokerAktif,
             'jumlahLokerPopuler' => $jumlahLokerPopuler,

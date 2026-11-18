@@ -89,6 +89,15 @@
             </div>
         </form>
 
+        @if ($divisiTersedia->isNotEmpty())
+            <div class="d-flex flex-wrap gap-2 mb-4" aria-label="Filter divisi">
+                <a class="chip-divisi {{ ($divisi ?? null) === null ? 'chip-divisi--aktif' : '' }}" href="{{ request()->fullUrlWithQuery(['divisi' => null]) }}">Semua divisi</a>
+                @foreach ($divisiTersedia as $opsi)
+                    <a class="chip-divisi {{ ($divisi ?? null) === $opsi ? 'chip-divisi--aktif' : '' }}" href="{{ request()->fullUrlWithQuery(['divisi' => $opsi]) }}">{{ $opsi }}</a>
+                @endforeach
+            </div>
+        @endif
+
         @if ($lokers->isEmpty())
             <div class="card panduan-card">
                 <div class="card-body text-center py-5">
@@ -98,6 +107,9 @@
                     @elseif ($radius)
                         <p class="mb-2">Belum ada loker dalam radius {{ $radius }} km. Coba pilih radius yang lebih luas.</p>
                         <p class="text-secondary mb-0">Coba pilih radius yang lebih besar, atau ajak admin memasukkan loker.</p>
+                    @elseif ($divisi)
+                        <p class="mb-2">Belum ada loker di divisi {{ $divisi }}. Coba pilih divisi lain.</p>
+                        <p class="text-secondary mb-0">Pilih chip "Semua divisi" atau ubah kata kunci pencarianmu.</p>
                     @else
                         <p class="mb-2">Belum ada loker yang tayang saat ini.</p>
                         <p class="text-secondary mb-0">Coba buka lagi beberapa saat lagi, atau daftar untuk menyimpan loker favorit.</p>
@@ -105,6 +117,10 @@
                 </div>
             </div>
         @else
+            @if ($divisi)
+                <p class="text-secondary mb-3">Menampilkan loker divisi {{ $divisi }}.</p>
+            @endif
+
             @if ($tipe)
                 <p class="text-secondary mb-3">Menampilkan loker bertipe {{ $tipe }}.</p>
             @endif

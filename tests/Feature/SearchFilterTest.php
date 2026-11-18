@@ -199,6 +199,40 @@ class SearchFilterTest extends TestCase
     }
 
     /**
+     * T-032: chip divisi menyaring loker sesuai divisi yang dipilih.
+     */
+    public function test_chip_divisi_menyaring_loker_sesuai_divisi(): void
+    {
+        $this->buatLoker('PT Alpha Energi', 'Operator');
+        $this->buatLoker('PT Beta Tekstil', 'Gudang');
+
+        $response = $this->actingAs($this->pengguna)
+            ->get('/dasbor?lat=-7.7145&lng=113.2146&divisi=Operator');
+
+        $response->assertStatus(200);
+        $response->assertSee('PT Alpha Energi');
+        $response->assertDontSee('PT Beta Tekstil');
+        $response->assertSee('Menampilkan loker divisi Operator.');
+    }
+
+    /**
+     * T-032: dasbor menampilkan chip divisi beserta opsi semua divisi.
+     */
+    public function test_dasbor_menampilkan_chip_divisi(): void
+    {
+        $this->buatLoker('PT Alpha Energi', 'Operator');
+        $this->buatLoker('PT Beta Tekstil', 'Gudang');
+
+        $response = $this->actingAs($this->pengguna)
+            ->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('Semua divisi');
+        $response->assertSee('Operator');
+        $response->assertSee('Gudang');
+    }
+
+    /**
      * T-030: filter tipe loker hanya menampilkan loker dengan tipe yang dipilih.
      */
     public function test_filter_tipe_loker_hanya_menampilkan_tipe_yang_dipilih(): void
