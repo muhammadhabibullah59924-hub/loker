@@ -13,10 +13,12 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     {{-- Navbar menampilkan tombol Masuk/Daftar untuk tamu, dan nama + Keluar setelah F1 (T-004). --}}
-    <nav class="navbar navbar-expand-lg site-navbar border-bottom" aria-label="Navigasi utama">
+    <nav class="navbar navbar-expand-lg site-navbar border-bottom sticky-top" aria-label="Navigasi utama">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2 text-dark text-decoration-none" href="/">
-                <img src="{{ asset('uploads/logo.svg') }}" alt="" width="28" height="28">
+                <span class="navbar-brand__logo">
+                    <img src="{{ asset('uploads/logo.svg') }}" alt="" width="24" height="24">
+                </span>
                 <span class="fw-semibold">LokerDekat</span>
             </a>
 
@@ -31,11 +33,11 @@
                         <a class="btn btn-outline-secondary btn-sm" href="{{ route('login') }}">Masuk</a>
                         <a class="btn btn-primary btn-sm" href="{{ route('register') }}">Daftar</a>
                     @else
-                        <a class="nav-link" href="{{ route('dasbor') }}">Dasbor</a>
+                        <a class="nav-link {{ request()->routeIs('dasbor') ? 'nav-link--aktif' : '' }}" href="{{ route('dasbor') }}">Dasbor</a>
                         @if (auth()->user()->isAdmin())
-                            <a class="nav-link" href="{{ route('admin.panel') }}">Panel Admin</a>
+                            <a class="nav-link {{ request()->routeIs('admin.*') ? 'nav-link--aktif' : '' }}" href="{{ route('admin.panel') }}">Panel Admin</a>
                         @endif
-                        <a class="nav-link" href="{{ route('favorit.index') }}">Favorit</a>
+                        <a class="nav-link {{ request()->routeIs('favorit.*') ? 'nav-link--aktif' : '' }}" href="{{ route('favorit.index') }}">Favorit</a>
                         <span class="navbar-text me-2">Halo, {{ auth()->user()->name }}</span>
                         <form method="POST" action="{{ route('logout') }}" class="d-inline">
                             @csrf

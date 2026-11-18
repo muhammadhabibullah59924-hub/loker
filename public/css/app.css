@@ -67,8 +67,48 @@ a:hover {
     outline-offset: 2px;
 }
 
+/* T-036: navbar sticky dengan aksen teal, logo berpanggung, dan status aktif. */
 .site-navbar {
     background-color: var(--color-surface);
+    box-shadow: 0 1px 0 var(--color-border);
+    position: relative;
+}
+
+.site-navbar::after {
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    bottom: 0;
+    content: "";
+    height: 3px;
+    left: 0;
+    position: absolute;
+    right: 0;
+}
+
+.navbar-brand__logo {
+    align-items: center;
+    background-color: #ccfbf1;
+    border-radius: 8px;
+    display: inline-flex;
+    height: 36px;
+    justify-content: center;
+    width: 36px;
+}
+
+.site-navbar .nav-link {
+    border-radius: 999px;
+    color: var(--color-text);
+    padding: 6px 14px;
+}
+
+.site-navbar .nav-link:hover {
+    background-color: #f0fdfa;
+    color: var(--color-primary-dark);
+}
+
+.site-navbar .nav-link--aktif {
+    background-color: #ccfbf1;
+    color: var(--color-primary-dark);
+    font-weight: 600;
 }
 
 .navbar-brand img {
@@ -100,6 +140,55 @@ a:hover {
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+}
+
+/* T-036: hero landing dua kolom dengan latar lembut teal dan contoh kartu. */
+.hero-landing {
+    background: linear-gradient(135deg, #f0fdfa 0%, #f8fafc 55%, #eff6ff 100%);
+    padding: 56px 0;
+    text-align: left;
+}
+
+.hero-landing h1 {
+    font-size: 36px;
+}
+
+@media (min-width: 992px) {
+    .hero-landing h1 {
+        font-size: 44px;
+    }
+}
+
+.hero-fitur li {
+    background-color: rgba(13, 148, 136, 0.1);
+    border: 1px solid rgba(13, 148, 136, 0.25);
+    border-radius: 999px;
+    color: var(--color-primary-dark);
+    font-size: 14px;
+    padding: 6px 14px;
+}
+
+.hero-contoh {
+    position: relative;
+}
+
+.hero-contoh__label {
+    color: var(--color-text-muted);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.hero-contoh .job-card {
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.1);
+}
+
+.hero-contoh__catatan {
+    color: var(--color-text-muted);
+    font-size: 14px;
+    margin: 12px 0 0;
 }
 
 /* T-026: hero dasbor dengan eyebrow, judul besar, dan subjudul. */
@@ -134,6 +223,11 @@ a:hover {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 8px;
+}
+
+/* T-036: ajakan mendaftar di bawah halaman depan. */
+.cta-daftar {
+    border-left: 4px solid var(--color-primary);
 }
 
 .panduan-nomor {

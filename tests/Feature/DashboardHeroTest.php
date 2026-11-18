@@ -35,4 +35,16 @@ class DashboardHeroTest extends TestCase
         $response->assertSee('Rekomendasi terdekat');
         $response->assertSee('Loker terdekat dari lokasimu');
     }
+
+    /**
+     * T-036: navbar menandai menu aktif dan memakai aksen teal.
+     */
+    public function test_navbar_menandai_menu_aktif(): void
+    {
+        $response = $this->actingAs($this->pengguna)->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('nav-link--aktif', false);
+        $response->assertSee('site-navbar', false);
+    }
 }

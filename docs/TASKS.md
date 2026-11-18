@@ -56,6 +56,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-033 | Desain dan lengkapi kartu favorit | F6 | S | done | feat/T-033-kartu-favorit | T-032 | Kartu favorit menampilkan tipe, kebutuhan, dan badge premium; header eyebrow "Loker tersimpan"; tes `FavoriteTest`, pint, phpunit, E2E lulus |
 | T-034 | Tanggal berakhir dan pembeda tipe loker di kartu dasbor | F1, F5 | S | done | feat/T-034-kartu-deadline-tipe | T-033 | Kartu dasbor menampilkan "Batas lamaran: 30 November 2026"; Full-Time/Part-Time dibedakan lewat badge dan garis tepi kartu; chip cepat tipe; tes `LokerPopularTest`, pint, phpunit, E2E lulus |
 | T-035 | Desain dan filter panel admin | F4 | M | done | feat/T-035-panel-admin | T-034 | Panel admin memakai kartu statistik (tayang, nonaktif, premium, butuh banyak orang), form filter kata kunci/status/tipe, tabel dengan tipe dan batas lamaran, tombol Lihat, serta empty state filter; tes `AdminPanelTest`, pint, phpunit, E2E lulus |
+| T-036 | Redesain navbar dan halaman landing | F2 | M | review | feat/T-036-navbar-landing | T-035 | Navbar sticky dengan aksen gradien teal, logo berpanggung, status menu aktif; landing hero dua kolom dengan contoh kartu loker, chip keunggulan, dan CTA daftar di bawah; tes `LandingTest` dan `DashboardHeroTest`, pint, phpunit, E2E lulus |
 
 ## Backlog
 

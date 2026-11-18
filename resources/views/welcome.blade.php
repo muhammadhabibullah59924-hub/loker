@@ -3,24 +3,57 @@
 @section('title', 'LokerDekat — loker terdekat dari lokasimu')
 
 @section('content')
-    {{-- Bagian pembuka: logo, tagline, dan tombol Masuk/Daftar --}}
-    <section class="hero text-center" aria-labelledby="judul-hero">
+    {{-- Bagian pembuka dua kolom: ajakan di kiri, contoh kartu loker di kanan (T-036). --}}
+    <section class="hero hero-landing" aria-labelledby="judul-hero">
         <div class="container">
-            <img src="{{ asset('uploads/logo.svg') }}" alt="Logo LokerDekat" width="64" height="64" class="mb-3">
+            <div class="row g-4 g-lg-5 align-items-center">
+                <div class="col-12 col-lg-6">
+                    <img src="{{ asset('uploads/logo.svg') }}" alt="Logo LokerDekat" width="56" height="56" class="mb-3">
 
-            <p class="hero-eyebrow mb-3">Rekomendasi terdekat</p>
+                    <p class="hero-eyebrow mb-3">Rekomendasi terdekat</p>
 
-            <h1 id="judul-hero" class="mb-3">Loker terdekat dari lokasimu</h1>
+                    <h1 id="judul-hero" class="mb-3">Loker terdekat dari lokasimu</h1>
 
-            {{-- Tagline persis dari SPEC.json (meta.one_liner) --}}
-            <p class="lead hero-tagline mx-auto mb-4">
-                Website info loker yang mengurutkan lowongan dari yang paling dekat ke lokasi pengguna,
-                lengkap dengan peta dan divisi yang lowong.
-            </p>
+                    {{-- Tagline persis dari SPEC.json (meta.one_liner) --}}
+                    <p class="lead hero-tagline mb-4">
+                        Website info loker yang mengurutkan lowongan dari yang paling dekat ke lokasi pengguna,
+                        lengkap dengan peta dan divisi yang lowong.
+                    </p>
 
-            <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
-                <a href="{{ route('register') }}" class="btn btn-primary btn-lg">Daftar dan lihat loker terdekat</a>
-                <a href="{{ route('login') }}" class="btn btn-outline-secondary btn-lg">Masuk</a>
+                    <div class="d-flex flex-column flex-sm-row gap-3 mb-3">
+                        <a href="{{ route('register') }}" class="btn btn-primary btn-lg">Daftar dan lihat loker terdekat</a>
+                        <a href="{{ route('login') }}" class="btn btn-outline-secondary btn-lg">Masuk</a>
+                    </div>
+
+                    <ul class="list-unstyled d-flex flex-wrap gap-2 mb-0 hero-fitur" aria-label="Keunggulan LokerDekat">
+                        <li>Loker terdekat</li>
+                        <li>Peta lokasi</li>
+                        <li>Simpan favorit</li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="hero-contoh">
+                        <p class="hero-contoh__label">Contoh kartu loker</p>
+                        <article class="card panduan-card job-card job-card--full-time">
+                            <div class="card-body">
+                                <span class="job-card__jarak">0,8 km</span>
+                                <h3 class="mb-2">PT Sumber Makmur</h3>
+                                <p class="text-secondary mb-2">Jl. Mastrip No. 12, Kedopok</p>
+                                <p class="mb-0">
+                                    <span class="badge border job-card__divisi">Produksi</span>
+                                    <span class="text-secondary small ms-1">Kota Probolinggo</span>
+                                </p>
+                                <div class="d-flex flex-wrap gap-2 mt-2 mb-2">
+                                    <span class="badge job-tipe job-tipe--full-time">Full-Time</span>
+                                    <span class="text-secondary small">Lowongan butuh 2 orang</span>
+                                </div>
+                                <p class="text-secondary small mb-0">Batas lamaran: 30 November 2026</p>
+                            </div>
+                        </article>
+                        <p class="hero-contoh__catatan">Beginilah kartu loker yang akan kamu lihat setelah masuk.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -68,6 +101,24 @@
                     </div>
                 </li>
             </ol>
+        </div>
+    </section>
+
+    {{-- T-036: ajakan mendaftar di bagian bawah halaman depan. --}}
+    <section class="pb-5" aria-labelledby="judul-ajakan">
+        <div class="container">
+            <div class="card panduan-card cta-daftar">
+                <div class="card-body d-flex flex-column flex-md-row align-items-md-center gap-3">
+                    <div>
+                        <h2 id="judul-ajakan" class="mb-1">Siap cari loker di sekitarmu?</h2>
+                        <p class="text-secondary mb-0">Daftar gratis, izinkan lokasi, dan lihat loker terdekat dalam hitungan detik.</p>
+                    </div>
+                    <div class="d-flex flex-column flex-sm-row gap-2 ms-md-auto">
+                        <a href="{{ route('register') }}" class="btn btn-primary">Daftar sekarang</a>
+                        <a href="{{ route('login') }}" class="btn btn-outline-secondary">Masuk</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 @endsection
