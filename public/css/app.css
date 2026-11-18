@@ -93,6 +93,27 @@ a:hover {
     color: var(--color-text-muted);
 }
 
+/* T-026: hero dasbor dengan eyebrow, judul besar, dan subjudul. */
+.hero-dasbor {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 32px;
+}
+
+.hero-dasbor__eyebrow {
+    color: var(--color-primary);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.hero-dasbor__sub {
+    color: var(--color-text-muted);
+    max-width: 640px;
+}
+
 /* Panduan tiga langkah */
 .panduan h2 {
     font-size: 24px;

@@ -46,6 +46,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-023 | Dasbor menambahkan banner CTA loker populer | F2 | S | review | feat/T-023-banner-cta-popular | T-022 | Banner CTA "Lihat loker populer" tampil di atas daftar popular; tes `LokerPopularTest` lulus |
 | T-024 | Dasbor dan detail loker menampilkan badge Premium Employer | F2, F3 | M | review | feat/T-024-badge-premium-employer | T-023 | Loker populer bernilai `is_premium` menampilkan badge Premium Employer; tes `LokerPopularTest` lulus |
 | T-025 | Dasbor menambahkan statistik jumlah loker populer | F2 | S | review | feat/T-025-statistik-loker-popular | T-024 | Statistik jumlah loker populer ditambahkan ke dasbor; tes `LokerPopularTest` lulus |
+| T-026 | Desain hero section dasbor ala Glints | F2 | S | review | feat/T-026-hero-dasbor | T-025 | Hero dasbor tampil dengan eyebrow "Rekomendasi terdekat", judul, dan subjudul; tes `DashboardHeroTest`, pint, phpunit 78/78, E2E 2/2 lulus |
 
 ## Backlog
 

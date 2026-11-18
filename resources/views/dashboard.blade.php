@@ -4,14 +4,17 @@
 
 @section('content')
     <div class="container py-4">
-        <h1 class="mb-1">Loker terdekat dari lokasimu</h1>
-        <p class="text-secondary mb-4">
-            @if ($dari_lokasi_pengguna)
-                Diurutkan menurut lokasimu saat ini, dari yang paling dekat.
-            @else
-                Diurutkan dari {{ $lokasi_default }} sampai kamu mengizinkan lokasi.
-            @endif
-        </p>
+        <section class="hero-dasbor mb-4" aria-labelledby="judulHero">
+            <p class="hero-dasbor__eyebrow mb-2">Rekomendasi terdekat</p>
+            <h1 id="judulHero" class="mb-3">Loker terdekat dari lokasimu</h1>
+            <p class="hero-dasbor__sub mb-0">
+                @if ($dari_lokasi_pengguna)
+                    Diurutkan menurut lokasimu saat ini, dari yang paling dekat.
+                @else
+                    Diurutkan dari {{ $lokasi_default }} sampai kamu mengizinkan lokasi.
+                @endif
+            </p>
+        </section>
 
         @unless ($dari_lokasi_pengguna)
             <div class="alert alert-warning d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3" role="alert">
