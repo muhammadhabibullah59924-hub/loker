@@ -29,3 +29,8 @@ RewriteRule ^(.*)$ index.php [L]
 
 # 3. Folder itu sendiri (mis. /loker/) juga masuk ke front controller
 RewriteRule ^$ index.php [L]
+
+# Batas waktu eksekusi PHP (T-021): error "Maximum execution time of 30 seconds
+# exceeded" muncul ketika operasi database/sesi lemas setelah idle. Naikkan batas
+# eksekusi agar proses yang butuh waktu lebih tidak langsung memicu fatal error.
+php_value max_execution_time 60
