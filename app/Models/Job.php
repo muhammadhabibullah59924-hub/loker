@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
     'is_active',
     'job_type',
     'positions_needed',
+    'is_premium',
     'posted_by',
 ])]
 class Job extends Model
@@ -46,6 +47,7 @@ class Job extends Model
             'longitude' => 'decimal:7',
             'is_active' => 'boolean',
             'positions_needed' => 'integer',
+            'is_premium' => 'boolean',
         ];
     }
 

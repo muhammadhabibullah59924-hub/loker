@@ -79,6 +79,7 @@ class LokerSeeder extends Seeder
                 'requirements' => 'Minimal SMA/SMK, siap kerja shift, jujur dan teliti.',
                 'job_type' => 'Full-Time',
                 'positions_needed' => 3,
+                'is_premium' => true,
                 'deadline' => '2026-11-20',
                 'latitude' => -7.7004000,
                 'longitude' => 113.2035000,

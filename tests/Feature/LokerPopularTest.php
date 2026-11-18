@@ -101,6 +101,32 @@ class LokerPopularTest extends TestCase
     }
 
     /**
+     * Loker populer bertanda premium menampilkan badge Premium Employer.
+     */
+    public function test_loker_populer_menampilkan_badge_premium_employer(): void
+    {
+        $this->buatLoker('PT Butuh Lima', -7.7145, 113.2146, 5, 'Full-Time', true, true);
+
+        $response = $this->actingAs($this->pengguna)->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('Premium Employer');
+    }
+
+    /**
+     * Detail loker bertanda premium menampilkan badge Premium Employer.
+     */
+    public function test_detail_menampilkan_badge_premium_employer(): void
+    {
+        $loker = $this->buatLoker('PT Butuh Lima', -7.7145, 113.2146, 3, 'Full-Time', true, true);
+
+        $response = $this->actingAs($this->pengguna)->get('/lowongan/'.$loker->id);
+
+        $response->assertStatus(200);
+        $response->assertSee('Premium Employer');
+    }
+
+    /**
      * Buat satu loker tayang milik admin untuk keperluan uji.
      *
      * @param  array<string, mixed>  $ubah
@@ -112,6 +138,7 @@ class LokerPopularTest extends TestCase
         int $positionsNeeded = 1,
         ?string $jobType = null,
         bool $aktif = true,
+        bool $premium = false,
     ): Job {
         return Job::create([
             'company_name' => $nama,
@@ -122,6 +149,7 @@ class LokerPopularTest extends TestCase
             'requirements' => 'Syarat loker untuk keperluan uji.',
             'job_type' => $jobType,
             'positions_needed' => $positionsNeeded,
+            'is_premium' => $premium,
             'deadline' => '2026-11-30',
             'latitude' => $lat,
             'longitude' => $lng,

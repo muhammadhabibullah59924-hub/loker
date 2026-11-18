@@ -26,6 +26,12 @@
                     </p>
                 @endif
 
+                @if ($loker->is_premium)
+                    <p class="mb-3">
+                        <span class="badge bg-primary">Premium Employer</span>
+                    </p>
+                @endif
+
                 {{-- Alamat ditulis sebagai teks biasa supaya tetap terbaca bila peta gagal dimuat. --}}
                 <p class="job-detail__alamat mb-4">{{ $loker->address }}</p>
 

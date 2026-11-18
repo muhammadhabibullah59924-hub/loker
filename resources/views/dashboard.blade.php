@@ -106,6 +106,12 @@
                                         <span class="badge border job-card__divisi">{{ $item['loker']->division }}</span>
                                         <span class="text-secondary small ms-1">{{ $item['loker']->city }}</span>
                                     </p>
+                                    @if ($item['loker']->is_premium)
+                                        <p class="mb-0">
+                                            <span class="badge bg-primary">Premium Employer</span>
+                                        </p>
+                                    @endif
+
                                     @if ($item['loker']->job_type)
                                         <p class="mb-0">
                                             <span class="badge bg-primary">{{ $item['loker']->job_type }}</span>
