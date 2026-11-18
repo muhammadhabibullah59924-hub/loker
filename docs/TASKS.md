@@ -53,6 +53,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-030 | Filter tipe loker di dasbor | F5 | S | review | feat/T-030-filter-tipe-loker | T-029 | Parameter `tipe` menyaring loker Full-Time/Part-Time/Contract/Internship; tes `SearchFilterTest`, pint, phpunit, E2E lulus |
 | T-031 | Urutkan loker di dasbor | F5 | S | review | feat/T-031-urutkan-loker | T-030 | Parameter `urut` mendukung Terdekat/Terbaru/Butuh terbanyak; tes `SearchFilterTest`, pint, phpunit, E2E lulus |
 | T-032 | Chip filter divisi di dasbor | F5 | S | review | feat/T-032-chip-divisi | T-031 | Chip divisi aktif menyaring loker per divisi; tes `SearchFilterTest`, pint, phpunit, E2E lulus |
+| T-033 | Desain dan lengkapi kartu favorit | F6 | S | review | feat/T-033-kartu-favorit | T-032 | Kartu favorit menampilkan tipe, kebutuhan, dan badge premium; header eyebrow "Loker tersimpan"; tes `FavoriteTest`, pint, phpunit, E2E lulus |
 
 ## Backlog
 

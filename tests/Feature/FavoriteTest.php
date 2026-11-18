@@ -137,6 +137,38 @@ class FavoriteTest extends TestCase
     }
 
     /**
+     * T-033: kartu favorit menampilkan tipe dan badge premium loker.
+     */
+    public function test_kartu_favorit_menampilkan_tipe_dan_premium(): void
+    {
+        $this->loker->forceFill([
+            'job_type' => 'Full-Time',
+            'positions_needed' => 3,
+            'is_premium' => true,
+        ])->save();
+
+        $this->actingAs($this->pengguna)->post('/favorit/'.$this->loker->id);
+
+        $response = $this->actingAs($this->pengguna)->get('/favorit');
+
+        $response->assertStatus(200);
+        $response->assertSee('Full-Time');
+        $response->assertSee('Lowongan butuh 3 orang');
+        $response->assertSee('Premium Employer');
+    }
+
+    /**
+     * T-033: halaman favorit menampilkan eyebrow "Loker tersimpan".
+     */
+    public function test_halaman_favorit_menampilkan_eyebrow(): void
+    {
+        $response = $this->actingAs($this->pengguna)->get('/favorit');
+
+        $response->assertStatus(200);
+        $response->assertSee('Loker tersimpan');
+    }
+
+    /**
      * Tamu dialihkan ke halaman Masuk.
      */
     public function test_tamu_dialihkan_ke_halaman_masuk(): void

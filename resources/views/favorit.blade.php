@@ -5,7 +5,10 @@
 @section('content')
     <div class="container py-4">
         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-4">
-            <h1 class="mb-0">Daftar favorit</h1>
+            <div>
+                <p class="hero-dasbor__eyebrow mb-2">Loker tersimpan</p>
+                <h1 class="mb-0">Daftar favorit</h1>
+            </div>
             <a class="btn btn-outline-secondary flex-shrink-0" href="{{ route('dasbor') }}">&larr; Kembali ke dasbor</a>
         </div>
 
@@ -42,7 +45,19 @@
                                     <span class="badge border job-card__divisi">{{ $item['loker']->division }}</span>
                                     <span class="text-secondary small ms-1">{{ $item['loker']->city }}</span>
                                 </p>
-                                <form method="POST" action="{{ route('favorit.destroy', $item['loker']->id) }}">
+                                @if ($item['loker']->is_premium || $item['loker']->job_type)
+                                    <div class="d-flex flex-wrap gap-2 mb-2">
+                                        @if ($item['loker']->is_premium)
+                                            <span class="badge bg-primary">Premium Employer</span>
+                                        @endif
+
+                                        @if ($item['loker']->job_type)
+                                            <span class="badge bg-primary">{{ $item['loker']->job_type }}</span>
+                                            <span class="text-secondary small">Lowongan butuh {{ $item['loker']->positions_needed }} orang</span>
+                                        @endif
+                                    </div>
+                                @endif
+                                <form method="POST" action="{{ route('favorit.destroy', $item['loker']->id) }}" class="mt-2">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-outline-danger mt-2">Batal favorit</button>
