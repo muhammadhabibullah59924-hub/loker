@@ -44,7 +44,7 @@
             </div>
         @endif
 
-        <form method="GET" action="{{ route('dasbor') }}" class="card panduan-card mb-4">
+        <form method="GET" action="{{ route('dasbor') }}" class="card panduan-card mb-4" id="form-filter-loker" data-filter-otomatis>
             <div class="card-body">
                 <div class="row g-3 align-items-end">
                     <div class="col-12 col-md-6">
@@ -77,8 +77,9 @@
                             <option value="butuh" @selected(($urut ?? null) === 'butuh')>Butuh terbanyak</option>
                         </select>
                     </div>
-                    <div class="col-12">
+                    <div class="col-12 d-flex flex-column flex-sm-row align-items-sm-center gap-2">
                         <button type="submit" class="btn btn-primary">Cari loker</button>
+                        <span class="text-secondary small" id="status-filter" role="status" aria-live="polite"></span>
                     </div>
                 </div>
 
@@ -241,8 +242,48 @@
     </div>
 @endsection
 
-@unless ($dari_lokasi_pengguna)
-    @section('scripts')
+@section('scripts')
+    <script>
+        // T-037: filter otomatis. Mengubah pilihan langsung menerapkan filter,
+        // dan kata kunci dikirim setelah pengguna berhenti mengetik.
+        (function () {
+            const form = document.getElementById('form-filter-loker');
+            const status = document.getElementById('status-filter');
+
+            if (!form || !status) {
+                return;
+            }
+
+            const kataKunci = document.getElementById('cari-loker');
+            const pilihan = form.querySelectorAll('select[name="tipe"], select[name="radius"], select[name="urut"]');
+            let jedaKetik = null;
+
+            function terapkanFilter() {
+                status.textContent = 'Menerapkan filter…';
+                form.submit();
+            }
+
+            pilihan.forEach(function (elemen) {
+                elemen.addEventListener('change', terapkanFilter);
+            });
+
+            if (kataKunci) {
+                kataKunci.addEventListener('input', function () {
+                    window.clearTimeout(jedaKetik);
+                    jedaKetik = window.setTimeout(terapkanFilter, 600);
+                });
+
+                // Enter langsung mengirim form tanpa menunggu jeda ketik.
+                kataKunci.addEventListener('keydown', function (peristiwa) {
+                    if (peristiwa.key === 'Enter') {
+                        window.clearTimeout(jedaKetik);
+                    }
+                });
+            }
+        })();
+    </script>
+
+    @unless ($dari_lokasi_pengguna)
         <script>
             (function () {
                 const pesan = document.getElementById('pesan-lokasi');
@@ -277,5 +318,5 @@
                 mintaLokasi();
             })();
         </script>
-    @endsection
-@endunless
+    @endunless
+@endsection

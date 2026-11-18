@@ -32,3 +32,32 @@ test('alur E2E: daftar, masuk, dasbor, dan detail loker terurut', async ({ page 
     await expect(page).toHaveURL(/\/lowongan\/\d+/);
     await expect(page.locator('#peta-loker')).toBeVisible();
 });
+
+test('filter otomatis: pilihan dan kata kunci langsung diterapkan', async ({ page }) => {
+    const origin = 'http://127.0.0.1:8000';
+    const context = page.context();
+
+    await context.grantPermissions(['geolocation'], { origin });
+    await context.setGeolocation({ latitude: -7.7145, longitude: 113.2146 });
+
+    await page.goto('/');
+    await page.getByRole('link', { name: 'Daftar dan lihat loker terdekat' }).click();
+
+    const email = `filter-e2e-${Date.now()}@lokerdekat.test`;
+
+    await page.getByLabel('Nama lengkap', { exact: true }).fill('Budi Filter');
+    await page.getByLabel('Email', { exact: true }).fill(email);
+    await page.getByLabel('Kata sandi', { exact: true }).fill('password123');
+    await page.getByLabel('Ulangi kata sandi', { exact: true }).fill('password123');
+    await page.getByRole('button', { name: 'Buat akun' }).click();
+    await expect(page).toHaveURL(/\/dasbor/);
+
+    // Ubah dropdown: filter langsung diterapkan tanpa menekan "Cari loker".
+    await page.getByLabel('Tipe loker', { exact: true }).selectOption('Full-Time');
+    await expect(page).toHaveURL(/tipe=Full-Time/);
+    await expect(page.locator('.job-tipe', { hasText: 'Part-Time' })).toHaveCount(0);
+
+    // Ketik kata kunci: filter diterapkan otomatis setelah berhenti mengetik.
+    await page.getByLabel('Cari loker', { exact: true }).fill('Maju');
+    await expect(page).toHaveURL(/q=Maju/);
+});

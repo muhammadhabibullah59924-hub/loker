@@ -47,4 +47,17 @@ class DashboardHeroTest extends TestCase
         $response->assertSee('nav-link--aktif', false);
         $response->assertSee('site-navbar', false);
     }
+
+    /**
+     * T-037: dasbor menyiapkan filter otomatis dan tetap punya tombol "Cari loker".
+     */
+    public function test_dasbor_menyiapkan_filter_otomatis(): void
+    {
+        $response = $this->actingAs($this->pengguna)->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('data-filter-otomatis', false);
+        $response->assertSee('id="status-filter"', false);
+        $response->assertSee('Cari loker');
+    }
 }
