@@ -20,6 +20,19 @@
             </div>
         @endunless
 
+        @if ($jumlahLokerAktif > 0)
+            <div class="row g-3 mb-4">
+                <div class="col-12">
+                    <div class="card panduan-card">
+                        <div class="card-body">
+                            <p class="text-secondary mb-0">Loker aktif tersedia</p>
+                            <p class="display-4 mb-0">{{ $jumlahLokerAktif }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         <form method="GET" action="{{ route('dasbor') }}" class="card panduan-card mb-4">
             <div class="card-body">
                 <div class="row g-3 align-items-end">

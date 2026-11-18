@@ -72,6 +72,21 @@ class LokerPopularTest extends TestCase
     }
 
     /**
+     * Dasbor menampilkan statistik jumlah loker aktif yang tersedia (T-022).
+     */
+    public function test_dasbor_menampilkan_statistik_jumlah_loker_aktif(): void
+    {
+        $this->buatLoker('PT Butuh Lima', -7.7145, 113.2146, 5, 'Full-Time');
+        $this->buatLoker('PT Butuh Dua', -7.7145, 113.2146, 2, 'Part-Time');
+
+        $response = $this->actingAs($this->pengguna)->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('Loker aktif tersedia');
+        $this->assertSame(2, Job::where('is_active', true)->count());
+    }
+
+    /**
      * Buat satu loker tayang milik admin untuk keperluan uji.
      *
      * @param  array<string, mixed>  $ubah

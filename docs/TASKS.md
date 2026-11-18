@@ -42,6 +42,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-019 | Perbaikan tampilan GitHub agar terlihat profesional | dokumen | S | review | docs/T-019-tampilan-github | - | Berkas `LICENSE` (MIT) terpasang; README berisi badge dan seksi lisensi; gerbang EVALS lulus |
 | T-020 | Dasbor dan detail loker menampilkan loker populer serta info lengongan lengkap | F2, F3 | M | review | feat/T-020-loker-populer | T-007 | Section "Loker Populer" pada dasbor tampil dari loker butuh terbanyak; kartu loker menampilkan tipe dan jumlah lowongan; `LokerPopularTest` lulus, pint, phpunit 72/72, E2E lulus |
 | T-021 | Perbaikan error fatal `Maximum execution time` saat login setelah lama tidak aktif | F1 | S | review | fix/T-021-perbaikan-error-login | T-004 | Batas PHP dinaikkan lewat `.htaccess` (30 -> 60 detik); error `Fatal error: Maximum execution time of 30 seconds exceeded` tidak lagi memicu fatal saat login; login kembali tanpa error; siap PR sebelum deployment |
+| T-022 | Dasbor menambahkan statistik jumlah loker aktif tersedia | F2 | S | review | feat/T-022-statistik-dasbor | T-020 | Statistik dihitung dari jumlah loker aktif dan tampil di dasbor; tes `LokerPopularTest`, pint, phpunit 73/73, E2E 2/2 lulus |
 
 ## Backlog
 
