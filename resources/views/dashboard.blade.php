@@ -90,13 +90,21 @@
         </form>
 
         @if ($divisiTersedia->isNotEmpty())
-            <div class="d-flex flex-wrap gap-2 mb-4" aria-label="Filter divisi">
+            <div class="d-flex flex-wrap gap-2 mb-2" aria-label="Filter divisi">
                 <a class="chip-divisi {{ ($divisi ?? null) === null ? 'chip-divisi--aktif' : '' }}" href="{{ request()->fullUrlWithQuery(['divisi' => null]) }}">Semua divisi</a>
                 @foreach ($divisiTersedia as $opsi)
                     <a class="chip-divisi {{ ($divisi ?? null) === $opsi ? 'chip-divisi--aktif' : '' }}" href="{{ request()->fullUrlWithQuery(['divisi' => $opsi]) }}">{{ $opsi }}</a>
                 @endforeach
             </div>
         @endif
+
+        <div class="d-flex flex-wrap gap-2 mb-4" aria-label="Filter tipe loker cepat">
+            <a class="chip-divisi {{ ($tipe ?? null) === 'Full-Time' ? 'chip-divisi--aktif' : '' }}" href="{{ request()->fullUrlWithQuery(['tipe' => 'Full-Time']) }}">Full-Time</a>
+            <a class="chip-divisi {{ ($tipe ?? null) === 'Part-Time' ? 'chip-divisi--aktif' : '' }}" href="{{ request()->fullUrlWithQuery(['tipe' => 'Part-Time']) }}">Part-Time</a>
+            @if ($tipe)
+                <a class="chip-divisi" href="{{ request()->fullUrlWithQuery(['tipe' => null]) }}">Semua tipe</a>
+            @endif
+        </div>
 
         @if ($lokers->isEmpty())
             <div class="card panduan-card">
@@ -143,7 +151,7 @@
                 <div class="row g-3 mb-4">
                     @foreach ($loker_populer as $item)
                         <div class="col-12 col-md-6 col-lg-4">
-                            <article class="card panduan-card job-card h-100">
+                            <article class="card panduan-card job-card h-100 {{ $item['loker']->job_type ? 'job-card--'.strtolower($item['loker']->job_type) : '' }}">
                                 <div class="card-body">
                                     <span class="job-card__jarak">{{ number_format($item['jarak'], 1, ',', '.') }} km</span>
                                     <h3 class="mb-2">
@@ -161,11 +169,18 @@
                                             @endif
 
                                             @if ($item['loker']->job_type)
-                                                <span class="badge bg-primary">{{ $item['loker']->job_type }}</span>
+                                                <span class="badge job-tipe job-tipe--{{ strtolower($item['loker']->job_type) }}">{{ $item['loker']->job_type }}</span>
                                                 <span class="text-secondary small">Lowongan butuh {{ $item['loker']->positions_needed }} orang</span>
                                             @endif
                                         </div>
                                     @endif
+                                    <p class="text-secondary small mb-2">
+                                        @if ($item['loker']->deadline)
+                                            Batas lamaran: {{ $item['loker']->deadline->locale('id')->translatedFormat('j F Y') }}
+                                        @else
+                                            Tanpa batas waktu
+                                        @endif
+                                    </p>
                                     <form method="POST" action="{{ route('favorit.store', $item['loker']->id) }}" class="mt-2">
                                         @csrf
                                         <button type="submit" class="btn btn-sm btn-outline-primary">Simpan favorit</button>
@@ -182,7 +197,7 @@
             <div class="row g-3">
                 @foreach ($lokers as $item)
                     <div class="col-12 col-md-6 col-lg-4">
-                        <article class="card panduan-card job-card h-100">
+                        <article class="card panduan-card job-card h-100 {{ $item['loker']->job_type ? 'job-card--'.strtolower($item['loker']->job_type) : '' }}">
                             <div class="card-body">
                                 {{-- Urutan isi wajib: nama PT, alamat, divisi, jarak (AGENTS.md) --}}
                                 <span class="job-card__jarak">{{ number_format($item['jarak'], 1, ',', '.') }} km</span>
@@ -193,6 +208,25 @@
                                 <p class="mb-0">
                                     <span class="badge border job-card__divisi">{{ $item['loker']->division }}</span>
                                     <span class="text-secondary small ms-1">{{ $item['loker']->city }}</span>
+                                </p>
+                                @if ($item['loker']->is_premium || $item['loker']->job_type)
+                                    <div class="d-flex flex-wrap gap-2 mb-2">
+                                        @if ($item['loker']->is_premium)
+                                            <span class="badge bg-primary">Premium Employer</span>
+                                        @endif
+
+                                        @if ($item['loker']->job_type)
+                                            <span class="badge job-tipe job-tipe--{{ strtolower($item['loker']->job_type) }}">{{ $item['loker']->job_type }}</span>
+                                            <span class="text-secondary small">Lowongan butuh {{ $item['loker']->positions_needed }} orang</span>
+                                        @endif
+                                    </div>
+                                @endif
+                                <p class="text-secondary small mb-2">
+                                    @if ($item['loker']->deadline)
+                                        Batas lamaran: {{ $item['loker']->deadline->locale('id')->translatedFormat('j F Y') }}
+                                    @else
+                                        Tanpa batas waktu
+                                    @endif
                                 </p>
                                 <form method="POST" action="{{ route('favorit.store', $item['loker']->id) }}" class="mt-2">
                                     @csrf

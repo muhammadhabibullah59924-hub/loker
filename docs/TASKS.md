@@ -54,6 +54,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-031 | Urutkan loker di dasbor | F5 | S | review | feat/T-031-urutkan-loker | T-030 | Parameter `urut` mendukung Terdekat/Terbaru/Butuh terbanyak; tes `SearchFilterTest`, pint, phpunit, E2E lulus |
 | T-032 | Chip filter divisi di dasbor | F5 | S | review | feat/T-032-chip-divisi | T-031 | Chip divisi aktif menyaring loker per divisi; tes `SearchFilterTest`, pint, phpunit, E2E lulus |
 | T-033 | Desain dan lengkapi kartu favorit | F6 | S | review | feat/T-033-kartu-favorit | T-032 | Kartu favorit menampilkan tipe, kebutuhan, dan badge premium; header eyebrow "Loker tersimpan"; tes `FavoriteTest`, pint, phpunit, E2E lulus |
+| T-034 | Tanggal berakhir dan pembeda tipe loker di kartu dasbor | F1, F5 | S | review | feat/T-034-kartu-deadline-tipe | T-033 | Kartu dasbor menampilkan "Batas lamaran: 30 November 2026"; Full-Time/Part-Time dibedakan lewat badge dan garis tepi kartu; chip cepat tipe; tes `LokerPopularTest`, pint, phpunit, E2E lulus |
 
 ## Backlog
 

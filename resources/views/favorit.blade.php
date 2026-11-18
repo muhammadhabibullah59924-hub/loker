@@ -33,7 +33,7 @@
             <div class="row g-3">
                 @foreach ($favorit as $item)
                     <div class="col-12 col-md-6 col-lg-4">
-                        <article class="card panduan-card job-card h-100">
+                        <article class="card panduan-card job-card h-100 {{ $item['loker']->job_type ? 'job-card--'.strtolower($item['loker']->job_type) : '' }}">
                             <div class="card-body">
                                 {{-- Urutan isi wajib: nama PT, alamat, divisi, jarak (AGENTS.md) --}}
                                 <span class="job-card__jarak">{{ number_format($item['jarak'], 1, ',', '.') }} km</span>
@@ -52,11 +52,18 @@
                                         @endif
 
                                         @if ($item['loker']->job_type)
-                                            <span class="badge bg-primary">{{ $item['loker']->job_type }}</span>
+                                            <span class="badge job-tipe job-tipe--{{ strtolower($item['loker']->job_type) }}">{{ $item['loker']->job_type }}</span>
                                             <span class="text-secondary small">Lowongan butuh {{ $item['loker']->positions_needed }} orang</span>
                                         @endif
                                     </div>
                                 @endif
+                                <p class="text-secondary small mb-2">
+                                    @if ($item['loker']->deadline)
+                                        Batas lamaran: {{ $item['loker']->deadline->locale('id')->translatedFormat('j F Y') }}
+                                    @else
+                                        Tanpa batas waktu
+                                    @endif
+                                </p>
                                 <form method="POST" action="{{ route('favorit.destroy', $item['loker']->id) }}" class="mt-2">
                                     @csrf
                                     @method('DELETE')

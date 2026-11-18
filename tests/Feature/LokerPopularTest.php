@@ -170,6 +170,36 @@ class LokerPopularTest extends TestCase
     }
 
     /**
+     * T-034: kartu loker di dasbor menampilkan batas lamaran.
+     */
+    public function test_kartu_dasbor_menampilkan_batas_lamaran(): void
+    {
+        $this->buatLoker('PT Batas Waktu', -7.7145, 113.2146, 1, 'Full-Time');
+
+        $response = $this->actingAs($this->pengguna)->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('Batas lamaran: 30 November 2026');
+    }
+
+    /**
+     * T-034: kartu loker di dasbor membedakan Full-Time dan Part-Time.
+     */
+    public function test_kartu_dasbor_membedakan_tipe_full_time_dan_part_time(): void
+    {
+        $this->buatLoker('PT Penuh Waktu', -7.7145, 113.2146, 1, 'Full-Time');
+        $this->buatLoker('PT Paruh Waktu', -7.7146, 113.2147, 1, 'Part-Time');
+
+        $response = $this->actingAs($this->pengguna)->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('job-card--full-time', false);
+        $response->assertSee('job-tipe--full-time', false);
+        $response->assertSee('job-card--part-time', false);
+        $response->assertSee('job-tipe--part-time', false);
+    }
+
+    /**
      * Buat satu loker tayang milik admin untuk keperluan uji.
      *
      * @param  array<string, mixed>  $ubah

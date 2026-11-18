@@ -193,6 +193,43 @@ a:hover {
     color: #ffffff;
 }
 
+/* T-034: pembeda tipe loker pada kartu dan badge. */
+.job-card--full-time {
+    border-left: 4px solid var(--color-primary);
+}
+
+.job-card--part-time {
+    border-left: 4px solid var(--color-secondary);
+}
+
+.job-card--contract {
+    border-left: 4px solid #334155;
+}
+
+.job-card--internship {
+    border-left: 4px solid #15803d;
+}
+
+.job-tipe {
+    color: #ffffff;
+}
+
+.job-tipe--full-time {
+    background-color: var(--color-primary);
+}
+
+.job-tipe--part-time {
+    background-color: var(--color-secondary);
+}
+
+.job-tipe--contract {
+    background-color: #334155;
+}
+
+.job-tipe--internship {
+    background-color: #15803d;
+}
+
 .job-card h3 {
     font-size: 18px;
     font-weight: 600;

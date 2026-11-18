@@ -8,7 +8,7 @@
 
     {{-- Bootstrap 5 via CDN (lihat ADR-002): tanpa langkah build aset --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}">
     @yield('styles')
 </head>
 <body class="d-flex flex-column min-vh-100">
