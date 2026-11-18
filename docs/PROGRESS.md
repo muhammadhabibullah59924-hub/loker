@@ -14,6 +14,7 @@ Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori
 |---|---|---|---|
 | 2026-11-10 | T-020 Dasbor dan detail loker menampilkan loker populer serta info lengongan lengkap | branch `feat/T-020-loker-populer` | Migrasi `job_type` + `positions_needed`, section "Loker Populer" di dasbor, info tipe dan butuh di detail, tes `LokerPopularTest`; pint, phpunit 72/72, E2E 2/2 lulus | status T-020 = review; menunggu PR dari `feat/T-020-loker-populer` |
 | 2026-11-18 | T-022 Dasbor menambahkan statistik jumlah loker aktif tersedia | branch `feat/T-022-statistik-dasbor` | Statistik dihitung dari jumlah loker aktif dan tampil di dasbor; tes `LokerPopularTest`, pint, phpunit 73/73, E2E 2/2 lulus | status T-022 = review; menunggu PR dari `feat/T-022-statistik-dasbor` |
+| 2026-11-18 | T-023 Dasbor menambahkan banner CTA loker populer | branch `feat/T-023-banner-cta-popular` | Banner CTA "Lihat loker populer" tampil di atas daftar popular; tes `LokerPopularTest`, pint, phpunit 74/74, E2E 2/2 lulus | status T-023 = review; menunggu PR dari `feat/T-023-banner-cta-popular` |
 | 2026-11-09 | T-019 Perbaikan tampilan GitHub agar terlihat profesional | branch `docs/T-019-tampilan-github` | Berkas `LICENSE` (MIT) terpasang; README berisi badge CI dan seksi lisensi; pint, phpunit 69/69 lulus | status T-019 = review; menunggu PR ke `main` sebelum merge |
 | 2026-10-25 | T-001 Setup repositori, tooling, kerangka Laravel | commit awal `main` | Laravel 13.38.0 + PHP 8.3.35; pint, phpunit (2 tes), dan build lulus |
 | 2026-10-25 | T-002 Migrasi dan seeder tiga tabel + model Eloquent | branch `feat/T-002-migrasi` | `db_loker_v2` (utf8), 2 user + 24 loker terseeder; relasi teruji; pint + tes lulus |
@@ -40,6 +41,7 @@ Tidak ada
 1. Review manusia untuk T-015 sebelum PR dari `feat/T-015-loker-kadaluarsa` (lihat `docs/WORKFLOW.md`).
 2. Review manusia untuk T-016 sebelum PR dari `fix/T-016-akses-website` (lihat `docs/WORKFLOW.md`).
 3. Review manusia untuk T-020 sebelum PR dari `feat/T-020-loker-populer` (lihat `docs/WORKFLOW.md`).
+5. Review manusia untuk T-023 sebelum PR dari `feat/T-023-banner-cta-popular` (lihat `docs/WORKFLOW.md`).
 4. Review manusia untuk T-022 sebelum PR dari `feat/T-022-statistik-dasbor` (lihat `docs/WORKFLOW.md`).
 
 ## Blockers
@@ -90,5 +92,6 @@ Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan
 
 `2026-11-09 | agen coding (T-019) | T-019 | Screenshot dashboard + detail loker berhasil di-capture lewat Playwright ke `docs/screenshots/dashboard.png` dan `detail-loker.png`; ditempa di README bagian `## Screenshots`; pint, phpunit 69/69 lulus | status T-019 = review; lanjut review manusia sebelum PR dari docs/T-019-tampilan-github`
 | 2026-11-10 | agen coding (T-020) | T-020 | Migrasi job_type + positions_needed, section Loker Populer di dasbor, info tipe dan butuh di detail, tes LokerPopularTest (3 tes); pint, phpunit 72/72, E2E 2/2 lulus, migrasi DB lokal jalan | status T-020 = review; lanjut review manusia sebelum PR dari feat/T-020-loker-populer |
+`2026-11-18 | agen coding (T-023) | T-023 | Dasbor menambahkan banner CTA loker populer: card banner dengan eyebrow "Rekomendasi", teks butuh banyak orang, dan tombol "Lihat loker populer" (anchor #loker-popular); pint, phpunit 74/74, E2E 2/2 lulus | status T-023 = review; lanjut review manusia sebelum PR dari feat/T-023-banner-cta-popular |
 2026-11-18 | agen coding (T-021) | T-021 | Error `Fatal error: Maximum execution time of 30 seconds exceeded` saat login setelah lama tidak aktif dikaji; fase error bervariasi di Connector, DatabaseSessionHandler, dan ClassLoader (error handling); batas PHP dinaikkan lewat `.htaccess` (30 -> 60 detik); pint lulus, phpunit 72/72 lulus | status T-021 = review; lanjut review manusia sebelum PR dari fix/T-021-perbaikan-error-login |
 `2026-11-18 | agen coding (T-022) | T-022 | Dasbor menambahkan statistik jumlah loker aktif tersedia yang dihitung dari database; salah memakai key view `jumlah_loker_aktif` sehingga variabel di view bernama `$jumlah_loker_aktif`, padahal view memakai `$jumlahLokerAktif`; perbaiki key ke `jumlahLokerAktif`; kartu statistik tampil di atas form cari; pint, phpunit 73/73, E2E 2/2 lulus | status T-022 = review; lanjut review manusia sebelum PR dari feat/T-022-statistik-dasbor |

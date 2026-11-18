@@ -87,6 +87,20 @@ class LokerPopularTest extends TestCase
     }
 
     /**
+     * Dasbor menampilkan banner CTA loker populer (T-023).
+     */
+    public function test_dasbor_menampilkan_banner_cta_loker_popular(): void
+    {
+        $this->buatLoker('PT Butuh Lima', -7.7145, 113.2146, 5, 'Full-Time');
+
+        $response = $this->actingAs($this->pengguna)->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('Rekomendasi');
+        $response->assertSee('Lihat loker populer');
+    }
+
+    /**
      * Buat satu loker tayang milik admin untuk keperluan uji.
      *
      * @param  array<string, mixed>  $ubah

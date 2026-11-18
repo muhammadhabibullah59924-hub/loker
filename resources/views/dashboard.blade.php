@@ -82,7 +82,16 @@
             @endif
 
             @if ($loker_populer->isNotEmpty())
-                <h2 class="mb-3">Loker Populer</h2>
+                <h2 class="mb-3" id="loker-popular">Loker Populer</h2>
+                <div class="card panduan-card mb-4">
+                    <div class="card-body d-flex flex-column flex-md-row align-items-md-center gap-3">
+                        <div>
+                            <p class="text-uppercase text-secondary small mb-1">Rekomendasi</p>
+                            <p class="mb-2 text-secondary">Loker yang sedang butuh banyak orang. Jangan lewatkan kesempatan ini!</p>
+                        </div>
+                        <a href="#loker-popular" class="btn btn-primary ms-md-auto">Lihat loker populer</a>
+                    </div>
+                </div>
                 <div class="row g-3 mb-4">
                     @foreach ($loker_populer as $item)
                         <div class="col-12 col-md-6 col-lg-4">
