@@ -54,13 +54,18 @@ test('filter otomatis: pilihan dan kata kunci langsung diterapkan', async ({ pag
     // redirect permintaan lokasi otomatis pada dasbor.
     await page.goto('/dasbor?lat=-7.7145&lng=113.2146');
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Loker terdekat dari lokasimu');
+    await page.locator('html[data-filter-siap="1"]').waitFor({ state: 'attached' });
 
     // Ubah dropdown: filter langsung diterapkan tanpa menekan "Cari loker".
     await page.getByLabel('Tipe loker', { exact: true }).selectOption('Full-Time');
-    await expect(page).toHaveURL(/tipe=Full-Time/);
+    await page.waitForURL(/tipe=Full-Time/);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Loker terdekat dari lokasimu');
     await expect(page.locator('.job-tipe', { hasText: 'Part-Time' })).toHaveCount(0);
 
-    // Ketik kata kunci: filter diterapkan otomatis setelah berhenti mengetik.
-    await page.getByLabel('Cari loker', { exact: true }).fill('Maju');
-    await expect(page).toHaveURL(/q=Maju/);
+    // Ketik kata kunci setelah skrip filter siap, lalu filter jalan otomatis.
+    await page.locator('html[data-filter-siap="1"]').waitFor({ state: 'attached' });
+    const kolomCari = page.getByLabel('Cari loker', { exact: true });
+    await expect(kolomCari).toBeVisible();
+    await kolomCari.fill('Maju');
+    await page.waitForURL(/q=Maju/);
 });

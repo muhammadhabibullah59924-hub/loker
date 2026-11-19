@@ -180,6 +180,40 @@ class JobDetailMapTest extends TestCase
     }
 
     /**
+     * T-044: detail menampilkan loker lain dengan divisi atau kota yang sama.
+     */
+    public function test_detail_menampilkan_loker_serupa(): void
+    {
+        $loker = $this->buatLoker(['division' => 'Produksi', 'city' => 'Kota Probolinggo']);
+        $this->buatLoker(['company_name' => 'PT Serupa Divisi', 'division' => 'Produksi', 'city' => 'Kota Pasuruan']);
+        $this->buatLoker(['company_name' => 'PT Serupa Kota', 'division' => 'IT', 'city' => 'Kota Probolinggo']);
+        $this->buatLoker(['company_name' => 'PT Tidak Serupa', 'division' => 'Keuangan', 'city' => 'Kota Malang']);
+
+        $response = $this->actingAs($this->pengguna)->get('/lowongan/'.$loker->id);
+
+        $response->assertStatus(200);
+        $response->assertSee('Loker serupa');
+        $response->assertSee('PT Serupa Divisi');
+        $response->assertSee('PT Serupa Kota');
+        $response->assertDontSee('PT Tidak Serupa');
+    }
+
+    /**
+     * T-044: loker nonaktif tidak boleh muncul di daftar loker serupa.
+     */
+    public function test_loker_nonaktif_tidak_muncul_di_loker_serupa(): void
+    {
+        $loker = $this->buatLoker();
+        $this->buatLoker(['company_name' => 'PT Nonaktif Serupa', 'is_active' => false]);
+
+        $response = $this->actingAs($this->pengguna)->get('/lowongan/'.$loker->id);
+
+        $response->assertStatus(200);
+        $response->assertDontSee('PT Nonaktif Serupa');
+        $response->assertDontSee('Loker serupa');
+    }
+
+    /**
      * Buat satu loker tayang milik admin untuk keperluan uji.
      *
      * @param  array<string, mixed>  $ubah
@@ -188,7 +222,6 @@ class JobDetailMapTest extends TestCase
     {
         $admin = User::factory()->create([
             'name' => 'Admin LokerDekat',
-            'email' => 'admin@uji.test',
             'role' => 'admin',
         ]);
 

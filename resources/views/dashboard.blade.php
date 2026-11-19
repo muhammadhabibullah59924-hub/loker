@@ -329,6 +329,9 @@
                     }
                 });
             }
+
+            // Penanda kesiapan filter otomatis (dipakai uji E2E dan pengembangan).
+            document.documentElement.setAttribute('data-filter-siap', '1');
         })();
     </script>
 

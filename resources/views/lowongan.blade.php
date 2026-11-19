@@ -147,6 +147,54 @@
                 </div>
             </div>
         </div>
+
+        {{-- T-044: rekomendasi loker lain dengan divisi atau kota yang sama. --}}
+        @if ($serupa->isNotEmpty())
+            <section class="mt-5 pt-4 border-top" aria-labelledby="judul-serupa">
+                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-end gap-2 mb-3">
+                    <div>
+                        <h2 id="judul-serupa" class="mb-1">Loker serupa</h2>
+                        <p class="text-secondary mb-0">
+                            Loker lain di divisi {{ $loker->division }} atau kota {{ $loker->city }} yang masih tayang.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    @foreach ($serupa as $item)
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <article class="card panduan-card job-card h-100 {{ $item['loker']->job_type ? 'job-card--'.strtolower($item['loker']->job_type) : '' }}">
+                                <div class="card-body">
+                                    <span class="job-card__jarak">{{ number_format($item['jarak'], 1, ',', '.') }} km</span>
+                                    <h3 class="mb-2">
+                                        <a class="job-card__judul" href="{{ route('lowongan.show', $item['loker']->id) }}">{{ $item['loker']->company_name }}</a>
+                                    </h3>
+                                    <p class="text-secondary mb-2">{{ $item['loker']->address }}</p>
+                                    <p class="mb-0">
+                                        <span class="badge border job-card__divisi">{{ $item['loker']->division }}</span>
+                                        <span class="text-secondary small ms-1">{{ $item['loker']->city }}</span>
+                                    </p>
+
+                                    @if ($item['loker']->job_type)
+                                        <div class="d-flex flex-wrap gap-2 mt-2 mb-2">
+                                            <span class="badge job-tipe job-tipe--{{ strtolower($item['loker']->job_type) }}">{{ $item['loker']->job_type }}</span>
+                                        </div>
+                                    @endif
+
+                                    <p class="text-secondary small mb-0">
+                                        @if ($item['loker']->deadline)
+                                            Batas lamaran: {{ $item['loker']->deadline->locale('id')->translatedFormat('j F Y') }}
+                                        @else
+                                            Tanpa batas waktu
+                                        @endif
+                                    </p>
+                                </div>
+                            </article>
+                        </div>
+                    @endforeach
+                </div>
+            </section>
+        @endif
     </div>
 @endsection
 
