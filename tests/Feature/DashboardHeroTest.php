@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Job;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -74,5 +75,33 @@ class DashboardHeroTest extends TestCase
         $response->assertSee('layar utama');
         $response->assertDontSee('play.google.com');
         $response->assertDontSee('apps.apple.com');
+    }
+
+    /**
+     * T-048: kartu statistik dasbor menampilkan empat ringkasan.
+     */
+    public function test_dasbor_menampilkan_empat_kartu_statistik(): void
+    {
+        Job::create([
+            'company_name' => 'PT Statistik Dasbor',
+            'address' => 'Jl. Statistik No. 1',
+            'division' => 'Produksi',
+            'city' => 'Kota Probolinggo',
+            'description' => 'Deskripsi untuk uji statistik.',
+            'requirements' => 'Syarat untuk uji statistik.',
+            'latitude' => -7.7145,
+            'longitude' => 113.2146,
+            'is_active' => true,
+            'posted_by' => $this->pengguna->id,
+        ]);
+
+        $response = $this->actingAs($this->pengguna)->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('Loker aktif tersedia');
+        $response->assertSee('Loker populer');
+        $response->assertSee('Loker premium');
+        $response->assertSee('Divisi tersedia');
+        $response->assertSee('stat-card__nilai', false);
     }
 }

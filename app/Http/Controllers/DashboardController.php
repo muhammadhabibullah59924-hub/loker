@@ -130,6 +130,12 @@ class DashboardController extends Controller
         // Jumlah loker populer dipakai untuk statistik tambahan di dasbor (T-025).
         $jumlahLokerPopuler = (int) Job::where('is_active', true)->where('positions_needed', '>', 1)->count();
 
+        // Statistik loker premium dan divisi (T-048). Dihitung dari data yang
+        // dimuat, supaya tetap aman bila migrasi is_premium belum dijalankan.
+        $jumlahLokerPremium = Job::where('is_active', true)->get()
+            ->filter(fn (Job $loker): bool => (bool) $loker->is_premium)
+            ->count();
+
         return view('dashboard', [
             'lokers' => $lokers,
             'loker_populer' => $lokerPopuler,
@@ -144,6 +150,8 @@ class DashboardController extends Controller
             'titik' => $titik,
             'jumlahLokerAktif' => $jumlahLokerAktif,
             'jumlahLokerPopuler' => $jumlahLokerPopuler,
+            'jumlahLokerPremium' => $jumlahLokerPremium,
+            'jumlahDivisi' => $divisiTersedia->count(),
         ]);
     }
 }

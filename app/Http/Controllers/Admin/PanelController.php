@@ -46,7 +46,9 @@ class PanelController extends Controller
         return view('admin.panel', [
             'jumlahAktif' => Job::where('is_active', true)->count(),
             'jumlahNonaktif' => Job::where('is_active', false)->count(),
-            'jumlahPremium' => Job::where('is_premium', true)->count(),
+            'jumlahPremium' => Job::where('is_active', true)->get()
+                ->filter(fn (Job $loker): bool => (bool) $loker->is_premium)
+                ->count(),
             'jumlahButuh' => Job::where('positions_needed', '>', 1)->count(),
             'lokers' => $query->orderByDesc('id')->get(),
             'q' => $kataKunci,

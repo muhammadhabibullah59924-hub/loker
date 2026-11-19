@@ -107,4 +107,18 @@ class LandingTest extends TestCase
         $response->assertSee('Bisa lamar langsung di sini?');
         $response->assertSee('data-bs-toggle="collapse"', false);
     }
+
+    /**
+     * T-048: footer memiliki kolom jelajahi, tentang, dan baris bawah.
+     */
+    public function test_footer_menampilkan_jelajahi_dan_tentang(): void
+    {
+        $response = $this->get('http://localhost/');
+
+        $response->assertStatus(200);
+        $response->assertSee('Jelajahi');
+        $response->assertSee('Tentang');
+        $response->assertSee('site-footer__bawah', false);
+        $response->assertSee('&copy; 2026 LokerDekat', false);
+    }
 }

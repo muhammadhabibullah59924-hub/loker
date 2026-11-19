@@ -70,9 +70,40 @@
     </main>
 
     <footer class="site-footer">
-        <div class="container d-flex flex-column flex-sm-row justify-content-between gap-2">
-            <span>&copy; 2026 LokerDekat</span>
-            <span>Loker terdekat dari lokasimu, lengkap dengan peta dan divisi yang lowong.</span>
+        <div class="container py-4">
+            <div class="row g-4">
+                <div class="col-12 col-md-5">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="{{ asset('uploads/logo.svg') }}" alt="" width="24" height="24">
+                        <span class="fw-semibold text-dark">LokerDekat</span>
+                    </div>
+                    <p class="text-secondary small mb-0">Loker terdekat dari lokasimu, lengkap dengan peta dan divisi yang lowong.</p>
+                </div>
+                <div class="col-6 col-md-3">
+                    <p class="site-footer__judul">Jelajahi</p>
+                    <ul class="list-unstyled mb-0 site-footer__tautan">
+                        <li><a href="{{ route('home') }}">Beranda</a></li>
+                        @auth
+                            <li><a href="{{ route('dasbor') }}">Dasbor</a></li>
+                            <li><a href="{{ route('favorit.index') }}">Favorit</a></li>
+                        @endauth
+                        @guest
+                            <li><a href="{{ route('login') }}">Masuk</a></li>
+                            <li><a href="{{ route('register') }}">Daftar</a></li>
+                        @endguest
+                    </ul>
+                </div>
+                <div class="col-6 col-md-4">
+                    <p class="site-footer__judul">Tentang</p>
+                    <p class="text-secondary small mb-0">
+                        Informasi lowongan kerja di sekitarmu, tanpa biaya dan tanpa data lokasi yang disimpan.
+                    </p>
+                </div>
+            </div>
+            <div class="site-footer__bawah mt-4 pt-3">
+                <span>&copy; 2026 LokerDekat</span>
+                <span>Dibuat untuk memudahkan pencari kerja menemukan loker terdekat.</span>
+            </div>
         </div>
     </footer>
 

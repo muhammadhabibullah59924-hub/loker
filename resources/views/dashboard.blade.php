@@ -41,19 +41,39 @@
 
         @if ($jumlahLokerAktif > 0)
             <div class="row g-3 mb-4">
-                <div class="col-12 col-md-6">
-                    <div class="card panduan-card">
+                <div class="col-6 col-lg-3">
+                    <div class="card panduan-card stat-card h-100">
                         <div class="card-body">
-                            <p class="text-secondary mb-0">Loker aktif tersedia</p>
-                            <p class="display-4 mb-0">{{ $jumlahLokerAktif }}</p>
+                            <p class="stat-card__label">Loker aktif tersedia</p>
+                            <p class="stat-card__nilai">{{ $jumlahLokerAktif }}</p>
+                            <p class="text-secondary small mb-0">Siap dilihat pencari kerja</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-6">
-                    <div class="card panduan-card">
+                <div class="col-6 col-lg-3">
+                    <div class="card panduan-card stat-card stat-card--secondary h-100">
                         <div class="card-body">
-                            <p class="text-secondary mb-0">Loker populer</p>
-                            <p class="display-4 mb-0">{{ $jumlahLokerPopuler }}</p>
+                            <p class="stat-card__label">Loker populer</p>
+                            <p class="stat-card__nilai">{{ $jumlahLokerPopuler }}</p>
+                            <p class="text-secondary small mb-0">Butuh lebih dari 1 orang</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card panduan-card stat-card stat-card--premium h-100">
+                        <div class="card-body">
+                            <p class="stat-card__label">Loker premium</p>
+                            <p class="stat-card__nilai">{{ $jumlahLokerPremium }}</p>
+                            <p class="text-secondary small mb-0">Berlabel Premium Employer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card panduan-card stat-card stat-card--butuh h-100">
+                        <div class="card-body">
+                            <p class="stat-card__label">Divisi tersedia</p>
+                            <p class="stat-card__nilai">{{ $jumlahDivisi }}</p>
+                            <p class="text-secondary small mb-0">Bisa dipilih lewat chip divisi</p>
                         </div>
                     </div>
                 </div>

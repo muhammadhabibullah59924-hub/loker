@@ -603,7 +603,40 @@ a:hover {
     border-top: 1px solid var(--color-border);
     color: var(--color-text-muted);
     font-size: 14px;
-    padding: 16px 0;
+    padding: 0;
+}
+
+.site-footer__judul {
+    color: var(--color-text);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.site-footer__tautan li {
+    margin-bottom: 6px;
+}
+
+.site-footer__tautan a {
+    color: var(--color-text-muted);
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.site-footer__tautan a:hover {
+    color: var(--color-primary);
+}
+
+.site-footer__bawah {
+    align-items: center;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 13px;
+    gap: 8px;
+    justify-content: space-between;
 }
 
 /* T-035: kartu statistik panel admin. */
