@@ -225,11 +225,6 @@ a:hover {
     border-radius: 8px;
 }
 
-/* T-036: ajakan mendaftar di bawah halaman depan. */
-.cta-daftar {
-    border-left: 4px solid var(--color-primary);
-}
-
 .panduan-nomor {
     display: inline-flex;
     align-items: center;

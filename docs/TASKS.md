@@ -59,6 +59,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-036 | Redesain navbar dan halaman landing | F2 | M | done | feat/T-036-navbar-landing | T-035 | Navbar sticky dengan aksen gradien teal, logo berpanggung, status menu aktif; landing hero dua kolom dengan contoh kartu loker, chip keunggulan, dan CTA daftar di bawah; tes `LandingTest` dan `DashboardHeroTest`, pint, phpunit, E2E lulus |
 | T-037 | Filter otomatis di dasbor | F5 | S | done | feat/T-037-filter-otomatis | T-036 | Pilihan tipe/radius/urut langsung diterapkan saat diubah dan kata kunci dikirim 600 ms setelah berhenti mengetik, dengan status "Menerapkan filter…"; tombol "Cari loker" tetap ada sebagai cadangan tanpa JavaScript; tes `DashboardHeroTest` dan E2E baru, pint, phpunit, E2E lulus |
 | T-038 | Redesain halaman detail loker | F3 | M | done | feat/T-038-detail-loker-redesain | T-037 | Detail loker dua kolom: identitas, deskripsi, dan syarat dalam kartu terpisah; sidebar lengket berisi ringkasan loker, peta, dan aksi simpan favorit; tombol berubah "Lihat di favorit" bila sudah tersimpan; tes `JobDetailMapTest`, pint, phpunit, E2E lulus |
+| T-039 | Hapus CTA ganda di halaman depan | F2 | S | review | feat/T-039-hapus-cta-landing | T-038 | Bagian "Siap cari loker di sekitarmu?" beserta tombol Daftar sekarang/Masuk di bawah panduan dihapus; tombol Daftar/Masuk di hero tetap ada; tes `LandingTest` disesuaikan, pint, phpunit, E2E lulus |
 
 ## Backlog
 

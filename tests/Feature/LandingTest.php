@@ -78,16 +78,4 @@ class LandingTest extends TestCase
         $response->assertSee('Batas lamaran: 30 November 2026');
         $response->assertSee('0,8 km');
     }
-
-    /**
-     * T-036: halaman depan menutup dengan ajakan mendaftar.
-     */
-    public function test_halaman_depan_menampilkan_ajakan_mendaftar(): void
-    {
-        $response = $this->get('http://localhost/');
-
-        $response->assertStatus(200);
-        $response->assertSee('Siap cari loker di sekitarmu?');
-        $response->assertSee('cta-daftar', false);
-    }
 }

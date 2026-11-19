@@ -104,21 +104,4 @@
         </div>
     </section>
 
-    {{-- T-036: ajakan mendaftar di bagian bawah halaman depan. --}}
-    <section class="pb-5" aria-labelledby="judul-ajakan">
-        <div class="container">
-            <div class="card panduan-card cta-daftar">
-                <div class="card-body d-flex flex-column flex-md-row align-items-md-center gap-3">
-                    <div>
-                        <h2 id="judul-ajakan" class="mb-1">Siap cari loker di sekitarmu?</h2>
-                        <p class="text-secondary mb-0">Daftar gratis, izinkan lokasi, dan lihat loker terdekat dalam hitungan detik.</p>
-                    </div>
-                    <div class="d-flex flex-column flex-sm-row gap-2 ms-md-auto">
-                        <a href="{{ route('register') }}" class="btn btn-primary">Daftar sekarang</a>
-                        <a href="{{ route('login') }}" class="btn btn-outline-secondary">Masuk</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 @endsection
