@@ -759,6 +759,61 @@ a:hover {
     }
 }
 
+/* T-041: formulir loker admin dikelompokkan menjadi bagian-bagian jelas. */
+.form-group-card__kepala {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+}
+
+.form-group-card__nomor {
+    align-items: center;
+    background-color: #ccfbf1;
+    border-radius: 10px;
+    color: var(--color-primary-dark);
+    display: inline-flex;
+    flex-shrink: 0;
+    font-weight: 700;
+    height: 40px;
+    justify-content: center;
+    width: 40px;
+}
+
+.form-group-card .form-label {
+    font-weight: 600;
+}
+
+.admin-form__ringkasan {
+    position: static;
+}
+
+@media (min-width: 992px) {
+    .admin-form__ringkasan {
+        position: sticky;
+        top: 88px;
+    }
+}
+
+.admin-form__checklist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-form__checklist li {
+    color: var(--color-text-muted);
+    display: flex;
+    gap: 8px;
+    padding: 8px 0;
+}
+
+.admin-form__checklist li::before {
+    color: var(--color-primary);
+    content: "\2713";
+    flex-shrink: 0;
+    font-weight: 700;
+}
+
 /* Hormati preferensi sistem mengurangi animasi */
 @media (prefers-reduced-motion: reduce) {
     * {
