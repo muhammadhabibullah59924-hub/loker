@@ -38,6 +38,7 @@
                             <a class="nav-link {{ request()->routeIs('admin.*') ? 'nav-link--aktif' : '' }}" href="{{ route('admin.panel') }}">Panel Admin</a>
                         @endif
                         <a class="nav-link {{ request()->routeIs('favorit.*') ? 'nav-link--aktif' : '' }}" href="{{ route('favorit.index') }}">Favorit</a>
+                        <a class="nav-link {{ request()->routeIs('profil.*') ? 'nav-link--aktif' : '' }}" href="{{ route('profil.index') }}">Profil</a>
                         <span class="navbar-text me-2">Halo, {{ auth()->user()->name }}</span>
                         <form method="POST" action="{{ route('logout') }}" class="d-inline">
                             @csrf

@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\JobDetailController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -47,6 +48,12 @@ Route::delete('/favorit/{loker}', [FavoriteController::class, 'destroy'])
     ->middleware('auth')
     ->whereNumber('loker')
     ->name('favorit.destroy');
+
+/*
+ * Profil pengguna yang sudah masuk (T-043).
+ */
+Route::get('/profil', [ProfileController::class, 'index'])->middleware('auth')->name('profil.index');
+Route::put('/profil', [ProfileController::class, 'update'])->middleware('auth')->name('profil.update');
 
 /*
  * Panel admin (F4): seluruh rute diawali `auth` lalu `admin` sehingga tamu
