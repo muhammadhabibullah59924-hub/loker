@@ -67,7 +67,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-044 | Loker serupa di halaman detail | F3 | S | done | feat/T-044-loker-serupa | T-043 | Detail menampilkan maksimal 3 loker aktif dengan divisi atau kota sama (belum kadaluarsa, punya koordinat), lengkap dengan jarak km, badge tipe, dan batas lamaran; tes `JobDetailMapTest`, pint, phpunit, E2E lulus |
 | T-045 | FAQ statis di halaman depan | F2 | S | done | feat/T-045-faq-landing | T-043 | Bagian "Pertanyaan yang sering ditanyakan" dengan 3 accordion (berbayar, penyimpanan lokasi, lamaran langsung), murni teks statis tanpa database; tes `LandingTest`, pint, phpunit, E2E lulus |
 | T-046 | Isian tipe, kebutuhan, dan premium di form admin | F4 | M | done | feat/T-046-form-tipe-loker | T-044 | Form loker admin bisa mengisi tipe loker, jumlah orang dibutuhkan, dan checkbox Premium Employer; `JobFormRequest` memvalidasi nilai; controller menyimpan dan bisa mematikan premium saat checkbox dikosongkan; tes `AdminFormDesignTest`, pint, phpunit, E2E lulus |
-| T-047 | Redesain halaman masuk dan daftar | F1 | M | review | feat/T-047-auth-design | T-046 | Halaman Masuk/Daftar jadi dua kolom: kartu form di kiri dan panel gradien teal di kanan berisi logo, tagline, dan tiga keunggulan; pesan galat ditambahkan; semua label dan tombol dipertahankan; tes `AuthDesignTest`, pint, phpunit, E2E lulus |
+| T-047 | Redesain halaman masuk dan daftar | F1 | M | done | feat/T-047-auth-design | T-046 | Halaman Masuk/Daftar jadi dua kolom: kartu form di kiri dan panel gradien teal di kanan berisi logo, tagline, dan tiga keunggulan; pesan galat ditambahkan; semua label dan tombol dipertahankan; tes `AuthDesignTest`, pint, phpunit, E2E lulus |
 
 ## Backlog
 
