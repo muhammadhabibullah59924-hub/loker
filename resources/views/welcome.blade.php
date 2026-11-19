@@ -32,7 +32,9 @@
                     </ul>
                 </div>
 
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-lg-6 hero-visual">
+                    <span class="hero-radar" aria-hidden="true"></span>
+
                     <div class="hero-contoh">
                         <p class="hero-contoh__label">Contoh kartu loker</p>
                         <article class="card panduan-card job-card job-card--full-time">
@@ -58,9 +60,59 @@
         </div>
     </section>
 
+    <div class="bagian-pemisah" aria-hidden="true"><span></span></div>
+
+    {{-- T-040: nilai aplikasi disampaikan lewat tiga kartu manfaat. --}}
+    <section class="fitur py-5" aria-labelledby="judul-fitur">
+        <div class="container">
+            <p class="hero-dasbor__eyebrow mb-2 text-center">Kenapa LokerDekat</p>
+            <h2 id="judul-fitur" class="text-center mb-2">Cari kerja tanpa muter-muter</h2>
+            <p class="text-center text-secondary mb-4">Kami menampilkan yang paling relevan, bukan sekadar daftar panjang.</p>
+
+            <div class="row g-4">
+                <div class="col-12 col-md-4">
+                    <div class="card panduan-card fitur-card h-100">
+                        <div class="card-body p-4">
+                            <span class="fitur-card__ikon fitur-card__ikon--jarak" aria-hidden="true"></span>
+                            <h3 class="mt-3">Diurutkan dari terdekat</h3>
+                            <p class="text-secondary mb-0">
+                                Lihat lebih dulu loker yang paling dekat dengan lokasimu, lengkap dengan jaraknya.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <div class="card panduan-card fitur-card h-100">
+                        <div class="card-body p-4">
+                            <span class="fitur-card__ikon fitur-card__ikon--peta" aria-hidden="true"><span></span></span>
+                            <h3 class="mt-3">Lokasi mudah ditemukan</h3>
+                            <p class="text-secondary mb-0">
+                                Peta titik lokasi dan alamat jalan tampil jelas di setiap halaman detail loker.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <div class="card panduan-card fitur-card h-100">
+                        <div class="card-body p-4">
+                            <span class="fitur-card__ikon fitur-card__ikon--favorit" aria-hidden="true">&#9829;</span>
+                            <h3 class="mt-3">Simpan yang kamu minati</h3>
+                            <p class="text-secondary mb-0">
+                                Tandai loker favorit supaya bisa kamu buka lagi kapan saja dari satu halaman.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     {{-- Panduan tiga langkah sesuai kendali R3 di docs/PRD.md --}}
     <section class="panduan py-5" aria-labelledby="judul-panduan">
         <div class="container">
+            <p class="hero-dasbor__eyebrow mb-2 text-center">Cara pakai</p>
             <h2 id="judul-panduan" class="text-center mb-2">Tiga langkah, langsung jalan</h2>
             <p class="text-center text-secondary mb-4">Panduan singkat untuk kamu yang baru pertama kali memakai LokerDekat.</p>
 
@@ -103,5 +155,4 @@
             </ol>
         </div>
     </section>
-
 @endsection

@@ -78,4 +78,18 @@ class LandingTest extends TestCase
         $response->assertSee('Batas lamaran: 30 November 2026');
         $response->assertSee('0,8 km');
     }
+
+    /**
+     * T-040: halaman depan menampilkan bagian manfaat dan pemisah antar bagian.
+     */
+    public function test_halaman_depan_menampilkan_bagian_kenapa_lokerdekat(): void
+    {
+        $response = $this->get('http://localhost/');
+
+        $response->assertStatus(200);
+        $response->assertSee('Kenapa LokerDekat');
+        $response->assertSee('Cari kerja tanpa muter-muter');
+        $response->assertSee('Diurutkan dari terdekat');
+        $response->assertSee('bagian-pemisah', false);
+    }
 }

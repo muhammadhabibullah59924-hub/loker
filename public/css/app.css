@@ -142,34 +142,184 @@ a:hover {
     text-transform: uppercase;
 }
 
-/* T-036: hero landing dua kolom dengan latar lembut teal dan contoh kartu. */
+/* T-036/T-040: hero landing dua kolom dengan latar gradient, grid halus, dan contoh kartu. */
 .hero-landing {
     background: linear-gradient(135deg, #f0fdfa 0%, #f8fafc 55%, #eff6ff 100%);
-    padding: 56px 0;
+    overflow: hidden;
+    padding: 64px 0 72px;
+    position: relative;
     text-align: left;
 }
 
+.hero-landing::before {
+    background-image: linear-gradient(rgba(13, 148, 136, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(13, 148, 136, 0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+    content: "";
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    -webkit-mask-image: linear-gradient(90deg, #000 0%, transparent 75%);
+    mask-image: linear-gradient(90deg, #000 0%, transparent 75%);
+}
+
+.hero-landing::after {
+    border: 1px solid rgba(13, 148, 136, 0.1);
+    border-radius: 50%;
+    box-shadow: 0 0 0 80px rgba(13, 148, 136, 0.035), 0 0 0 160px rgba(13, 148, 136, 0.025);
+    content: "";
+    height: 520px;
+    pointer-events: none;
+    position: absolute;
+    right: -170px;
+    top: -140px;
+    width: 520px;
+}
+
+.hero-landing > .container {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-landing .hero-eyebrow {
+    align-items: center;
+    display: inline-flex;
+    gap: 8px;
+}
+
+.hero-landing .hero-eyebrow::before {
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    content: "";
+    height: 8px;
+    width: 8px;
+}
+
 .hero-landing h1 {
-    font-size: 36px;
+    font-size: 38px;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    margin-bottom: 28px;
+    max-width: 640px;
+    position: relative;
+}
+
+.hero-landing h1::after {
+    background-color: var(--color-primary);
+    border-radius: 999px;
+    bottom: -12px;
+    content: "";
+    height: 4px;
+    left: 0;
+    position: absolute;
+    width: 72px;
 }
 
 @media (min-width: 992px) {
     .hero-landing h1 {
-        font-size: 44px;
+        font-size: 52px;
     }
 }
 
+.hero-landing .hero-tagline {
+    line-height: 1.65;
+    max-width: 560px;
+}
+
+.hero-landing .btn-lg {
+    padding: 12px 24px;
+}
+
+.hero-landing .btn-primary {
+    box-shadow: 0 8px 20px rgba(13, 148, 136, 0.22);
+}
+
 .hero-fitur li {
-    background-color: rgba(13, 148, 136, 0.1);
-    border: 1px solid rgba(13, 148, 136, 0.25);
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(13, 148, 136, 0.22);
     border-radius: 999px;
     color: var(--color-primary-dark);
+    display: inline-flex;
     font-size: 14px;
+    gap: 6px;
     padding: 6px 14px;
 }
 
-.hero-contoh {
+.hero-fitur li::before {
+    color: var(--color-primary);
+    content: "\2713";
+    font-weight: 700;
+}
+
+.hero-visual {
     position: relative;
+}
+
+.hero-radar {
+    border: 1px solid rgba(13, 148, 136, 0.14);
+    border-radius: 50%;
+    display: block;
+    height: 380px;
+    pointer-events: none;
+    position: absolute;
+    right: 6%;
+    top: -24px;
+    width: 380px;
+}
+
+.hero-radar::before,
+.hero-radar::after {
+    border: 1px solid rgba(13, 148, 136, 0.12);
+    border-radius: 50%;
+    content: "";
+    position: absolute;
+}
+
+.hero-radar::before {
+    inset: 18%;
+}
+
+.hero-radar::after {
+    background-color: rgba(13, 148, 136, 0.08);
+    inset: 40%;
+}
+
+@media (max-width: 991.98px) {
+    .hero-radar {
+        display: none;
+    }
+}
+
+.hero-contoh {
+    isolation: isolate;
+    position: relative;
+    z-index: 0;
+}
+
+.hero-contoh::before,
+.hero-contoh::after {
+    background-color: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    bottom: 8px;
+    content: "";
+    left: 14px;
+    position: absolute;
+    right: 14px;
+    top: 24px;
+}
+
+.hero-contoh::before {
+    opacity: 0.75;
+    transform: rotate(2deg);
+    z-index: -1;
+}
+
+.hero-contoh::after {
+    opacity: 0.45;
+    transform: rotate(-2.5deg);
+    z-index: -2;
 }
 
 .hero-contoh__label {
@@ -182,7 +332,13 @@ a:hover {
 }
 
 .hero-contoh .job-card {
-    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 24px 50px rgba(15, 23, 42, 0.12);
+    overflow: hidden;
+}
+
+.hero-contoh .job-card .card-body {
+    padding: 24px;
 }
 
 .hero-contoh__catatan {
@@ -478,6 +634,129 @@ a:hover {
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: 4px;
+}
+
+/* T-040: pemisah antar bagian dan kartu manfaat pada halaman depan. */
+.bagian-pemisah {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+}
+
+.bagian-pemisah::before,
+.bagian-pemisah::after {
+    background-color: var(--color-border);
+    content: "";
+    height: 1px;
+    width: min(30%, 240px);
+}
+
+.bagian-pemisah span {
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    display: block;
+    height: 8px;
+    margin: 0 16px;
+    width: 8px;
+}
+
+.fitur-card {
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 150ms ease-out, transform 150ms ease-out;
+}
+
+.fitur-card::before {
+    background-color: var(--color-primary);
+    content: "";
+    height: 3px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.fitur-card:hover {
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+    transform: translateY(-4px);
+}
+
+.fitur-card__ikon {
+    align-items: center;
+    background-color: #ccfbf1;
+    border-radius: 12px;
+    color: var(--color-primary-dark);
+    display: inline-flex;
+    height: 48px;
+    justify-content: center;
+    width: 48px;
+}
+
+.fitur-card__ikon--jarak {
+    border: 3px solid var(--color-primary);
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 7px #ccfbf1, inset 0 0 0 10px rgba(13, 148, 136, 0.35);
+    background-color: #ffffff;
+}
+
+.fitur-card__ikon--peta {
+    background-color: #ccfbf1;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+}
+
+.fitur-card__ikon--peta span {
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    height: 14px;
+    width: 14px;
+}
+
+.fitur-card__ikon--favorit {
+    font-size: 28px;
+    line-height: 1;
+}
+
+/* T-040: langkah panduan lebih terarah dengan nomor dan garis penghubung. */
+.panduan .panduan-card {
+    overflow: hidden;
+    position: relative;
+    transition: box-shadow 150ms ease-out, transform 150ms ease-out;
+}
+
+.panduan .panduan-card::before {
+    background-color: var(--color-primary);
+    content: "";
+    height: 3px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.panduan .panduan-card:hover {
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+    transform: translateY(-4px);
+}
+
+.panduan ol > li {
+    position: relative;
+}
+
+.panduan-nomor {
+    box-shadow: 0 0 0 6px rgba(13, 148, 136, 0.12);
+}
+
+@media (min-width: 768px) {
+    .panduan ol > li:not(:last-child)::after {
+        border-top: 2px dashed var(--color-border);
+        content: "";
+        position: absolute;
+        right: -16px;
+        top: 56px;
+        width: 32px;
+    }
 }
 
 /* Hormati preferensi sistem mengurangi animasi */
