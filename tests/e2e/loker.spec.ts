@@ -22,6 +22,7 @@ test('alur E2E: daftar, masuk, dasbor, dan detail loker terurut', async ({ page 
     await page.getByRole('button', { name: 'Buat akun' }).click();
 
     // 2. Setelah daftar, pengguna masuk dan langsung masuk ke dasbor.
+    await page.goto('/dasbor?lat=-7.7145&lng=113.2146');
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Loker terdekat dari lokasimu');
     await expect(page.locator('article.job-card')).not.toHaveCount(0);
     await expect(page.locator('.job-card__jarak').first()).toContainText('km');
