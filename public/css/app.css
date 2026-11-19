@@ -859,6 +859,29 @@ a:hover {
     width: 8px;
 }
 
+/* T-045: accordion FAQ pada halaman depan. */
+.faq .accordion-item {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.faq .accordion-button {
+    font-weight: 600;
+}
+
+.faq .accordion-button:not(.collapsed) {
+    background-color: #ccfbf1;
+    box-shadow: none;
+    color: var(--color-primary-dark);
+}
+
+.faq .accordion-button:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.18);
+}
+
 /* Hormati preferensi sistem mengurangi animasi */
 @media (prefers-reduced-motion: reduce) {
     * {

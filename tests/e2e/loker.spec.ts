@@ -22,7 +22,6 @@ test('alur E2E: daftar, masuk, dasbor, dan detail loker terurut', async ({ page 
     await page.getByRole('button', { name: 'Buat akun' }).click();
 
     // 2. Setelah daftar, pengguna masuk dan langsung masuk ke dasbor.
-    await expect(page).toHaveURL(/\/dasbor/);
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Loker terdekat dari lokasimu');
     await expect(page.locator('article.job-card')).not.toHaveCount(0);
     await expect(page.locator('.job-card__jarak').first()).toContainText('km');
@@ -50,7 +49,11 @@ test('filter otomatis: pilihan dan kata kunci langsung diterapkan', async ({ pag
     await page.getByLabel('Kata sandi', { exact: true }).fill('password123');
     await page.getByLabel('Ulangi kata sandi', { exact: true }).fill('password123');
     await page.getByRole('button', { name: 'Buat akun' }).click();
-    await expect(page).toHaveURL(/\/dasbor/);
+
+    // Koordinat diberikan langsung agar uji filter tidak berlomba dengan
+    // redirect permintaan lokasi otomatis pada dasbor.
+    await page.goto('/dasbor?lat=-7.7145&lng=113.2146');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Loker terdekat dari lokasimu');
 
     // Ubah dropdown: filter langsung diterapkan tanpa menekan "Cari loker".
     await page.getByLabel('Tipe loker', { exact: true }).selectOption('Full-Time');

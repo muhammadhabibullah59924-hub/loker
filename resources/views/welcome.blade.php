@@ -155,4 +155,63 @@
             </ol>
         </div>
     </section>
+
+    <div class="bagian-pemisah" aria-hidden="true"><span></span></div>
+
+    {{-- T-045: pertanyaan umum dijawab singkat tanpa memakai data database. --}}
+    <section class="faq py-5" aria-labelledby="judul-faq">
+        <div class="container">
+            <p class="hero-dasbor__eyebrow mb-2 text-center">Pertanyaan umum</p>
+            <h2 id="judul-faq" class="text-center mb-2">Pertanyaan yang sering ditanyakan</h2>
+            <p class="text-center text-secondary mb-4">Singkat dan to-the-point, supaya kamu langsung tahu apa yang bisa dilakukan di sini.</p>
+
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-9">
+                    <div class="accordion" id="faqLokerDekat">
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#faq-satu" aria-expanded="false" aria-controls="faq-satu">
+                                    Apakah LokerDekat berbayar?
+                                </button>
+                            </h3>
+                            <div id="faq-satu" class="accordion-collapse collapse" data-bs-parent="#faqLokerDekat">
+                                <div class="accordion-body">
+                                    Tidak. Kamu bisa mencari dan melihat loker secara gratis. LokerDekat tidak menyediakan layanan berbayar.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#faq-dua" aria-expanded="false" aria-controls="faq-dua">
+                                    Apakah lokasi saya disimpan?
+                                </button>
+                            </h3>
+                            <div id="faq-dua" class="accordion-collapse collapse" data-bs-parent="#faqLokerDekat">
+                                <div class="accordion-body">
+                                    Tidak. Koordinat lokasi hanya dipakai di browser untuk mengurutkan loker dari yang terdekat dan tidak disimpan ke basis data.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#faq-tiga" aria-expanded="false" aria-controls="faq-tiga">
+                                    Bisa lamar langsung di sini?
+                                </button>
+                            </h3>
+                            <div id="faq-tiga" class="accordion-collapse collapse" data-bs-parent="#faqLokerDekat">
+                                <div class="accordion-body">
+                                    Belum. LokerDekat saat ini hanya menyediakan informasi loker, peta lokasi, dan daftar favorit. Untuk melamar, hubungi pihak perusahaan langsung.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection

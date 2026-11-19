@@ -92,4 +92,19 @@ class LandingTest extends TestCase
         $response->assertSee('Diurutkan dari terdekat');
         $response->assertSee('bagian-pemisah', false);
     }
+
+    /**
+     * T-045: halaman depan menampilkan FAQ statis dalam accordion.
+     */
+    public function test_halaman_depan_menampilkan_faq(): void
+    {
+        $response = $this->get('http://localhost/');
+
+        $response->assertStatus(200);
+        $response->assertSee('Pertanyaan yang sering ditanyakan');
+        $response->assertSee('Apakah LokerDekat berbayar?');
+        $response->assertSee('Apakah lokasi saya disimpan?');
+        $response->assertSee('Bisa lamar langsung di sini?');
+        $response->assertSee('data-bs-toggle="collapse"', false);
+    }
 }

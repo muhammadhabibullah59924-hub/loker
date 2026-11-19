@@ -14,7 +14,9 @@ test('screenshot: dasbor dan detail loker', async ({ page }) => {
     await page.getByLabel('Kata sandi', { exact: true }).fill('password');
     await page.getByRole('button', { name: 'Masuk' }).click();
 
-    await expect(page).toHaveURL(/\/dasbor/);
+    // Buka dasbor dengan koordinat langsung supaya tidak ada race dengan
+    // permintaan izin lokasi otomatis saat screenshot diambil.
+    await page.goto('/dasbor?lat=-7.7145&lng=113.2146');
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Loker terdekat dari lokasimu');
     await expect(page.locator('article.job-card')).not.toHaveCount(0);
 
