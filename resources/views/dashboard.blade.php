@@ -23,6 +23,22 @@
             </div>
         @endunless
 
+        {{-- T-042: pengingat akses dari HP tanpa tautan toko aplikasi palsu. --}}
+        <div class="card panduan-card banner-hp mb-4" id="banner-hp" role="note">
+            <div class="card-body d-flex flex-column flex-md-row align-items-md-center gap-3">
+                <span class="banner-hp__telepon" aria-hidden="true"><span></span></span>
+                <div class="flex-grow-1">
+                    <p class="banner-hp__judul mb-1">Buka LokerDekat di HP</p>
+                    <p class="text-secondary small mb-0">
+                        Izinkan lokasi agar loker terdekat muncul otomatis, lalu tambahkan halaman ini ke layar utama supaya bisa dibuka dengan sekali ketuk.
+                    </p>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-secondary banner-hp__tutup flex-shrink-0" aria-label="Tutup pengingat">
+                    Tutup
+                </button>
+            </div>
+        </div>
+
         @if ($jumlahLokerAktif > 0)
             <div class="row g-3 mb-4">
                 <div class="col-12 col-md-6">
@@ -243,6 +259,39 @@
 @endsection
 
 @section('scripts')
+    <script>
+        // T-042: pengingat HP bisa ditutup dan pilihannya disimpan di browser.
+        (function () {
+            const banner = document.getElementById('banner-hp');
+
+            if (!banner) {
+                return;
+            }
+
+            try {
+                if (window.localStorage.getItem('banner-hp-ditutup') === '1') {
+                    banner.classList.add('d-none');
+                }
+            } catch (kesalahan) {
+                // Penyimpanan browser tidak tersedia: banner tetap tampil seperti biasa.
+            }
+
+            const tombol = banner.querySelector('.banner-hp__tutup');
+
+            if (tombol) {
+                tombol.addEventListener('click', function () {
+                    banner.classList.add('d-none');
+
+                    try {
+                        window.localStorage.setItem('banner-hp-ditutup', '1');
+                    } catch (kesalahan) {
+                        // Abaikan bila penyimpanan browser diblokir.
+                    }
+                });
+            }
+        })();
+    </script>
+
     <script>
         // T-037: filter otomatis. Mengubah pilihan langsung menerapkan filter,
         // dan kata kunci dikirim setelah pengguna berhenti mengetik.

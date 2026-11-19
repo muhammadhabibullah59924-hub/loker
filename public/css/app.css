@@ -814,6 +814,51 @@ a:hover {
     font-weight: 700;
 }
 
+/* T-042: pengingat akses cepat dari HP pada dasbor. */
+.banner-hp {
+    background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+    border-left: 4px solid var(--color-primary);
+}
+
+.banner-hp__judul {
+    color: var(--color-primary-dark);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.banner-hp__telepon {
+    border: 2px solid var(--color-primary);
+    border-radius: 10px;
+    display: inline-flex;
+    flex-shrink: 0;
+    height: 44px;
+    position: relative;
+    width: 26px;
+}
+
+.banner-hp__telepon::before {
+    background-color: var(--color-primary);
+    border-radius: 0 0 4px 4px;
+    content: "";
+    height: 6px;
+    left: 50%;
+    position: absolute;
+    top: 2px;
+    transform: translateX(-50%);
+    width: 10px;
+}
+
+.banner-hp__telepon span {
+    background-color: rgba(13, 148, 136, 0.22);
+    border-radius: 50%;
+    height: 8px;
+    left: 50%;
+    position: absolute;
+    top: 55%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+}
+
 /* Hormati preferensi sistem mengurangi animasi */
 @media (prefers-reduced-motion: reduce) {
     * {

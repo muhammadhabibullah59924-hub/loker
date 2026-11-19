@@ -60,4 +60,19 @@ class DashboardHeroTest extends TestCase
         $response->assertSee('id="status-filter"', false);
         $response->assertSee('Cari loker');
     }
+
+    /**
+     * T-042: dasbor menampilkan pengingat akses cepat dari HP tanpa tautan toko aplikasi.
+     */
+    public function test_dasbor_menampilkan_banner_akses_hp(): void
+    {
+        $response = $this->actingAs($this->pengguna)->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('id="banner-hp"', false);
+        $response->assertSee('Buka LokerDekat di HP');
+        $response->assertSee('layar utama');
+        $response->assertDontSee('play.google.com');
+        $response->assertDontSee('apps.apple.com');
+    }
 }
