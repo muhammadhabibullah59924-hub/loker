@@ -108,10 +108,54 @@
                     </div>
                 </section>
 
-                <section class="card panduan-card form-group-card mb-4" aria-labelledby="bagian-jadwal">
+                <section class="card panduan-card form-group-card mb-4" aria-labelledby="bagian-tipe">
                     <div class="card-body p-4">
                         <div class="form-group-card__kepala">
                             <span class="form-group-card__nomor" aria-hidden="true">2</span>
+                            <div>
+                                <h2 id="bagian-tipe" class="mb-0">Tipe & status</h2>
+                                <p class="text-secondary small mb-0">Informasi ini tampil sebagai badge pada kartu loker.</p>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-3">
+                            <div class="col-12 col-sm-6">
+                                <label class="form-label" for="job_type">Tipe loker</label>
+                                <select class="form-select @error('job_type') is-invalid @enderror" id="job_type" name="job_type">
+                                    <option value="" @selected(old('job_type', $loker?->job_type) === null)>Tidak ditentukan</option>
+                                    @foreach (['Full-Time', 'Part-Time', 'Contract', 'Internship'] as $opsiTipe)
+                                        <option value="{{ $opsiTipe }}" @selected(old('job_type', $loker?->job_type) === $opsiTipe)>{{ $opsiTipe }}</option>
+                                    @endforeach
+                                </select>
+                                @error('job_type')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <label class="form-label" for="positions_needed">Jumlah orang dibutuhkan</label>
+                                <input class="form-control @error('positions_needed') is-invalid @enderror"
+                                       id="positions_needed" name="positions_needed" type="number" min="1" max="99"
+                                       value="{{ old('positions_needed', $loker?->positions_needed ?? 1) }}">
+                                @error('positions_needed')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="is_premium" name="is_premium" value="1"
+                                           @checked(old('is_premium', (bool) ($loker?->is_premium ?? false)))>
+                                    <label class="form-check-label" for="is_premium">Tandai sebagai Premium Employer</label>
+                                </div>
+                                <div class="form-text">Badge premium tampil di kartu loker dan halaman detail.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card panduan-card form-group-card mb-4" aria-labelledby="bagian-jadwal">
+                    <div class="card-body p-4">
+                        <div class="form-group-card__kepala">
+                            <span class="form-group-card__nomor" aria-hidden="true">3</span>
                             <div>
                                 <h2 id="bagian-jadwal" class="mb-0">Jadwal loker</h2>
                                 <p class="text-secondary small mb-0">Semua tanggal bersifat opsional.</p>
@@ -153,7 +197,7 @@
                 <section class="card panduan-card form-group-card mb-4" aria-labelledby="bagian-lokasi">
                     <div class="card-body p-4">
                         <div class="form-group-card__kepala">
-                            <span class="form-group-card__nomor" aria-hidden="true">3</span>
+                            <span class="form-group-card__nomor" aria-hidden="true">4</span>
                             <div>
                                 <h2 id="bagian-lokasi" class="mb-0">Lokasi & peta</h2>
                                 <p class="text-secondary small mb-0">Titik ini menentukan urutan jarak di dasbor.</p>

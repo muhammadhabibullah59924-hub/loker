@@ -38,9 +38,26 @@ class JobFormRequest extends FormRequest
             'deadline' => ['nullable', 'date'],
             'opens_at' => ['nullable', 'date'],
             'closes_at' => ['nullable', 'date'],
+            'job_type' => ['sometimes', 'nullable', 'string', 'in:Full-Time,Part-Time,Contract,Internship'],
+            'positions_needed' => ['sometimes', 'nullable', 'integer', 'min:1', 'max:99'],
+            'is_premium' => ['sometimes', 'nullable', 'boolean'],
             'latitude' => ['required', 'numeric', 'between:-90,90'],
             'longitude' => ['required', 'numeric', 'between:-180,180'],
         ];
+    }
+
+    /**
+     * Kosongkan pilihan tipe dan jumlah kebutuhan sebelum divalidasi.
+     */
+    protected function prepareForValidation(): void
+    {
+        if ($this->input('job_type') === '') {
+            $this->merge(['job_type' => null]);
+        }
+
+        if ($this->input('positions_needed') === '') {
+            $this->merge(['positions_needed' => null]);
+        }
     }
 
     /**
@@ -72,6 +89,10 @@ class JobFormRequest extends FormRequest
             'deadline.date' => 'Batas kirim lamaran harus berupa tanggal, misalnya 2026-11-30.',
             'opens_at.date' => 'Tanggal buka harus berupa tanggal yang valid.',
             'closes_at.date' => 'Tanggal tutup harus berupa tanggal yang valid.',
+            'job_type.in' => 'Tipe loker harus dipilih dari daftar yang tersedia.',
+            'positions_needed.integer' => 'Jumlah kebutuhan harus berupa angka, misalnya 2.',
+            'positions_needed.min' => 'Jumlah kebutuhan minimal 1 orang.',
+            'positions_needed.max' => 'Jumlah kebutuhan maksimal 99 orang. Coba perkecil.',
             'latitude.required' => 'Titik lintang wajib diisi agar loker tampil di dasbor.',
             'latitude.numeric' => 'Titik lintang harus berupa angka, misalnya -7.7145.',
             'latitude.between' => 'Titik lintang harus antara -90 sampai 90.',
@@ -98,6 +119,9 @@ class JobFormRequest extends FormRequest
             'deadline' => 'batas kirim lamaran',
             'opens_at' => 'tanggal buka',
             'closes_at' => 'tanggal tutup',
+            'job_type' => 'tipe loker',
+            'positions_needed' => 'jumlah kebutuhan',
+            'is_premium' => 'status premium',
             'latitude' => 'titik lintang',
             'longitude' => 'titik bujur',
         ];

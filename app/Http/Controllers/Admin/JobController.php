@@ -38,9 +38,15 @@ class JobController extends Controller
             'deadline',
             'opens_at',
             'closes_at',
+            'job_type',
             'latitude',
             'longitude',
-        ]) + ['is_active' => true, 'posted_by' => $request->user()->id]);
+        ]) + [
+            'is_active' => true,
+            'posted_by' => $request->user()->id,
+            'positions_needed' => $request->input('positions_needed') ?? 1,
+            'is_premium' => $request->boolean('is_premium'),
+        ]);
 
         return redirect()
             ->route('admin.panel')
@@ -72,9 +78,13 @@ class JobController extends Controller
             'deadline',
             'opens_at',
             'closes_at',
+            'job_type',
             'latitude',
             'longitude',
-        ]));
+        ]) + [
+            'positions_needed' => $request->input('positions_needed') ?? 1,
+            'is_premium' => $request->boolean('is_premium'),
+        ]);
 
         return redirect()
             ->route('admin.panel')
