@@ -235,7 +235,7 @@
 
             <h2 class="mb-3">Daftar loker</h2>
 
-            <div class="row g-3">
+            <div class="row g-3" id="daftar-loker">
                 @foreach ($lokers as $item)
                     <div class="col-12 col-md-6 col-lg-4">
                         <article class="card panduan-card job-card h-100 {{ $item['loker']->job_type ? 'job-card--'.strtolower($item['loker']->job_type) : '' }}">
@@ -278,6 +278,60 @@
                     </div>
                 @endforeach
             </div>
+
+            {{-- T-053: navigasi halaman daftar loker dengan tombol bertuliskan angka. --}}
+            @if ($paginator->hasPages())
+                <nav class="d-flex flex-column align-items-center gap-2 mt-4" aria-label="Navigasi halaman loker">
+                    <p class="text-secondary small mb-0" role="status">
+                        Menampilkan loker {{ $paginator->firstItem() }}–{{ $paginator->lastItem() }} dari {{ $paginator->total() }}
+                    </p>
+                    <ul class="pagination pagination-sm flex-wrap justify-content-center mb-0">
+                        <li class="page-item {{ $paginator->onFirstPage() ? 'disabled' : '' }}">
+                            @if ($paginator->onFirstPage())
+                                <span class="page-link">Sebelumnya</span>
+                            @else
+                                <a class="page-link" href="{{ $paginator->previousPageUrl() }}">Sebelumnya</a>
+                            @endif
+                        </li>
+
+                        @php
+                            $mulai = max(1, $paginator->currentPage() - 2);
+                            $akhir = min($paginator->lastPage(), $paginator->currentPage() + 2);
+                        @endphp
+
+                        @if ($mulai > 1)
+                            <li class="page-item"><a class="page-link" href="{{ $paginator->url(1) }}">1</a></li>
+                            @if ($mulai > 2)
+                                <li class="page-item disabled"><span class="page-link" aria-hidden="true">…</span></li>
+                            @endif
+                        @endif
+
+                        @for ($nomor = $mulai; $nomor <= $akhir; $nomor++)
+                            <li class="page-item {{ $nomor === $paginator->currentPage() ? 'active' : '' }}">
+                                <a class="page-link" href="{{ $paginator->url($nomor) }}"
+                                   @if ($nomor === $paginator->currentPage()) aria-current="page" @endif>{{ $nomor }}</a>
+                            </li>
+                        @endfor
+
+                        @if ($akhir < $paginator->lastPage())
+                            @if ($akhir < $paginator->lastPage() - 1)
+                                <li class="page-item disabled"><span class="page-link" aria-hidden="true">…</span></li>
+                            @endif
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $paginator->url($paginator->lastPage()) }}">{{ $paginator->lastPage() }}</a>
+                            </li>
+                        @endif
+
+                        <li class="page-item {{ $paginator->hasMorePages() ? '' : 'disabled' }}">
+                            @if ($paginator->hasMorePages())
+                                <a class="page-link" href="{{ $paginator->nextPageUrl() }}">Berikutnya</a>
+                            @else
+                                <span class="page-link">Berikutnya</span>
+                            @endif
+                        </li>
+                    </ul>
+                </nav>
+            @endif
         @endif
     </div>
 @endsection

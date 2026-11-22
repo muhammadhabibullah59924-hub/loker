@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DashboardRequest;
 use App\Models\Job;
 use App\Services\DistanceService;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
 
 /**
@@ -92,6 +93,24 @@ class DashboardController extends Controller
             )->values();
         }
 
+        // T-053: bagi daftar menjadi 20 loker per halaman. Pemotongan dilakukan
+        // setelah filter dan urutan jarak diterapkan, karena keduanya dihitung
+        // di PHP sehingga tidak bisa memakai paginate() langsung dari query.
+        $perHalaman = 20;
+        $halamanMaksimal = max(1, (int) ceil($lokers->count() / $perHalaman));
+        $halaman = min(max(1, (int) $request->input('page', 1)), $halamanMaksimal);
+
+        $paginator = new LengthAwarePaginator(
+            $lokers->forPage($halaman, $perHalaman),
+            $lokers->count(),
+            $perHalaman,
+            $halaman,
+            ['path' => route('dasbor')],
+        );
+
+        // Seluruh filter aktif ikut terbawa saat berpindah halaman.
+        $paginator->withQueryString();
+
         // Loker populer: loker aktif, berkoordinat, belum kadaluarsa, dan butuh
         // lebih dari satu orang, diurut dari yang butuh paling banyak (T-020).
         // T-052: bagian ini ikut mematuhi filter yang sedang aktif supaya tidak
@@ -162,7 +181,8 @@ class DashboardController extends Controller
             ->count();
 
         return view('dashboard', [
-            'lokers' => $lokers,
+            'lokers' => $paginator,
+            'paginator' => $paginator,
             'loker_populer' => $lokerPopuler,
             'dari_lokasi_pengguna' => $pengguna !== null,
             'lokasi_default' => config('loker.lokasi_default.nama'),

@@ -70,3 +70,36 @@ test('filter otomatis: pilihan dan kata kunci langsung diterapkan', async ({ pag
     await kolomCari.fill('Maju');
     await page.waitForURL(/q=Maju/);
 });
+
+test('paginasi: tombol halaman membagi daftar loker', async ({ page }) => {
+    const origin = 'http://127.0.0.1:8000';
+    const context = page.context();
+
+    await context.grantPermissions(['geolocation'], { origin });
+    await context.setGeolocation({ latitude: -7.7145, longitude: 113.2146 });
+
+    await page.goto('/');
+    await page.getByRole('link', { name: 'Daftar dan lihat loker terdekat' }).click();
+
+    const email = `paginasi-e2e-${Date.now()}@lokerdekat.test`;
+
+    await page.getByLabel('Nama lengkap', { exact: true }).fill('Budi Paginasi');
+    await page.getByLabel('Email', { exact: true }).fill(email);
+    await page.getByLabel('Kata sandi', { exact: true }).fill('password123');
+    await page.getByLabel('Ulangi kata sandi', { exact: true }).fill('password123');
+    await page.getByRole('button', { name: 'Buat akun' }).click();
+
+    await page.goto('/dasbor?lat=-7.7145&lng=113.2146');
+
+    const daftar = page.locator('#daftar-loker article.job-card');
+    await expect(daftar).toHaveCount(20);
+
+    const pertama = await daftar.first().locator('h3 a').innerText();
+
+    await page.getByRole('link', { name: '2', exact: true }).click();
+    await expect(page).toHaveURL(/page=2/);
+    await expect(daftar).toHaveCount(20);
+
+    const kedua = await daftar.first().locator('h3 a').innerText();
+    expect(kedua).not.toBe(pertama);
+});

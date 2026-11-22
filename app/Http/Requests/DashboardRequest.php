@@ -36,6 +36,7 @@ class DashboardRequest extends FormRequest
             'tipe' => ['sometimes', 'nullable', 'string', 'in:Full-Time,Part-Time,Contract,Internship'],
             'urut' => ['sometimes', 'nullable', 'string', 'in:terdekat,terbaru,butuh'],
             'divisi' => ['sometimes', 'nullable', 'string', 'max:100'],
+            'page' => ['sometimes', 'integer', 'min:1'],
         ];
     }
 
@@ -99,6 +100,13 @@ class DashboardRequest extends FormRequest
             $this->merge(['divisi' => null]);
         } else {
             $this->merge(['divisi' => trim($divisi)]);
+        }
+
+        // Halaman: nilai bukan angka atau kurang dari satu jadi halaman pertama (T-053).
+        $halaman = $this->input('page');
+
+        if (! is_numeric($halaman) || (int) $halaman < 1) {
+            $this->merge(['page' => 1]);
         }
     }
 
