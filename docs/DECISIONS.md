@@ -111,6 +111,15 @@ Semua ADR di bawah memakai tanggal 2026-10-25 kecuali dibuat kemudian.
 - **Konsekuensi:** Admin menjadi dapat melihat nama dan email pengguna yang menyimpan favorit; hal ini dicatat sebagai perluasan akses di `docs/SECURITY.md` dan sudah disetujui pemilik proyek. Tidak ada data pribadi baru yang dikumpulkan, tidak ada koordinat pengguna yang disimpan, dan daftar favorit pengguna tetap privat terhadap pengguna lain.
 - **Alternatif yang dipertimbangkan:** (1) Hanya menampilkan peringkat agregat — ditolak karena pemilik proyek meminta rincian per pengguna juga; (2) menyimpan kolom `favorite_count` pada tabel `jobs` — ditolak karena denormalisasi dan migrasi baru tidak diperlukan untuk pembacaan sesederhana ini; (3) menaruh laporan pada halaman Favorit pengguna — ditolak karena membuka data orang lain di luar prefix `/admin` dan melemahkan pemisahan peran.
 
+### ADR-012: Hosting publik untuk akses lintas perangkat
+
+- **Status:** Accepted
+- **Tanggal:** 2026-11-22
+- **Konteks:** Hingga T-054 aplikasi hanya berjalan di XAMPP lokal `http://localhost/loker/`, sehingga tidak bisa dibuka dari laptop lain atau HP. Pemilik proyek meminta website bisa diakses publik, dengan anggaran gratis, ringan di laptop, dan tidak mau membagikan kredensial hosting kepada agen.
+- **Keputusan:** Memakai **InfinityFree** (gratis selamanya, tanpa kartu kredit, PHP 8.4, MySQL 8.0/MariaDB 11.4, SSL gratis — diverifikasi dari https://infinityfree.net/). Alamat yang direncanakan `https://lokerdekat.rf.gd/loker/`. Struktur jembatan `index.php` + `.htaccess` root dipertahankan dengan syarat folder di `htdocs` diberi nama persis `loker`. Karena hosting gratis tidak menyediakan SSH, deploy dilakukan lewat File Manager (upload zip) dan phpMyAdmin (import SQL); `.env` produksi disiapkan dengan `APP_KEY` yang sudah terisi dan nilai `DB_*` diisi pemilik proyek di panel. SSL wajib aktif agar Geolocation API diterima browser di HP.
+- **Konsekuensi:** Aplikasi bergantung pada ketersediaan layanan gratis dan tidak punya jaminan SLA; pembaruan kode berikutnya harus meng-upload ulang zip secara manual. Rahasia (`APP_KEY`, `DB_PASSWORD`) tidak pernah masuk repo maupun chat. Password akun demo harus diganti pemilik segera setelah login pertama lewat halaman `/profil`.
+- **Alternatif yang dipertimbangkan:** (1) Byet.host — gratis, PHP 8.3, MySQL 8, layak sebagai cadangan; (2) Hostinger — mudah dan ada SSH, tapi berbayar sehingga ditolak karena anggaran gratis; (3) VPS — kontrol penuh tetapi terlalu berat untuk kebutuhan dan keahlian saat ini; (4) mengakses XAMPP lewat IP LAN — gratis, tetapi tidak publik dan Geolocation tetap bermasalah tanpa HTTPS.
+
 ## Delegated Choices
 
 Semua pilihan dibuat langsung oleh mahasiswa.
