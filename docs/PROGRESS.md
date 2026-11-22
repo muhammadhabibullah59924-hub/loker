@@ -6,7 +6,7 @@ Dokumen hidup. Diperbarui di **akhir setiap sesi** supaya sesi berikutnya (oleh 
 
 Tanggal: 2026-11-22
 
-**Sesi ini — `T-054` (branch `docs/T-054-deploy-lokal`, PR menunggu review manusia):** deploy produksi-lokal XAMPP di `http://localhost/loker/` selesai dan terverifikasi. Migrasi `2026_11_18_000000_add_is_premium_to_jobs_table` yang sempat `Pending` sudah dijalankan (`php artisan migrate`, non-destruktif) sehingga galat `Unknown column 'is_premium' in 'field list'` saat admin menyimpan loker hilang — smoke test simpan/ubah loker kini mengembalikan 302 dan pesan sukses, dengan nilai `is_premium` terbukti tersimpan lalu dikembalikan ke nilai semula. Atas izin eksplisit pemilik proyek, `.env` diubah hanya pada `APP_ENV=production` dan `APP_DEBUG=false` (rahasasia tidak disentuh), lalu cache config/route/view dibangun ulang. Gerbang lulus: pint bersih, PHPUnit 135/135 (483 asersi), `composer install --no-dev --optimize-autoloader` (percobaan pertama terpotong timeout, diulang dengan batas lebih lama hingga selesai), E2E Playwright 4/4. Smoke test: tamu `/admin` → `/login`, pengguna biasa → dasbor, login admin → dasbor 200, detail loker 200, CSS dan logo 200. Screenshot hasil E2E dikembalikan ke versi sebelumnya agar diff PR tetap kecil. Atas izin eksplisit pemilik proyek, `php artisan db:seed --force` dijalankan setelah migrasi agar kolom `is_premium` terisi: 260 loker aktif, 23 divisi, 34 loker premium, dan badge Premium Employer tampil di dasbor. Seeder memakai `updateOrCreate`, sehingga data loker yang ada ditimpa nilai seeder.
+**Sesi ini — `T-054` (branch `docs/T-054-deploy-lokal`, sudah di-merge ke `main` 2026-11-22 lewat PR #13 dengan persetujuan pemilik proyek):** deploy produksi-lokal XAMPP di `http://localhost/loker/` selesai dan terverifikasi. Migrasi `2026_11_18_000000_add_is_premium_to_jobs_table` yang sempat `Pending` sudah dijalankan (`php artisan migrate`, non-destruktif) sehingga galat `Unknown column 'is_premium' in 'field list'` saat admin menyimpan loker hilang — smoke test simpan/ubah loker kini mengembalikan 302 dan pesan sukses, dengan nilai `is_premium` terbukti tersimpan lalu dikembalikan ke nilai semula. Atas izin eksplisit pemilik proyek, `.env` diubah hanya pada `APP_ENV=production` dan `APP_DEBUG=false` (rahasia tidak disentuh), lalu cache config/route/view dibangun ulang. Gerbang lulus: pint bersih, PHPUnit 135/135 (483 asersi), `composer install --no-dev --optimize-autoloader` (percobaan pertama terpotong timeout, diulang dengan batas lebih lama hingga selesai), E2E Playwright 4/4. Smoke test: tamu `/admin` → `/login`, pengguna biasa → dasbor, login admin → dasbor 200, detail loker 200, CSS dan logo 200. Screenshot hasil E2E dikembalikan ke versi sebelumnya agar diff PR tetap kecil. Atas izin eksplisit pemilik proyek, `php artisan db:seed --force` dijalankan setelah migrasi agar kolom `is_premium` terisi: 260 loker aktif, 23 divisi, 34 loker premium, dan badge Premium Employer tampil di dasbor. Seeder memakai `updateOrCreate`, sehingga data loker yang ada ditimpa nilai seeder.
 
 **Sebelumnya — `T-053` (branch `feat/T-053-paginasi-dasbor`, sudah di-merge ke `main` 2026-11-22 dengan persetujuan pemilik proyek):** dengan 260 loker, pemilik proyek meminta daftar dibagi menjadi beberapa bagian berisi 20 loker dengan tombol bertuliskan angka. `DashboardController` memotong koleksi setelah filter/urutan jarak diterapkan memakai `LengthAwarePaginator` (bukan `paginate()` SQL, karena jarak dihitung di PHP), lalu `withQueryString()` menjaga filter tetap aktif di halaman berikutnya. Bagian "Loker Populer" tidak berubah. `DashboardPaginationTest` 5/5 lulus; PHPUnit 135/135 lulus.
 
@@ -22,7 +22,7 @@ Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori
 
 | Tanggal | Task | PR/Commit | Catatan |
 |---|---|---|---|
-| 2026-11-22 | T-054 Deploy produksi-lokal XAMPP dan verifikasi | branch `docs/T-054-deploy-lokal` | Migrasi `is_premium` di-aply (tidak ada yang Pending); `.env` produksi + cache dibangun; pint bersih, phpunit 135/135, build produksi, E2E 4/4; smoke test simpan loker admin tanpa 500; status T-054 = review, PR menunggu review manusia |
+| 2026-11-22 | T-054 Deploy produksi-lokal XAMPP dan verifikasi | branch `docs/T-054-deploy-lokal`, di-merge ke `main` lewat PR #13 | Migrasi `is_premium` di-aply (tidak ada yang Pending); `.env` produksi + cache dibangun; pint bersih, phpunit 135/135, build produksi, E2E 4/4; smoke test simpan loker admin tanpa 500; status T-054 = done |
 | 2026-11-22 | T-053 Paginasi daftar loker dasbor | branch `feat/T-053-paginasi-dasbor`, di-merge ke `main` | 20 loker per halaman, tombol angka + Sebelumnya/Berikutnya, filter terbawa, halaman di luar rentang jatuh ke halaman terakhir; `DashboardPaginationTest` 5/5, phpunit 135/135, E2E 4/4 | status T-053 = done |
 | 2026-11-22 | T-052 Perbanyak loker dan pastikan semua divisi terwakili | branch `feat/T-052-perbanyak-loker`, di-merge ke `main` | 260 loker di seeder (23 divisi, 11–14 tiap divisi), aman di DB tanpa kolom `is_premium`; DB lokal terisi 260 loker aktif; PHPUnit 130/130, E2E 3/3, pint bersih | status T-052 = done |
 | 2026-11-22 | T-051 Hilangkan peringatan Node 20 pada GitHub Actions | branch `fix/T-051-ci-checkout-node24` | `actions/checkout@v4` → pin SHA v7.0.1 (`node24`); versi dan SHA diverifikasi lewat GitHub API; gerbang lint/tes/build tidak disentuh | status T-051 = done; CI `success` tanpa anotasi (run `45002595874`) |
@@ -81,13 +81,7 @@ Tidak ada
 
 ## Next Up
 
-1. Review manusia untuk T-015 sebelum PR dari `feat/T-015-loker-kadaluarsa` (lihat `docs/WORKFLOW.md`).
-2. Review manusia untuk T-016 sebelum PR dari `fix/T-016-akses-website` (lihat `docs/WORKFLOW.md`).
-3. Review manusia untuk T-020 sebelum PR dari `feat/T-020-loker-populer` (lihat `docs/WORKFLOW.md`).
-4. Review manusia untuk T-022 sebelum PR dari `feat/T-022-statistik-dasbor` (lihat `docs/WORKFLOW.md`).
-5. Review manusia untuk T-023 sebelum PR dari `feat/T-023-banner-cta-popular` (lihat `docs/WORKFLOW.md`).
-6. Review manusia untuk T-024 sebelum PR dari `feat/T-024-badge-premium-employer` (lihat `docs/WORKFLOW.md`).
-7. Review manusia untuk T-025 sebelum PR dari `feat/T-025-statistik-loker-popular` (lihat `docs/WORKFLOW.md`).
+Tidak ada task berstatus `todo`: seluruh fitur `F1`–`F6` dan task `T-001`–`T-054` sudah `done` dan berada di `main`. Menunggu arahan pemilik proyek untuk task berikutnya.
 
 ## Blockers
 
@@ -97,7 +91,7 @@ Tidak ada. Format entri nanti: `tanggal | task | hambatan | yang sudah dicoba | 
 
 Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan untuk sesi berikutnya`.
 
-`2026-11-22 | agen coding (T-054) | T-054 | Migrasi is_premium yang Pending di-aply; mode produksi di .env dan cache dibangun; pint/phpunit/build/E2E lulus; galat 500 saat simpan loker di panel admin teratasi; atas izin pemilik proyek db:seed dijalankan ulang sehingga 34 loker premium tampil | status T-054 = review; branch docs/T-054-deploy-lokal menunggu PR dan review manusia`
+`2026-11-22 | agen coding (T-054) | T-054 | Migrasi is_premium yang Pending di-aply; mode produksi di .env dan cache dibangun; pint/phpunit/build/E2E lulus; galat 500 saat simpan loker di panel admin teratasi; atas izin pemilik proyek db:seed dijalankan ulang sehingga 34 loker premium tampil; PR #13 di-review dan di-merge dengan persetujuan pemilik proyek | status T-054 = done; sudah di main`
 
 `2026-11-22 | agen coding (T-053) | T-053 | Daftar loker dasbor dibagi 20 per halaman dengan tombol teks; filter tetap terbawa; tes paginasi 5/5, phpunit 135/135, E2E 4/4 | status T-053 = done; branch sudah di-merge ke main`
 
