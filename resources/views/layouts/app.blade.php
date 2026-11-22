@@ -35,7 +35,8 @@
                     @else
                         <a class="nav-link {{ request()->routeIs('dasbor') ? 'nav-link--aktif' : '' }}" href="{{ route('dasbor') }}">Dasbor</a>
                         @if (auth()->user()->isAdmin())
-                            <a class="nav-link {{ request()->routeIs('admin.*') ? 'nav-link--aktif' : '' }}" href="{{ route('admin.panel') }}">Panel Admin</a>
+                            <a class="nav-link {{ request()->routeIs('admin.panel', 'admin.loker.*') ? 'nav-link--aktif' : '' }}" href="{{ route('admin.panel') }}">Panel Admin</a>
+                            <a class="nav-link {{ request()->routeIs('admin.favorit') ? 'nav-link--aktif' : '' }}" href="{{ route('admin.favorit') }}">Laporan Favorit</a>
                         @endif
                         <a class="nav-link {{ request()->routeIs('favorit.*') ? 'nav-link--aktif' : '' }}" href="{{ route('favorit.index') }}">Favorit</a>
                         <a class="nav-link {{ request()->routeIs('profil.*') ? 'nav-link--aktif' : '' }}" href="{{ route('profil.index') }}">Profil</a>

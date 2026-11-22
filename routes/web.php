@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\FavoriteReportController;
 use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\PanelController;
 use App\Http\Controllers\AuthController;
@@ -62,6 +63,9 @@ Route::put('/profil', [ProfileController::class, 'update'])->middleware('auth')-
  */
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [PanelController::class, 'index'])->name('panel');
+
+    // T-049: laporan favorit (peringkat loker dan rincian per pengguna).
+    Route::get('favorit', [FavoriteReportController::class, 'index'])->name('favorit');
 
     // CRUD loker (F4). Rute /admin/loker/create harus dideklarasikan sebelum
     // pemetaan {loker} supaya kata "create" tidak dianggap sebuah id.
