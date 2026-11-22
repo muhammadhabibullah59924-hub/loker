@@ -25,6 +25,15 @@ Gerbang tambahan:
 - **Secret scanning** GitHub (push protection) aktif; adanya rahasia di diff membuat PR gagal.
 - **Daftar periksa manual:** checklist pada `docs/TESTING.md` minimal untuk pengujian di layar kecil, keyboard, dan izin lokasi ditolak.
 
+### Deploy Gate
+
+Sebelum deploy produksi-lokal dinyatakan selesai:
+
+1. `php artisan migrate:status` — tidak boleh ada migrasi berstatus `Pending`. Toleransi kode saat membaca kolom baru tidak menggantikan migrasi untuk jalur tulis.
+2. Bila cache produksi sudah dibangun, jalankan `php artisan optimize:clear` sebelum `php artisan test` agar `RefreshDatabase` tidak memakai koneksi produksi; bangun ulang `config:cache`, `route:cache`, dan `view:cache` setelah seluruh gerbang lulus.
+3. `composer install --no-dev --optimize-autoloader` harus berjalan sampai selesai; bila terpotong timeout, ulangi perintah yang sama — jangan menghapus `vendor` atau mengubah `composer.lock`.
+4. Smoke test mencakup **jalur tulis** (simpan/ubah loker lewat panel admin), bukan hanya pembacaan dasbor dan detail.
+
 ## Feature Acceptance Evals
 
 | ID | Eval | Cara dijalankan | Kriteria lulus |
