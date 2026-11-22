@@ -69,6 +69,7 @@ Agen hanya mengambil task berstatus `todo` yang seluruh dependensinya sudah `don
 | T-046 | Isian tipe, kebutuhan, dan premium di form admin | F4 | M | done | feat/T-046-form-tipe-loker | T-044 | Form loker admin bisa mengisi tipe loker, jumlah orang dibutuhkan, dan checkbox Premium Employer; `JobFormRequest` memvalidasi nilai; controller menyimpan dan bisa mematikan premium saat checkbox dikosongkan; tes `AdminFormDesignTest`, pint, phpunit, E2E lulus |
 | T-047 | Redesain halaman masuk dan daftar | F1 | M | done | feat/T-047-auth-design | T-046 | Halaman Masuk/Daftar jadi dua kolom: kartu form di kiri dan panel gradien teal di kanan berisi logo, tagline, dan tiga keunggulan; pesan galat ditambahkan; semua label dan tombol dipertahankan; tes `AuthDesignTest`, pint, phpunit, E2E lulus |
 | T-048 | Statistik dasbor dan footer lebih profesional | F2 | S | done | feat/T-048-stat-dashboard-footer | T-047 | Kartu statistik dasbor jadi 4 (aktif, populer, premium, divisi) memakai gaya kartu admin; footer jadi tiga kolom dengan tautan jelajahi dan baris bawah; hitungan premium dibuat aman bila kolom belum termigrasi; tes `DashboardHeroTest` dan `LandingTest`, pint, phpunit, E2E lulus |
+| T-050 | Chip divisi dasbor bisa digeser horizontal | F5 | S | review | feat/T-050-chip-divisi-geser | T-048 | Baris chip divisi jadi pita `flex-nowrap overflow-x-auto` alih-alih `flex-wrap`; chip aktif otomatis di-scroll ke tampilan; petunjuk geser dengan `aria-describedby`; tautan filter `divisi` tidak berubah; tes `SearchFilterTest`, pint, phpunit, E2E lulus |
 
 ## Backlog
 

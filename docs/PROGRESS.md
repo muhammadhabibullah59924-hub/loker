@@ -4,7 +4,9 @@ Dokumen hidup. Diperbarui di **akhir setiap sesi** supaya sesi berikutnya (oleh 
 
 ## Current State
 
-Tanggal: 2026-11-03
+Tanggal: 2026-11-22
+
+**Sesi ini — `T-050` (branch `feat/T-050-chip-divisi-geser`, status `review`):** pemilik proyek meminta chip divisi di dasbor tidak ditampilkan semua sekaligus. Baris chip kini memakai pita horizontal `flex-nowrap overflow-x-auto` (T-050) yang bisa digeser dengan sentuhan atau scrollbar; chip aktif otomatis dibawa ke tengah pita saat halaman dibuka, dan ada petunjuk geser yang terhubung lewat `aria-describedby`. Filter `divisi` tetap memakai tautan GET yang sama, sehingga controller dan data tidak berubah. `SearchFilterTest` 16/16 lulus.
 
 Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori Git sudah ada (commit awal `main`), dan seluruh perintah `stack.commands` lulus. `T-002` juga selesai: basis data `db_loker_v2` (charset `utf8`, ADR-008) berisi tabel `users`, `jobs`, `favorites`, model Eloquent dengan relasi, serta seeder 1 admin, 1 pengguna, dan 24 loker Probolinggo berkoordinat. `QUEUE_CONNECTION=sync` dan penghapusan migrasi antrean bawaan tercatat di ADR-007. Tiga migrasi bawaan + dua migrasi aplikasi sudah dijalankan, `php artisan test` lulus 2/2, dan `vendor/bin/pint --test` bersih. `T-003` juga selesai: halaman depan berisi logo, tagline, tombol Masuk/Daftar, dan panduan tiga langkah (R3) di atas layout Bootstrap 5.3.8 CDN; jembatan `index.php` + `.htaccess` di root membuat `http://localhost/loker/` berfungsi lewat Apache (ADR-005) dan berkas sensitif terjawab 404. `T-004` selesai: rute `/register`, `/login`, `/logout` dengan Form Request berpesan bahasa Indonesia, navbar menampilkan nama pengguna dan tombol Keluar, limiter 5 percobaan masuk per menit (OWASP A07), dan 13 tes lulus. `T-006` selesai: `DistanceService::distanceInKm` sesuai contoh di `docs/CODE_STYLE.md` beserta 5 unit test. `T-007` selesai: rute `/dasbor` dijaga middleware `auth`, kartu diurut menaik dengan angka km, Geolocation API meminta izin saat halaman dibuka, penolakan izin jatuh ke urutan pusat Probolinggo dari `config/loker.php` (ADR-009), dan redirect setelah masuk/daftar kini menuju dasbor. `T-005` selesai: alias middleware `admin` dijaga di server untuk seluruh prefix `/admin`, pengguna biasa ditolak dan dialihkan ke dasbor dengan peringatan, dan kerangka `PanelController` + `admin.panel` berisi ringkasan jumlah loker. `T-008` selesai: rute `/lowongan/{id}` hanya menerima loker tayang (sisanya 404), alamat ditulis sebagai teks biasa sehingga tetap terbaca bila ubin gagal dimuat, peta memakai Leaflet 1.9.4 dari jsDelivr + ubin OpenStreetMap, dan kartu dasbor kini menautkan ke halaman detail. `T-009` selesai: form tambah/ubah dijaga `JobFormRequest` (otorisasi admin + aturan R2 + pesan galat Indonesia), panel memuat tabel loker dengan aksi Ubah/Nonaktifkan/Hapus berkonfirmasi, dan pemilih titik Leaflet mengisi kolom lintang/bujur. `T-010` selesai: dasbor sekarang mendukung kata kunci nama PT/divisi (`q`) dan filter radius (km), tetap menjaga urutan jarak menaik, serta menampilkan pesan kosong sesuai kondisi pencarian. `T-011` selesai: rute daftar/save/hapus favorit milik pengguna, kartu daftar favorit, tombol simpan favorit, dan tautan navbar Favorit sudah jalan. `T-013` selesai: penyesuaian DESIGN_SYSTEM (heading global 32/24/18 px, badge divisi token sekunder, alert token warna, auto-dismiss alert) dengan pint bersih, 62 tes lulus. Total tes saat ini 62, seluruh gerbang hijau, data uji sudah bersih. `T-014` juga selesai: seluruh gerbang EVALS lulus (8 tes otomatis + R3 manual), README diperbarui status tahap, LESSONS diisi; pint, phpunit 66/66, validator 21 PASS, dan E2E Playwright lulus. Yang belum: CI hijau menunggu remote GitHub (mahasiswa push sendiri; cabang `docs/T-014-rilis` belum ter-push), cek tampilan 360 px masih manual, T-015 juga selesai: loker kadaluarsa ditapis dari dasbor; pint, phpunit 68/68, dan validator 21 PASS; status `T-001`–`T-015` masih `review` menunggu review manusia.
 
@@ -12,6 +14,7 @@ Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori
 
 | Tanggal | Task | PR/Commit | Catatan |
 |---|---|---|---|
+| 2026-11-22 | T-050 Chip divisi dasbor bisa digeser horizontal | branch `feat/T-050-chip-divisi-geser` | Baris chip divisi jadi pita `flex-nowrap overflow-x-auto` + kelas `.chip-scroll`, chip aktif di-scroll ke tampilan, petunjuk geser untuk layar sentuh; filter `divisi` tidak berubah; tes `SearchFilterTest` 16/16, pint, phpunit, E2E lulus | status T-050 = review; menunggu review manusia sebelum PR/merge |
 | 2026-11-10 | T-020 Dasbor dan detail loker menampilkan loker populer serta info lengongan lengkap | branch `feat/T-020-loker-populer` | Migrasi `job_type` + `positions_needed`, section "Loker Populer" di dasbor, info tipe dan butuh di detail, tes `LokerPopularTest`; pint, phpunit 72/72, E2E 2/2 lulus | status T-020 = review; menunggu PR dari `feat/T-020-loker-populer` |
 | 2026-11-18 | T-022 Dasbor menambahkan statistik jumlah loker aktif tersedia | branch `feat/T-022-statistik-dasbor` | Statistik dihitung dari jumlah loker aktif dan tampil di dasbor; tes `LokerPopularTest`, pint, phpunit 73/73, E2E 2/2 lulus | status T-022 = review; menunggu PR dari `feat/T-022-statistik-dasbor` |
 | 2026-11-18 | T-023 Dasbor menambahkan banner CTA loker populer | branch `feat/T-023-banner-cta-popular` | Banner CTA "Lihat loker populer" tampil di atas daftar popular; tes `LokerPopularTest`, pint, phpunit 74/74, E2E 2/2 lulus | status T-023 = review; menunggu PR dari `feat/T-023-banner-cta-popular` |
@@ -64,13 +67,14 @@ Tidak ada
 
 ## Next Up
 
-1. Review manusia untuk T-015 sebelum PR dari `feat/T-015-loker-kadaluarsa` (lihat `docs/WORKFLOW.md`).
-2. Review manusia untuk T-016 sebelum PR dari `fix/T-016-akses-website` (lihat `docs/WORKFLOW.md`).
-3. Review manusia untuk T-020 sebelum PR dari `feat/T-020-loker-populer` (lihat `docs/WORKFLOW.md`).
-6. Review manusia untuk T-024 sebelum PR dari `feat/T-024-badge-premium-employer` (lihat `docs/WORKFLOW.md`).
-7. Review manusia untuk T-025 sebelum PR dari `feat/T-025-statistik-loker-popular` (lihat `docs/WORKFLOW.md`).
-5. Review manusia untuk T-023 sebelum PR dari `feat/T-023-banner-cta-popular` (lihat `docs/WORKFLOW.md`).
-4. Review manusia untuk T-022 sebelum PR dari `feat/T-022-statistik-dasbor` (lihat `docs/WORKFLOW.md`).
+1. Review manusia untuk T-050 sebelum PR dari `feat/T-050-chip-divisi-geser` (lihat `docs/WORKFLOW.md`).
+2. Review manusia untuk T-015 sebelum PR dari `feat/T-015-loker-kadaluarsa` (lihat `docs/WORKFLOW.md`).
+3. Review manusia untuk T-016 sebelum PR dari `fix/T-016-akses-website` (lihat `docs/WORKFLOW.md`).
+4. Review manusia untuk T-020 sebelum PR dari `feat/T-020-loker-populer` (lihat `docs/WORKFLOW.md`).
+5. Review manusia untuk T-022 sebelum PR dari `feat/T-022-statistik-dasbor` (lihat `docs/WORKFLOW.md`).
+6. Review manusia untuk T-023 sebelum PR dari `feat/T-023-banner-cta-popular` (lihat `docs/WORKFLOW.md`).
+7. Review manusia untuk T-024 sebelum PR dari `feat/T-024-badge-premium-employer` (lihat `docs/WORKFLOW.md`).
+8. Review manusia untuk T-025 sebelum PR dari `feat/T-025-statistik-loker-popular` (lihat `docs/WORKFLOW.md`).
 
 ## Blockers
 
@@ -79,6 +83,8 @@ Tidak ada. Format entri nanti: `tanggal | task | hambatan | yang sudah dicoba | 
 ## Session Log
 
 Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan untuk sesi berikutnya`.
+
+`2026-11-22 | agen coding (T-050) | T-050 | Chip divisi dasbor jadi pita horizontal yang bisa digeser; chip aktif otomatis masuk tampilan; tes filter 16/16 | status T-050 = review; cabang dibuat dari `main` sebelum T-049 di-merge, jadi jangan di-merge duluan tanpa cek ulang konflik docs`
 
 `2026-10-25 | asisten penyusun dokumen | - | 16 dokumen proyek dan pendukung git selesai dihasilkan dari SPEC.json | mulai dari T-001, jangan lupa buat repo Git dan database db_loker sebelum menjalankan migrasi`
 
