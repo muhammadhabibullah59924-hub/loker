@@ -56,6 +56,7 @@ Komponen berikut memakai kelas bawaan **Bootstrap 5** sehingga tidak dibuat ulan
 | Badge | kota, divisi, jarak | aktif/nonaktif | dipakai untuk pemindaian cepat di dasbor |
 | Navbar | sesi login, sesi tamu | default, terbuka di layar kecil | memuat nama pengguna dan tombol Keluar setelah F1 berhasil |
 | Tabel admin | tabel data loker | kosong, memuat, ada baris | hanya di panel admin F4 |
+| Navigasi halaman | tombol angka teks + Sebelumnya/Berikutnya | halaman aktif, tautan, nonaktif | 20 kartu per halaman; halaman aktif memakai `aria-current="page"` dan aksen teal (T-053) |
 | Dialog konfirmasi | hapus/nonaktif loker | terbuka, batal, konfirmasi | wajib untuk tindakan merusak |
 | Peta | halaman detail F3 | memuat, gagal dimuat | cadangan teks alamat selalu ikut ditampilkan |
 | Notifikasi (alert) | sukses, peringatan, galat | muncul sekali lalu hilang | mengikuti aturan di *Motion and Feedback* |
