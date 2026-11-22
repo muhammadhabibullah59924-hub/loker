@@ -6,7 +6,9 @@ Dokumen hidup. Diperbarui di **akhir setiap sesi** supaya sesi berikutnya (oleh 
 
 Tanggal: 2026-11-22
 
-**Sesi ini — `T-049` dan `T-050`, sudah di-merge ke `main` pada 2026-11-22 dengan persetujuan pemilik proyek.** `T-049` menambah halaman `/admin/favorit` (F4) berisi peringkat loker paling difavoritkan dan rincian favorit per pengguna (nama, email, judul loker), dibaca dari tabel `favorites` tanpa skema baru; akses dijaga `auth` + `admin`, laporan bersifat baca-saja, keputusan tercatat di ADR-011 dan perluasan akses di `docs/SECURITY.md`. `T-050` mengubah chip divisi dasbor menjadi pita horizontal `flex-nowrap overflow-x-auto` yang bisa digeser, dengan chip aktif yang otomatis masuk tampilan dan petunjuk geser lewat `aria-describedby`; filter `divisi` tetap memakai tautan GET yang sama. Gerbang lokal pada masing-masing branch: pint bersih, PHPUnit 127/127 (T-049) dan 122/122 (T-050), E2E 3/3, build produksi lolos. Setelah gabung di `main`: pint bersih, PHPUnit 129/129, dan E2E 3/3 lulus.
+**Sesi ini — `T-051` (branch `fix/T-051-ci-checkout-node24`, status `review`):** CI `main` hijau tetapi memberi peringatan depresi Node.js 20 untuk `actions/checkout@v4`. Versi terbaru terverifikasi dari GitHub API adalah v7.0.1 (runtime `node24`, SHA `3d3c42e5aac5ba805825da76410c181273ba90b1`), jadi langkah checkout kini di-pin ke SHA tersebut. Gerbang lint/tes/build di workflow tidak diubah. Hasil CI setelah perubahan dicek setelah push.
+
+**Sebelumnya — `T-049` dan `T-050`, sudah di-merge ke `main` pada 2026-11-22 dengan persetujuan pemilik proyek.** `T-049` menambah halaman `/admin/favorit` (F4) berisi peringkat loker paling difavoritkan dan rincian favorit per pengguna (nama, email, judul loker), dibaca dari tabel `favorites` tanpa skema baru; akses dijaga `auth` + `admin`, laporan bersifat baca-saja, keputusan tercatat di ADR-011 dan perluasan akses di `docs/SECURITY.md`. `T-050` mengubah chip divisi dasbor menjadi pita horizontal `flex-nowrap overflow-x-auto` yang bisa digeser, dengan chip aktif yang otomatis masuk tampilan dan petunjuk geser lewat `aria-describedby`; filter `divisi` tetap memakai tautan GET yang sama. Gerbang lokal pada masing-masing branch: pint bersih, PHPUnit 127/127 (T-049) dan 122/122 (T-050), E2E 3/3, build produksi lolos. Setelah gabung di `main`: pint bersih, PHPUnit 129/129, dan E2E 3/3 lulus.
 
 Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori Git sudah ada (commit awal `main`), dan seluruh perintah `stack.commands` lulus. `T-002` juga selesai: basis data `db_loker_v2` (charset `utf8`, ADR-008) berisi tabel `users`, `jobs`, `favorites`, model Eloquent dengan relasi, serta seeder 1 admin, 1 pengguna, dan 24 loker Probolinggo berkoordinat. `QUEUE_CONNECTION=sync` dan penghapusan migrasi antrean bawaan tercatat di ADR-007. Tiga migrasi bawaan + dua migrasi aplikasi sudah dijalankan, `php artisan test` lulus 2/2, dan `vendor/bin/pint --test` bersih. `T-003` juga selesai: halaman depan berisi logo, tagline, tombol Masuk/Daftar, dan panduan tiga langkah (R3) di atas layout Bootstrap 5.3.8 CDN; jembatan `index.php` + `.htaccess` di root membuat `http://localhost/loker/` berfungsi lewat Apache (ADR-005) dan berkas sensitif terjawab 404. `T-004` selesai: rute `/register`, `/login`, `/logout` dengan Form Request berpesan bahasa Indonesia, navbar menampilkan nama pengguna dan tombol Keluar, limiter 5 percobaan masuk per menit (OWASP A07), dan 13 tes lulus. `T-006` selesai: `DistanceService::distanceInKm` sesuai contoh di `docs/CODE_STYLE.md` beserta 5 unit test. `T-007` selesai: rute `/dasbor` dijaga middleware `auth`, kartu diurut menaik dengan angka km, Geolocation API meminta izin saat halaman dibuka, penolakan izin jatuh ke urutan pusat Probolinggo dari `config/loker.php` (ADR-009), dan redirect setelah masuk/daftar kini menuju dasbor. `T-005` selesai: alias middleware `admin` dijaga di server untuk seluruh prefix `/admin`, pengguna biasa ditolak dan dialihkan ke dasbor dengan peringatan, dan kerangka `PanelController` + `admin.panel` berisi ringkasan jumlah loker. `T-008` selesai: rute `/lowongan/{id}` hanya menerima loker tayang (sisanya 404), alamat ditulis sebagai teks biasa sehingga tetap terbaca bila ubin gagal dimuat, peta memakai Leaflet 1.9.4 dari jsDelivr + ubin OpenStreetMap, dan kartu dasbor kini menautkan ke halaman detail. `T-009` selesai: form tambah/ubah dijaga `JobFormRequest` (otorisasi admin + aturan R2 + pesan galat Indonesia), panel memuat tabel loker dengan aksi Ubah/Nonaktifkan/Hapus berkonfirmasi, dan pemilih titik Leaflet mengisi kolom lintang/bujur. `T-010` selesai: dasbor sekarang mendukung kata kunci nama PT/divisi (`q`) dan filter radius (km), tetap menjaga urutan jarak menaik, serta menampilkan pesan kosong sesuai kondisi pencarian. `T-011` selesai: rute daftar/save/hapus favorit milik pengguna, kartu daftar favorit, tombol simpan favorit, dan tautan navbar Favorit sudah jalan. `T-013` selesai: penyesuaian DESIGN_SYSTEM (heading global 32/24/18 px, badge divisi token sekunder, alert token warna, auto-dismiss alert) dengan pint bersih, 62 tes lulus. Total tes saat ini 62, seluruh gerbang hijau, data uji sudah bersih. `T-014` juga selesai: seluruh gerbang EVALS lulus (8 tes otomatis + R3 manual), README diperbarui status tahap, LESSONS diisi; pint, phpunit 66/66, validator 21 PASS, dan E2E Playwright lulus. Yang belum: CI hijau menunggu remote GitHub (mahasiswa push sendiri; cabang `docs/T-014-rilis` belum ter-push), cek tampilan 360 px masih manual, T-015 juga selesai: loker kadaluarsa ditapis dari dasbor; pint, phpunit 68/68, dan validator 21 PASS; status `T-001`–`T-015` masih `review` menunggu review manusia.
 
@@ -14,6 +16,7 @@ Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori
 
 | Tanggal | Task | PR/Commit | Catatan |
 |---|---|---|---|
+| 2026-11-22 | T-051 Hilangkan peringatan Node 20 pada GitHub Actions | branch `fix/T-051-ci-checkout-node24` | `actions/checkout@v4` → pin SHA v7.0.1 (`node24`); versi dan SHA diverifikasi lewat GitHub API; gerbang lint/tes/build tidak disentuh | status T-051 = review; menunggu verifikasi CI setelah push |
 | 2026-11-22 | T-049 Laporan favorit untuk pengelola | branch `feat/T-049-laporan-favorit-admin`, di-merge ke `main` | `/admin/favorit` menampilkan ranking loker paling difavoritkan + rincian favorit per pengguna (nama, email, loker); agregat read-only dari tabel `favorites`, tanpa migrasi; ADR-011 + catatan akses di `SECURITY.md`; tes `AdminFavoriteReportTest` 7/7, phpunit 127/127, pint bersih | status T-049 = done |
 | 2026-11-22 | T-050 Chip divisi dasbor bisa digeser horizontal | branch `feat/T-050-chip-divisi-geser`, di-merge ke `main` | Baris chip divisi jadi pita `flex-nowrap overflow-x-auto` + kelas `.chip-scroll`, chip aktif di-scroll ke tampilan, petunjuk geser untuk layar sentuh; filter `divisi` tidak berubah; tes `SearchFilterTest` 16/16, pint, phpunit 122/122, E2E 3/3 lulus | status T-050 = done |
 | 2026-11-22 | Merge T-049 + T-050 ke `main` | `main` | T-049 fast-forward, T-050 merge commit; konflik dokumen (`TASKS.md`, `PROGRESS.md`) diselesaikan dengan menyimpan kedua entri | gerbang setelah gabung dijalankan ulang sebelum push |
@@ -69,13 +72,14 @@ Tidak ada
 
 ## Next Up
 
-1. Review manusia untuk T-015 sebelum PR dari `feat/T-015-loker-kadaluarsa` (lihat `docs/WORKFLOW.md`).
-2. Review manusia untuk T-016 sebelum PR dari `fix/T-016-akses-website` (lihat `docs/WORKFLOW.md`).
-3. Review manusia untuk T-020 sebelum PR dari `feat/T-020-loker-populer` (lihat `docs/WORKFLOW.md`).
-4. Review manusia untuk T-022 sebelum PR dari `feat/T-022-statistik-dasbor` (lihat `docs/WORKFLOW.md`).
-5. Review manusia untuk T-023 sebelum PR dari `feat/T-023-banner-cta-popular` (lihat `docs/WORKFLOW.md`).
-6. Review manusia untuk T-024 sebelum PR dari `feat/T-024-badge-premium-employer` (lihat `docs/WORKFLOW.md`).
-7. Review manusia untuk T-025 sebelum PR dari `feat/T-025-statistik-loker-popular` (lihat `docs/WORKFLOW.md`).
+1. Review manusia untuk T-051 sebelum PR dari `fix/T-051-ci-checkout-node24` (lihat `docs/WORKFLOW.md`).
+2. Review manusia untuk T-015 sebelum PR dari `feat/T-015-loker-kadaluarsa` (lihat `docs/WORKFLOW.md`).
+3. Review manusia untuk T-016 sebelum PR dari `fix/T-016-akses-website` (lihat `docs/WORKFLOW.md`).
+4. Review manusia untuk T-020 sebelum PR dari `feat/T-020-loker-populer` (lihat `docs/WORKFLOW.md`).
+5. Review manusia untuk T-022 sebelum PR dari `feat/T-022-statistik-dasbor` (lihat `docs/WORKFLOW.md`).
+6. Review manusia untuk T-023 sebelum PR dari `feat/T-023-banner-cta-popular` (lihat `docs/WORKFLOW.md`).
+7. Review manusia untuk T-024 sebelum PR dari `feat/T-024-badge-premium-employer` (lihat `docs/WORKFLOW.md`).
+8. Review manusia untuk T-025 sebelum PR dari `feat/T-025-statistik-loker-popular` (lihat `docs/WORKFLOW.md`).
 
 ## Blockers
 
@@ -84,6 +88,8 @@ Tidak ada. Format entri nanti: `tanggal | task | hambatan | yang sudah dicoba | 
 ## Session Log
 
 Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan untuk sesi berikutnya`.
+
+`2026-11-22 | agen coding (T-051) | T-051 | Checkout CI di-pin ke SHA v7.0.1 (node24) untuk menghapus peringatan depresi Node 20; versi/SHA diverifikasi dari GitHub API; gerbang tidak diubah | status T-051 = review; cek ulang CI setelah push ke main`
 
 `2026-11-22 | agen coding (T-049 + T-050) | T-049, T-050 | Laporan favorit admin dan chip divisi geser selesai; konflik dokumen saat gabung diselesaikan; kedua task status done | kedua branch sudah di-push dan di-merge ke main; gerbang setelah gabung wajib dijalankan sebelum push main`
 
