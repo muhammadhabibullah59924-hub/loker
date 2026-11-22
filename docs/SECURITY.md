@@ -21,7 +21,7 @@ Peran: **user** (pencari kerja) dan **admin** (pengelola loker).
 |---|---|---|---|---|---|---|
 | Tamu | ya | tidak (dialihkan ke login) | tidak | tidak | tidak | tidak |
 | user | ya | ya | ya | **tidak** | ya | ya milik sendiri |
-| admin | ya | ya | ya | ya (tambah, ubah, nonaktif, hapus) | ya | ya milik sendiri |
+| admin | ya | ya | ya | ya (tambah, ubah, nonaktif, hapus) | ya | ya milik sendiri + laporan `/admin/favorit` (baca saja) |
 
 Otorisasi **wajib diperiksa di sisi server**: middleware `auth` pada seluruh rute setelah login dan middleware peran `admin` pada seluruh prefix `/admin`. Menyembunyikan tombol di antarmuka hanya pelengkap, bukan kontrol.
 
@@ -52,11 +52,13 @@ Enkripsi saat transit wajib memakai TLS pada hosting produksi; untuk pengembanga
 
 Pertimbangan **UU No. 27 Tahun 2022 tentang Pelindungan Data Pribadi**: pengumpulan lokasi dibatasi pada yang dibutuhkan untuk fitur pengurutan jarak, pengguna diberi pilihan menolak, dan data tidak dibagikan ke pihak ketiga. Selama pengembangan dipakai data dummy; data nyata hanya dipakai setelah pengkajian dosen.
 
+Perluasan akses T-049 (ADR-011): halaman `/admin/favorit` menampilkan **nama dan email** pengguna yang menyimpan favorit, di samping peringkat loker dan judul loker yang disimpan. Data ini bukan data baru — keduanya sudah dikumpulkan saat registrasi (F1) — dan hanya dapat dibuka oleh akun berperan admin lewat middleware `auth` + `admin`. Halaman bersifat baca-saja: admin tidak dapat mengubah atau memindahkan favorit pengguna lain, dan daftar favorit pengguna tetap hanya terlihat oleh pemiliknya di rute F6 biasa. Apabila kelak dipakai dengan data nyata, perluasan ini harus dikaji ulang bersama dosen pembimbing.
+
 ## OWASP Top 10:2025 Checklist
 
 | Kode | Risiko | Penerapan pada proyek ini |
 |---|---|---|
-| A01:2025 | Broken Access Control | Middleware `auth` dan peran `admin` diperiksa di server untuk seluruh rute `/admin` (F4); favorit dibaca dari id sesi sehingga IDOR lewat `user_id` tidak mempan (F6); SSRF tidak relevan karena aplikasi tidak memanggil URL dari input pengguna — permintaan keluar hanya ke ubin Leaflet yang ditentukan konfigurasi. |
+| A01:2025 | Broken Access Control | Middleware `auth` dan peran `admin` diperiksa di server untuk seluruh rute `/admin`, termasuk laporan `/admin/favorit` (F4, T-049); favorit di halaman F6 dibaca dari id sesi sehingga IDOR lewat `user_id` tidak mempan, sementara rincian lintas pengguna hanya tersedia untuk admin; SSRF tidak relevan karena aplikasi tidak memanggil URL dari input pengguna — permintaan keluar hanya ke ubin Leaflet yang ditentukan konfigurasi. |
 | A02:2025 | Security Misconfiguration | `APP_DEBUG=false` di staging dan produksi, `APP_ENV=production` bila dipakai, header keamanan bawaan Laravel aktif, CORS dibatasi pada origin sendiri, folder `.git` dan `.env` tidak dapat diakses lewat web, dan izin berkas dibuat sesedikit mungkin. |
 | A03:2025 | Software Supply Chain Failures | Lockfile `composer.lock` di-commit, Dependabot aktif untuk ekosistem `php`, nama paket diverifikasi sebelum instal (mis. `laravel/framework` dan `phpunit/phpunit` berasal dari penerbit yang benar), audit dengan `composer audit`, dan GitHub Actions di-pin ke SHA untuk produksi. |
 | A04:2025 | Cryptographic Failures | TLS dipakai pada produksi; kata sandi disimpan lewat hash bcrypt bawaan Laravel (`Hash::make`), tidak pernah MD5/SHA1 dan tidak pernah ditulis sendiri; tidak ada data sensitif lain yang perlu dienkripsi terpisah. |

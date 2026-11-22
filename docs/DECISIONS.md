@@ -102,6 +102,15 @@ Semua ADR di bawah memakai tanggal 2026-10-25 kecuali dibuat kemudian.
 - **Konsekuensi:** Migrasi baru harus dijalankan lewat `php artisan migrate`; nilai default menjamin loker lama tetap tampil dengan butuh satu orang.
 - **Alternatif yang dipertimbangkan:** Memakai teks bebas pada field `requirements` atau `description` untuk menyimpan jenis dan jumlah lowongan, atau membuat tabel terpisah untuk entri lowongan — keduanya kurang sesuai untuk ukuran tugas dan kebutuhan daftar populer yang sederhana.
 
+### ADR-011: Laporan favorit untuk pengelola
+
+- **Status:** Accepted
+- **Tanggal:** 2026-11-22
+- **Konteks:** F6 semula hanya melayani pencari kerja: favorit dibaca dari id pengguna sesi, sehingga admin tidak punya cara melihat data favorit. Pemilik proyek meminta dua sudut pandang untuk pengelola — loker paling difavoritkan dan rincian favorit per pengguna — tanpa mengubah cara kerja F6 bagi pengguna biasa.
+- **Keputusan:** Menambahkan halaman `/admin/favorit` (T-049) yang dibuka hanya oleh peran admin lewat middleware `auth` + `admin`. Halaman ini membaca tabel `favorites` yang sudah ada: peringkat loker dikelompokkan per `job_id` dan diurut dari jumlah favorit terbanyak, sedangkan rincian dikelompokkan per `user_id` dan menampilkan nama, email, serta loker yang disimpan. Laporan bersifat **read-only**: admin tidak bisa menambah, memindah, atau menghapus favorit akun lain, dan tidak ada skema atau kolom baru.
+- **Konsekuensi:** Admin menjadi dapat melihat nama dan email pengguna yang menyimpan favorit; hal ini dicatat sebagai perluasan akses di `docs/SECURITY.md` dan sudah disetujui pemilik proyek. Tidak ada data pribadi baru yang dikumpulkan, tidak ada koordinat pengguna yang disimpan, dan daftar favorit pengguna tetap privat terhadap pengguna lain.
+- **Alternatif yang dipertimbangkan:** (1) Hanya menampilkan peringkat agregat — ditolak karena pemilik proyek meminta rincian per pengguna juga; (2) menyimpan kolom `favorite_count` pada tabel `jobs` — ditolak karena denormalisasi dan migrasi baru tidak diperlukan untuk pembacaan sesederhana ini; (3) menaruh laporan pada halaman Favorit pengguna — ditolak karena membuka data orang lain di luar prefix `/admin` dan melemahkan pemisahan peran.
+
 ## Delegated Choices
 
 Semua pilihan dibuat langsung oleh mahasiswa.
