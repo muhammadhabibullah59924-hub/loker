@@ -300,6 +300,24 @@ class SearchFilterTest extends TestCase
     }
 
     /**
+     * T-052: bagian loker populer ikut mematuhi filter tipe yang aktif.
+     */
+    public function test_loker_populer_juga_mematuhi_filter_tipe(): void
+    {
+        $this->buatLokerButuh('PT Populer Full', 5);
+
+        $partTime = $this->buatLokerButuh('PT Populer Part', 4);
+        $partTime->forceFill(['job_type' => 'Part-Time'])->save();
+
+        $response = $this->actingAs($this->pengguna)
+            ->get('/dasbor?lat=-7.7145&lng=113.2146&tipe=Full-Time');
+
+        $response->assertStatus(200);
+        $response->assertSee('PT Populer Full');
+        $response->assertDontSee('PT Populer Part');
+    }
+
+    /**
      * Buat satu loker berbobot dari titik pusat Probolinggo (lihat ADR-009).
      */
     private function buatLoker(string $nama, string $divisi, float $lng = 113.2250): Job

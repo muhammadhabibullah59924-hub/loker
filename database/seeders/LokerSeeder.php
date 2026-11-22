@@ -5,10 +5,12 @@ namespace Database\Seeders;
 use App\Models\Job;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Seeder data awal: 1 admin, 1 pencari kerja, dan 30 loker di Kota Probolinggo.
+ * Seeder data awal: 1 admin, 1 pencari kerja, dan 260 loker di Kota Probolinggo
+ * (30 loker rinci + 230 loker turunan yang mencakup seluruh divisi).
  *
  * Koordinat adalah data dummy perkiraan di dalam wilayah Kota Probolinggo
  * (memakai tujuh kecamatan sebagai titik acuan) — dipakai untuk menguji
@@ -50,15 +52,40 @@ class LokerSeeder extends Seeder
             ],
         );
 
-        foreach ($this->lokernya() as $loker) {
+        $kolomTersedia = array_flip($this->kolomJobs());
+
+        foreach (array_merge($this->lokernya(), $this->lokerPerDivisi()) as $loker) {
             Job::updateOrCreate(
                 [
                     'company_name' => $loker['company_name'],
                     'division' => $loker['division'],
                 ],
-                $loker + ['posted_by' => $admin->id],
+                array_intersect_key($loker, $kolomTersedia) + ['posted_by' => $admin->id],
             );
         }
+    }
+
+    /**
+     * Daftar kolom tabel jobs yang benar-benar ada pada database aktif.
+     *
+     * Database lokal belum selalu termigrasi sampai kolom is_premium (T-024),
+     * jadi seeder tidak boleh menulis kolom yang belum ada.
+     *
+     * @return array<int, string>
+     */
+    private function kolomJobs(): array
+    {
+        if (DB::getDriverName() === 'sqlite') {
+            return DB::getSchemaBuilder()->getColumnListing('jobs');
+        }
+
+        return array_map(
+            fn (object $kolom): string => $kolom->column_name,
+            DB::select(
+                'select column_name from information_schema.columns where table_schema = ? and table_name = ?',
+                [DB::getDatabaseName(), 'jobs'],
+            ),
+        );
     }
 
     /**
@@ -431,5 +458,96 @@ class LokerSeeder extends Seeder
                 'longitude' => 113.2180000,
             ],
         ];
+    }
+
+    /**
+     * Bangkitkan 10 loker untuk setiap divisi agar seluruh divisi terwakili.
+     *
+     * Data sengaja deterministik dan fiktif: aman dijalankan ulang karena
+     * memakai updateOrCreate dengan pasangan nama PT dan divisi sebagai kunci.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function lokerPerDivisi(): array
+    {
+        $divisi = [
+            'Administrasi' => ['Mengurus surat, arsip, dan jadwal kantor.', 'Minimal SMA, rapi, dan teliti.'],
+            'Administrasi Apotek' => ['Mengelola resep, stok obat, dan administrasi apotek.', 'Minimal SMK Farmasi, tertib data.'],
+            'Administrasi Proyek' => ['Menyiapkan dokumen dan jadwal pelaksanaan proyek.', 'Minimal SMA, paham Microsoft Office.'],
+            'Desain' => ['Membuat desain grafis untuk kebutuhan produksi dan promosi.', 'SMK Desain, menguasai perangkat desain.'],
+            'Gudang' => ['Menata barang masuk, keluar, dan stok gudang.', 'Minimal SMA, mampu mengangkat beban 20 kg.'],
+            'Kasir' => ['Melayani pembayaran dan merekap transaksi harian.', 'Minimal SMA, teliti dan ramah.'],
+            'Keuangan' => ['Membantu pembukuan, kas, dan laporan keuangan.', 'Minimal SMA/SMK, paham akuntansi dasar.'],
+            'Konstruksi' => ['Membantu pekerjaan lapangan dan perakitan struktur.', 'Minimal SMA, disiplin, dan memakai APD.'],
+            'Kreatif' => ['Menyusun ide konten dan kampanye untuk merek lokal.', 'Kreatif, bisa menulis, dan siap kolaborasi.'],
+            'Laboratorium' => ['Melakukan pengujian sampel dan mencatat hasilnya.', 'Minimal SMK Kimia/Laboratorium, teliti.'],
+            'Logistik' => ['Mengatur distribusi barang dan dokumen pengiriman.', 'Minimal SMA, rapi, dan komunikatif.'],
+            'Packing' => ['Membungkus dan memberi label produk sebelum dikirim.', 'Minimal SMA, teliti, dan cepat.'],
+            'Pelayanan' => ['Melayani kebutuhan pelanggan di lokasi usaha.', 'Minimal SMA, ramah, dan sabar.'],
+            'Pelayanan Pelanggan' => ['Menjawab pertanyaan dan menangani keluhan pelanggan.', 'Minimal SMA, komunikatif, dan sabar.'],
+            'Pemasaran' => ['Mencari peluang pasar dan mempromosikan produk.', 'Minimal SMA, komunikatif, dan proaktif.'],
+            'Pengiriman' => ['Mengantar paket dan memastikan barang sampai tepat waktu.', 'Memiliki SIM C, jujur, dan tepat waktu.'],
+            'Pengolahan' => ['Menjaga proses pengolahan bahan menjadi produk jadi.', 'Minimal SMK, disiplin, dan paham kebersihan.'],
+            'Penjualan' => ['Menawarkan produk dan mencapai target penjualan.', 'Minimal SMA, komunikatif, dan target oriented.'],
+            'Produksi' => ['Menjaga lini produksi agar berjalan lancar dan aman.', 'Minimal SMA/SMK, siap kerja shift.'],
+            'Quality Control' => ['Memeriksa kualitas produk sesuai standar perusahaan.', 'Minimal SMK, teliti, dan paham standar mutu.'],
+            'Servis' => ['Memperbaiki dan merawat peralatan pelanggan.', 'SMK Teknik, paham dasar kelistrikan.'],
+            'Teknisi' => ['Memasang, memeriksa, dan memelihara peralatan.', 'SMK Teknik, memiliki SIM C menjadi nilai tambah.'],
+            'Teknologi Informasi' => ['Membantu pengelolaan sistem, jaringan, dan data.', 'Minimal SMK/S1 IT, paham dasar komputer.'],
+        ];
+
+        $perusahaan = [
+            'Surya Abadi', 'Bumi Lestari', 'Rizky Jaya', 'Mekar Sari', 'Nusantara Sejahtera',
+            'Mandiri Putra', 'Cahaya Timur', 'Tirta Wijaya', 'Gerbang Mas', 'Pusaka Raya',
+        ];
+
+        $jalan = [
+            'Pahlawan', 'Merdeka', 'Sudirman', 'Diponegoro', 'Ahmad Yani',
+            'Gatot Subroto', 'Suroso', 'Blandongan', 'Raya', 'Kenanga',
+        ];
+
+        $lokasi = [
+            ['Gading', -7.7004, 113.2035],
+            ['Kedopok', -7.7260, 113.1905],
+            ['Mayangan', -7.7138, 113.2150],
+            ['Wonoasih', -7.7265, 113.2220],
+            ['Kanigaran', -7.7350, 113.2155],
+            ['Karanganyar', -7.7200, 113.2300],
+            ['Pakuningratan', -7.7150, 113.2250],
+        ];
+
+        $tipe = ['Full-Time', 'Part-Time', 'Contract', 'Internship'];
+        $hariIni = now();
+        $loker = [];
+        $indeksDivisi = 0;
+
+        foreach ($divisi as $namaDivisi => $deskripsiDivisi) {
+            for ($i = 0; $i < 10; $i++) {
+                $tempat = $lokasi[($indeksDivisi + $i) % count($lokasi)];
+                $batas = $hariIni->copy()->addDays(30 + (($indeksDivisi * 3 + $i) % 60))->toDateString();
+
+                $loker[] = [
+                    'company_name' => ($i % 2 === 0 ? 'PT ' : 'CV ').$perusahaan[$i].' '.$namaDivisi,
+                    'address' => 'Jl. '.$jalan[$i].' No. '.(10 + $indeksDivisi + $i * 2).', '.$tempat[0],
+                    'division' => $namaDivisi,
+                    'city' => 'Kota Probolinggo',
+                    'description' => $deskripsiDivisi[0].' Berkontribusi pada tim '.$namaDivisi.' di '.$tempat[0].'.',
+                    'requirements' => $deskripsiDivisi[1].' Siap bekerja di Kota Probolinggo.',
+                    'job_type' => $tipe[($indeksDivisi + $i) % count($tipe)],
+                    'positions_needed' => 1 + (($indeksDivisi + $i) % 5),
+                    'is_premium' => ($indeksDivisi + $i) % 7 === 0,
+                    'is_active' => true,
+                    'deadline' => $batas,
+                    'opens_at' => $hariIni->toDateString(),
+                    'closes_at' => $batas,
+                    'latitude' => round($tempat[1] + (($i % 3) - 1) * 0.0015, 7),
+                    'longitude' => round($tempat[2] + (($indeksDivisi % 3) - 1) * 0.0018, 7),
+                ];
+            }
+
+            $indeksDivisi++;
+        }
+
+        return $loker;
     }
 }

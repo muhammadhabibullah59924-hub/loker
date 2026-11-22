@@ -94,7 +94,9 @@ class DashboardController extends Controller
 
         // Loker populer: loker aktif, berkoordinat, belum kadaluarsa, dan butuh
         // lebih dari satu orang, diurut dari yang butuh paling banyak (T-020).
-        $lokerPopuler = Job::query()
+        // T-052: bagian ini ikut mematuhi filter yang sedang aktif supaya tidak
+        // menampilkan loker bertipe/divisi lain di bawah filter dasbor.
+        $queryPopuler = Job::query()
             ->where('is_active', true)
             ->whereNotNull('latitude')
             ->whereNotNull('longitude')
@@ -102,7 +104,24 @@ class DashboardController extends Controller
                 $queryKadaluarsa->whereNull('deadline')
                     ->orWhereDate('deadline', '>=', today());
             })
-            ->where('positions_needed', '>', 1)
+            ->where('positions_needed', '>', 1);
+
+        if ($kataKunci !== null && $kataKunci !== '') {
+            $queryPopuler->where(function ($queryPencarian) use ($kataKunci) {
+                $queryPencarian->where('company_name', 'like', '%'.$kataKunci.'%')
+                    ->orWhere('division', 'like', '%'.$kataKunci.'%');
+            });
+        }
+
+        if ($tipe !== null && $tipe !== '') {
+            $queryPopuler->where('job_type', $tipe);
+        }
+
+        if ($divisi !== null && $divisi !== '') {
+            $queryPopuler->where('division', $divisi);
+        }
+
+        $lokerPopuler = $queryPopuler
             ->orderByDesc('positions_needed')
             ->limit(6)
             ->get()
@@ -115,6 +134,12 @@ class DashboardController extends Controller
                     (float) $loker->longitude,
                 ),
             ]);
+
+        if ($radius !== null) {
+            $lokerPopuler = $lokerPopuler
+                ->filter(fn (array $item): bool => $item['jarak'] <= (float) $radius)
+                ->values();
+        }
 
         // Daftar divisi aktif untuk chip filter di dasbor (T-032).
         $divisiTersedia = Job::query()
