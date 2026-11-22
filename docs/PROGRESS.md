@@ -6,7 +6,9 @@ Dokumen hidup. Diperbarui di **akhir setiap sesi** supaya sesi berikutnya (oleh 
 
 Tanggal: 2026-11-22
 
-**Sesi ini — `T-051` (branch `fix/T-051-ci-checkout-node24`, status `review`):** CI `main` hijau tetapi memberi peringatan depresi Node.js 20 untuk `actions/checkout@v4`. Versi terbaru terverifikasi dari GitHub API adalah v7.0.1 (runtime `node24`, SHA `3d3c42e5aac5ba805825da76410c181273ba90b1`), jadi langkah checkout kini di-pin ke SHA tersebut. Gerbang lint/tes/build di workflow tidak diubah. Setelah push ke `main`, CI `success` dengan **0 anotasi** (sebelumnya ada peringatan depresi Node 20) — lihat run `45002595874`.
+**Sesi ini — `T-052` (branch `feat/T-052-perbanyak-loker`, status `review`):** pemilik proyek meminta loker sebanyak mungkin dengan semua divisi terwakili. `LokerSeeder` kini menghasilkan 260 loker (30 entri rinci + 230 loker yang dibangkitkan per divisi), mencakup 23 divisi dengan 11–14 loker tiap divisi. Semua loker baru aktif, berkoordinat di tujuh kecamatan Kota Probolinggo, dan berdeadline masa depan sehingga tampil di dasbor. Seeder juga dibuat toleran terhadap database lokal yang belum memiliki kolom `is_premium` (kolom dilewati bila belum ada), tanpa mengubah skema. Data lokal sudah terisi: 260 loker, 260 aktif, 23 divisi. E2E mengungkap regresi lama yang tersamar saat data masih sedikit: bagian "Loker Populer" tidak mematuhi filter `tipe`/`divisi`/`q`/`radius`, sehingga loker Part-Time tetap tampil saat filter Full-Time aktif. `DashboardController` sudah diperbaiki dan mendapat tes regresi di `SearchFilterTest`.
+
+**Sebelumnya — `T-051` (branch `fix/T-051-ci-checkout-node24`, status `done`):** CI `main` hijau tetapi memberi peringatan depresi Node.js 20 untuk `actions/checkout@v4`. Versi terbaru terverifikasi dari GitHub API adalah v7.0.1 (runtime `node24`, SHA `3d3c42e5aac5ba805825da76410c181273ba90b1`), jadi langkah checkout kini di-pin ke SHA tersebut. Gerbang lint/tes/build di workflow tidak diubah. Setelah push ke `main`, CI `success` dengan **0 anotasi** (sebelumnya ada peringatan depresi Node 20) — lihat run `45002595874`.
 
 **Sebelumnya — `T-049` dan `T-050`, sudah di-merge ke `main` pada 2026-11-22 dengan persetujuan pemilik proyek.** `T-049` menambah halaman `/admin/favorit` (F4) berisi peringkat loker paling difavoritkan dan rincian favorit per pengguna (nama, email, judul loker), dibaca dari tabel `favorites` tanpa skema baru; akses dijaga `auth` + `admin`, laporan bersifat baca-saja, keputusan tercatat di ADR-011 dan perluasan akses di `docs/SECURITY.md`. `T-050` mengubah chip divisi dasbor menjadi pita horizontal `flex-nowrap overflow-x-auto` yang bisa digeser, dengan chip aktif yang otomatis masuk tampilan dan petunjuk geser lewat `aria-describedby`; filter `divisi` tetap memakai tautan GET yang sama. Gerbang lokal pada masing-masing branch: pint bersih, PHPUnit 127/127 (T-049) dan 122/122 (T-050), E2E 3/3, build produksi lolos. Setelah gabung di `main`: pint bersih, PHPUnit 129/129, dan E2E 3/3 lulus.
 
@@ -16,6 +18,7 @@ Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori
 
 | Tanggal | Task | PR/Commit | Catatan |
 |---|---|---|---|
+| 2026-11-22 | T-052 Perbanyak loker dan pastikan semua divisi terwakili | branch `feat/T-052-perbanyak-loker` | 260 loker di seeder (23 divisi, 11–14 tiap divisi), aman di DB tanpa kolom `is_premium`; DB lokal terisi 260 loker aktif | status T-052 = review; menunggu review manusia sebelum merge |
 | 2026-11-22 | T-051 Hilangkan peringatan Node 20 pada GitHub Actions | branch `fix/T-051-ci-checkout-node24` | `actions/checkout@v4` → pin SHA v7.0.1 (`node24`); versi dan SHA diverifikasi lewat GitHub API; gerbang lint/tes/build tidak disentuh | status T-051 = done; CI `success` tanpa anotasi (run `45002595874`) |
 | 2026-11-22 | T-049 Laporan favorit untuk pengelola | branch `feat/T-049-laporan-favorit-admin`, di-merge ke `main` | `/admin/favorit` menampilkan ranking loker paling difavoritkan + rincian favorit per pengguna (nama, email, loker); agregat read-only dari tabel `favorites`, tanpa migrasi; ADR-011 + catatan akses di `SECURITY.md`; tes `AdminFavoriteReportTest` 7/7, phpunit 127/127, pint bersih | status T-049 = done |
 | 2026-11-22 | T-050 Chip divisi dasbor bisa digeser horizontal | branch `feat/T-050-chip-divisi-geser`, di-merge ke `main` | Baris chip divisi jadi pita `flex-nowrap overflow-x-auto` + kelas `.chip-scroll`, chip aktif di-scroll ke tampilan, petunjuk geser untuk layar sentuh; filter `divisi` tidak berubah; tes `SearchFilterTest` 16/16, pint, phpunit 122/122, E2E 3/3 lulus | status T-050 = done |
@@ -72,13 +75,14 @@ Tidak ada
 
 ## Next Up
 
-1. Review manusia untuk T-015 sebelum PR dari `feat/T-015-loker-kadaluarsa` (lihat `docs/WORKFLOW.md`).
-2. Review manusia untuk T-016 sebelum PR dari `fix/T-016-akses-website` (lihat `docs/WORKFLOW.md`).
-3. Review manusia untuk T-020 sebelum PR dari `feat/T-020-loker-populer` (lihat `docs/WORKFLOW.md`).
-4. Review manusia untuk T-022 sebelum PR dari `feat/T-022-statistik-dasbor` (lihat `docs/WORKFLOW.md`).
-5. Review manusia untuk T-023 sebelum PR dari `feat/T-023-banner-cta-popular` (lihat `docs/WORKFLOW.md`).
-6. Review manusia untuk T-024 sebelum PR dari `feat/T-024-badge-premium-employer` (lihat `docs/WORKFLOW.md`).
-7. Review manusia untuk T-025 sebelum PR dari `feat/T-025-statistik-loker-popular` (lihat `docs/WORKFLOW.md`).
+1. Review manusia untuk T-052 sebelum PR dari `feat/T-052-perbanyak-loker` (lihat `docs/WORKFLOW.md`).
+2. Review manusia untuk T-015 sebelum PR dari `feat/T-015-loker-kadaluarsa` (lihat `docs/WORKFLOW.md`).
+3. Review manusia untuk T-016 sebelum PR dari `fix/T-016-akses-website` (lihat `docs/WORKFLOW.md`).
+4. Review manusia untuk T-020 sebelum PR dari `feat/T-020-loker-populer` (lihat `docs/WORKFLOW.md`).
+5. Review manusia untuk T-022 sebelum PR dari `feat/T-022-statistik-dasbor` (lihat `docs/WORKFLOW.md`).
+6. Review manusia untuk T-023 sebelum PR dari `feat/T-023-banner-cta-popular` (lihat `docs/WORKFLOW.md`).
+7. Review manusia untuk T-024 sebelum PR dari `feat/T-024-badge-premium-employer` (lihat `docs/WORKFLOW.md`).
+8. Review manusia untuk T-025 sebelum PR dari `feat/T-025-statistik-loker-popular` (lihat `docs/WORKFLOW.md`).
 
 ## Blockers
 
@@ -87,6 +91,8 @@ Tidak ada. Format entri nanti: `tanggal | task | hambatan | yang sudah dicoba | 
 ## Session Log
 
 Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan untuk sesi berikutnya`.
+
+`2026-11-22 | agen coding (T-052) | T-052 | Seeder menghasilkan 260 loker untuk 23 divisi; seeder dilewati kolom is_premium saat DB lokal belum termigrasi; DB lokal terisi 260 loker aktif | status T-052 = review; cek tampilan dasbor dengan ratusan kartu sebelum merge`
 
 `2026-11-22 | agen coding (T-051) | T-051 | Checkout CI di-pin ke SHA v7.0.1 (node24) untuk menghapus peringatan depresi Node 20; versi/SHA diverifikasi dari GitHub API; gerbang tidak diubah | status T-051 = done; CI main success tanpa anotasi (run 45002595874)`
 
