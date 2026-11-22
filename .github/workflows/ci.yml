@@ -15,7 +15,8 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # T-051: pin ke v7.0.1 (runtime node24) agar tidak ada peringatan Node 20.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: shivammathur/setup-php@v2
         with:
           php-version: latest  # sesuaikan dengan versi yang dipakai proyek
