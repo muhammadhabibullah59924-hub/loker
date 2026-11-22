@@ -127,12 +127,16 @@
         </form>
 
         @if ($divisiTersedia->isNotEmpty())
-            <div class="d-flex flex-wrap gap-2 mb-2" aria-label="Filter divisi">
+            {{-- T-050: chip divisi jadi satu pita yang bisa digeser, bukan daftar yang turun semua. --}}
+            <div class="chip-scroll d-flex flex-nowrap gap-2 overflow-x-auto pb-2 mb-1" aria-label="Filter divisi" aria-describedby="petunjuk-geser-divisi" tabindex="0">
                 <a class="chip-divisi {{ ($divisi ?? null) === null ? 'chip-divisi--aktif' : '' }}" href="{{ request()->fullUrlWithQuery(['divisi' => null]) }}">Semua divisi</a>
                 @foreach ($divisiTersedia as $opsi)
                     <a class="chip-divisi {{ ($divisi ?? null) === $opsi ? 'chip-divisi--aktif' : '' }}" href="{{ request()->fullUrlWithQuery(['divisi' => $opsi]) }}">{{ $opsi }}</a>
                 @endforeach
             </div>
+            <p class="text-secondary small mb-4" id="petunjuk-geser-divisi">
+                <span aria-hidden="true">↔</span> Geser ke samping untuk melihat divisi lain.
+            </p>
         @endif
 
         <div class="d-flex flex-wrap gap-2 mb-4" aria-label="Filter tipe loker cepat">
@@ -352,6 +356,16 @@
 
             // Penanda kesiapan filter otomatis (dipakai uji E2E dan pengembangan).
             document.documentElement.setAttribute('data-filter-siap', '1');
+        })();
+
+        // T-050: bawa chip divisi yang aktif ke dalam pita yang bisa digeser.
+        (function () {
+            const pita = document.querySelector('.chip-scroll');
+            const aktif = pita && pita.querySelector('.chip-divisi--aktif');
+
+            if (aktif && typeof aktif.scrollIntoView === 'function') {
+                aktif.scrollIntoView({ inline: 'center', block: 'nearest' });
+            }
         })();
     </script>
 

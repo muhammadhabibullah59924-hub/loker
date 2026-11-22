@@ -438,6 +438,35 @@ a:hover {
     color: #ffffff;
 }
 
+/* T-050: pita chip divisi yang bisa digeser horizontal di dasbor. */
+.chip-scroll {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+    scroll-snap-type: x proximity;
+    mask-image: linear-gradient(to right, #000 94%, transparent 100%);
+}
+
+.chip-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.chip-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: 999px;
+}
+
+.chip-scroll .chip-divisi {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    scroll-snap-align: start;
+}
+
+.chip-scroll:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
 /* T-034: pembeda tipe loker pada kartu dan badge. */
 .job-card--full-time {
     border-left: 4px solid var(--color-primary);

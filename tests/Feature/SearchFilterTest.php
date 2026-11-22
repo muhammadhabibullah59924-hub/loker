@@ -233,6 +233,40 @@ class SearchFilterTest extends TestCase
     }
 
     /**
+     * T-050: chip divisi tampil sebagai pita horizontal yang bisa digeser.
+     */
+    public function test_chip_divisi_menjadi_pita_yang_bisa_digeser(): void
+    {
+        $this->buatLoker('PT Alpha Energi', 'Operator');
+        $this->buatLoker('PT Beta Tekstil', 'Gudang');
+
+        $response = $this->actingAs($this->pengguna)
+            ->get('/dasbor?lat=-7.7145&lng=113.2146');
+
+        $response->assertStatus(200);
+        $response->assertSee('class="chip-scroll d-flex flex-nowrap gap-2 overflow-x-auto pb-2 mb-1"', false);
+        $response->assertSee('Geser ke samping untuk melihat divisi lain.');
+        $response->assertSee('divisi=Operator', false);
+        $response->assertSee('divisi=Gudang', false);
+    }
+
+    /**
+     * T-050: chip divisi yang aktif otomatis dibawa ke dalam pita.
+     */
+    public function test_chip_divisi_aktif_dibawa_ke_tampilan(): void
+    {
+        $this->buatLoker('PT Alpha Energi', 'Operator');
+        $this->buatLoker('PT Beta Tekstil', 'Gudang');
+
+        $response = $this->actingAs($this->pengguna)
+            ->get('/dasbor?lat=-7.7145&lng=113.2146&divisi=Gudang');
+
+        $response->assertStatus(200);
+        $response->assertSee('scrollIntoView', false);
+        $response->assertSee('chip-divisi--aktif', false);
+    }
+
+    /**
      * T-030: filter tipe loker hanya menampilkan loker dengan tipe yang dipilih.
      */
     public function test_filter_tipe_loker_hanya_menampilkan_tipe_yang_dipilih(): void
