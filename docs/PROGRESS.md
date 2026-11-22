@@ -6,7 +6,7 @@ Dokumen hidup. Diperbarui di **akhir setiap sesi** supaya sesi berikutnya (oleh 
 
 Tanggal: 2026-11-22
 
-**Sesi ini — `T-053` (branch `feat/T-053-paginasi-dasbor`, status `review`):** dengan 260 loker, pemilik proyek meminta daftar dibagi menjadi beberapa bagian berisi 20 loker dengan tombol bertuliskan angka. `DashboardController` memotong koleksi setelah filter/urutan jarak diterapkan memakai `LengthAwarePaginator` (bukan `paginate()` SQL, karena jarak dihitung di PHP), lalu `withQueryString()` menjaga filter tetap aktif di halaman berikutnya. Bagian "Loker Populer" tidak berubah. `DashboardPaginationTest` 5/5 lulus; PHPUnit 135/135 lulus.
+**Sesi ini — `T-053` (branch `feat/T-053-paginasi-dasbor`, sudah di-merge ke `main` 2026-11-22 dengan persetujuan pemilik proyek):** dengan 260 loker, pemilik proyek meminta daftar dibagi menjadi beberapa bagian berisi 20 loker dengan tombol bertuliskan angka. `DashboardController` memotong koleksi setelah filter/urutan jarak diterapkan memakai `LengthAwarePaginator` (bukan `paginate()` SQL, karena jarak dihitung di PHP), lalu `withQueryString()` menjaga filter tetap aktif di halaman berikutnya. Bagian "Loker Populer" tidak berubah. `DashboardPaginationTest` 5/5 lulus; PHPUnit 135/135 lulus.
 
 **Sebelumnya — `T-052` (branch `feat/T-052-perbanyak-loker`, sudah di-merge ke `main` 2026-11-22 dengan persetujuan pemilik proyek):** pemilik proyek meminta loker sebanyak mungkin dengan semua divisi terwakili. `LokerSeeder` kini menghasilkan 260 loker (30 entri rinci + 230 loker yang dibangkitkan per divisi), mencakup 23 divisi dengan 11–14 loker tiap divisi. Semua loker baru aktif, berkoordinat di tujuh kecamatan Kota Probolinggo, dan berdeadline masa depan sehingga tampil di dasbor. Seeder juga dibuat toleran terhadap database lokal yang belum memiliki kolom `is_premium` (kolom dilewati bila belum ada), tanpa mengubah skema. Data lokal sudah terisi: 260 loker, 260 aktif, 23 divisi. E2E mengungkap regresi lama yang tersamar saat data masih sedikit: bagian "Loker Populer" tidak mematuhi filter `tipe`/`divisi`/`q`/`radius`, sehingga loker Part-Time tetap tampil saat filter Full-Time aktif. `DashboardController` sudah diperbaiki dan mendapat tes regresi di `SearchFilterTest`.
 
@@ -20,7 +20,7 @@ Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori
 
 | Tanggal | Task | PR/Commit | Catatan |
 |---|---|---|---|
-| 2026-11-22 | T-053 Paginasi daftar loker dasbor | branch `feat/T-053-paginasi-dasbor` | 20 loker per halaman, tombol angka + Sebelumnya/Berikutnya, filter terbawa, halaman di luar rentang jatuh ke halaman terakhir; `DashboardPaginationTest` 5/5, phpunit 135/135 | status T-053 = review; menunggu review manusia sebelum merge |
+| 2026-11-22 | T-053 Paginasi daftar loker dasbor | branch `feat/T-053-paginasi-dasbor`, di-merge ke `main` | 20 loker per halaman, tombol angka + Sebelumnya/Berikutnya, filter terbawa, halaman di luar rentang jatuh ke halaman terakhir; `DashboardPaginationTest` 5/5, phpunit 135/135, E2E 4/4 | status T-053 = done |
 | 2026-11-22 | T-052 Perbanyak loker dan pastikan semua divisi terwakili | branch `feat/T-052-perbanyak-loker`, di-merge ke `main` | 260 loker di seeder (23 divisi, 11–14 tiap divisi), aman di DB tanpa kolom `is_premium`; DB lokal terisi 260 loker aktif; PHPUnit 130/130, E2E 3/3, pint bersih | status T-052 = done |
 | 2026-11-22 | T-051 Hilangkan peringatan Node 20 pada GitHub Actions | branch `fix/T-051-ci-checkout-node24` | `actions/checkout@v4` → pin SHA v7.0.1 (`node24`); versi dan SHA diverifikasi lewat GitHub API; gerbang lint/tes/build tidak disentuh | status T-051 = done; CI `success` tanpa anotasi (run `45002595874`) |
 | 2026-11-22 | T-049 Laporan favorit untuk pengelola | branch `feat/T-049-laporan-favorit-admin`, di-merge ke `main` | `/admin/favorit` menampilkan ranking loker paling difavoritkan + rincian favorit per pengguna (nama, email, loker); agregat read-only dari tabel `favorites`, tanpa migrasi; ADR-011 + catatan akses di `SECURITY.md`; tes `AdminFavoriteReportTest` 7/7, phpunit 127/127, pint bersih | status T-049 = done |
@@ -78,14 +78,13 @@ Tidak ada
 
 ## Next Up
 
-1. Review manusia untuk T-053 sebelum PR dari `feat/T-053-paginasi-dasbor` (lihat `docs/WORKFLOW.md`).
-2. Review manusia untuk T-015 sebelum PR dari `feat/T-015-loker-kadaluarsa` (lihat `docs/WORKFLOW.md`).
-3. Review manusia untuk T-016 sebelum PR dari `fix/T-016-akses-website` (lihat `docs/WORKFLOW.md`).
-4. Review manusia untuk T-020 sebelum PR dari `feat/T-020-loker-populer` (lihat `docs/WORKFLOW.md`).
-5. Review manusia untuk T-022 sebelum PR dari `feat/T-022-statistik-dasbor` (lihat `docs/WORKFLOW.md`).
-6. Review manusia untuk T-023 sebelum PR dari `feat/T-023-banner-cta-popular` (lihat `docs/WORKFLOW.md`).
-7. Review manusia untuk T-024 sebelum PR dari `feat/T-024-badge-premium-employer` (lihat `docs/WORKFLOW.md`).
-8. Review manusia untuk T-025 sebelum PR dari `feat/T-025-statistik-loker-popular` (lihat `docs/WORKFLOW.md`).
+1. Review manusia untuk T-015 sebelum PR dari `feat/T-015-loker-kadaluarsa` (lihat `docs/WORKFLOW.md`).
+2. Review manusia untuk T-016 sebelum PR dari `fix/T-016-akses-website` (lihat `docs/WORKFLOW.md`).
+3. Review manusia untuk T-020 sebelum PR dari `feat/T-020-loker-populer` (lihat `docs/WORKFLOW.md`).
+4. Review manusia untuk T-022 sebelum PR dari `feat/T-022-statistik-dasbor` (lihat `docs/WORKFLOW.md`).
+5. Review manusia untuk T-023 sebelum PR dari `feat/T-023-banner-cta-popular` (lihat `docs/WORKFLOW.md`).
+6. Review manusia untuk T-024 sebelum PR dari `feat/T-024-badge-premium-employer` (lihat `docs/WORKFLOW.md`).
+7. Review manusia untuk T-025 sebelum PR dari `feat/T-025-statistik-loker-popular` (lihat `docs/WORKFLOW.md`).
 
 ## Blockers
 
@@ -95,7 +94,7 @@ Tidak ada. Format entri nanti: `tanggal | task | hambatan | yang sudah dicoba | 
 
 Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan untuk sesi berikutnya`.
 
-`2026-11-22 | agen coding (T-053) | T-053 | Daftar loker dasbor dibagi 20 per halaman dengan tombol teks; filter tetap terbawa; tes paginasi 5/5, phpunit 135/135 | status T-053 = review; cek tampilan tombol di layar kecil sebelum merge`
+`2026-11-22 | agen coding (T-053) | T-053 | Daftar loker dasbor dibagi 20 per halaman dengan tombol teks; filter tetap terbawa; tes paginasi 5/5, phpunit 135/135, E2E 4/4 | status T-053 = done; branch sudah di-merge ke main`
 
 `2026-11-22 | agen coding (T-052) | T-052 | Seeder menghasilkan 260 loker untuk 23 divisi; seeder dilewati kolom is_premium saat DB lokal belum termigrasi; DB lokal terisi 260 loker aktif; regresi filter Loker Populer diperbaiki | status T-052 = done; branch sudah di-merge ke main`
 
