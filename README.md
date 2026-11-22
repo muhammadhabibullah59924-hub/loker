@@ -87,6 +87,7 @@ loker/
 
 | Dokumen | Fungsi |
 |---|---|
+| [DEPLOY.md](DEPLOY.md) | Panduan deploy ke hosting publik (InfinityFree) agar bisa dibuka dari HP/laptop lain |
 | [AGENTS.md](AGENTS.md) | Ringkasan singkat untuk agen AI |
 | [docs/PRD.md](docs/PRD.md) | Masalah, tujuan, dan acceptance criteria |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Susunan sistem dan model data |
