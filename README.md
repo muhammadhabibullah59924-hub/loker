@@ -118,4 +118,4 @@ Proyek ini disusun dengan bantuan alat AI, yaitu **GitHub Copilot**, termasuk pe
 
 ## Status
 
-Implementasi LokerDekat (F1–F6) sudah selesai dan di-deploy secara lokal di XAMPP pada `http://localhost/loker/` dengan mode produksi. Seluruh gerbang `docs/EVALS.md` lulus (lint, tes, build produksi, E2E) dan perubahan terakhir sudah di-merge ke `main` lewat PR #13. Lihat [docs/PROGRESS.md](docs/PROGRESS.md) dan [docs/EVALS.md](docs/EVALS.md).
+Implementasi LokerDekat (F1–F6) sudah selesai. Website dapat dibuka secara lokal di `http://localhost/loker/` (XAMPP, mode produksi) **dan** secara publik di **`https://lokerdekat.rf.gd/loker/`** (InfinityFree, HTTPS). Seluruh gerbang `docs/EVALS.md` lulus (lint, tes, build produksi, E2E). Panduan deploy publik ada di [DEPLOY.md](DEPLOY.md). Lihat [docs/PROGRESS.md](docs/PROGRESS.md) dan [docs/EVALS.md](docs/EVALS.md).
