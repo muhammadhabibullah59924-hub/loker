@@ -6,7 +6,7 @@ Dokumen hidup. Diperbarui di **akhir setiap sesi** supaya sesi berikutnya (oleh 
 
 Tanggal: 2026-11-22
 
-**Sesi ini — `T-055` (branch `docs/T-055-deploy-publik`, status `blocked`):** pemilik proyek meminta website bisa dibuka dari laptop lain/HP lewat hosting publik, dengan anggaran gratis dan tanpa membagikan kredensial. Setelah riset dari situs resmi, dipilih InfinityFree (PHP 8.4, MySQL 8.0/MariaDB 11.4, SSL gratis, tanpa kartu kredit) — ADR-012. Artefak sudah disiapkan di branch ini: `DEPLOY.md` (panduan pemula 8 langkah), `.env.hosting.example`, `storage/app/deploy/lokerdekat.zip` (aplikasi + vendor produksi, tanpa `.env`, config cache, atau rahasia), `storage/app/deploy/lokerdekat.sql` (8 tabel, 260 loker), dan `storage/app/deploy/.env` (berisi `APP_KEY` yang di-generate, `APP_URL=https://lokerdekat.rf.gd/loker/`, placeholder `DB_*`). Task **blocked** karena akun hosting, SSL, pengisian `DB_*`, upload zip, dan import SQL harus dilakukan pemilik proyek di panel hosting. Setelah live, password admin wajib diganti lewat `/profil`.
+**Sesi ini — `T-055` (branch `docs/T-055-deploy-publik`, sudah di-deploy dan diverifikasi 2026-11-25):** website LokerDekat kini **live di `https://lokerdekat.rf.gd/loker/`** dan sudah dibuka dari HP pemilik proyek (halaman depan tampil). Setelah riset dari situs resmi, dipilih InfinityFree (PHP 8.4, MySQL 8.0/MariaDB 11.4, SSL gratis, tanpa kartu kredit) — ADR-012. Proses: akun `if0_43505054` dibuat pemilik proyek; kredensial FTP/DB diberikan untuk dieksekusi agen; upload `lokerdekat.zip` dan `lokerdekat.sql` via FTP; `.env` produksi diisi (`APP_KEY`, `APP_URL=https://lokerdekat.rf.gd/loker`, `DB_*`, `SESSION_SECURE_COOKIE=true`). Kendala teknis: `ZipArchive::extractTo()` di hosting hanya membuat folder, dan ZIP pertama memakai backslash sehingga file tidak terbentuk; atasi dengan membangun ulang ZIP memakai Python `zipfile` (separator `/`) dan skrip unzip manual — hasil **6916 file terekstrak, 0 gagal**. Database ter-import, file sementara (`*.zip`, `*.sql`, skrip setup/diag/status) sudah dihapus dari server publik. Artefak dokumen: `DEPLOY.md`, `.env.hosting.example`. Password admin bawaan masih `password` dan wajib diganti pemilik proyek lewat `/profil`.
 
 **Sebelumnya — `T-054` (branch `docs/T-054-deploy-lokal`, sudah di-merge ke `main` 2026-11-22 lewat PR #13 dengan persetujuan pemilik proyek):** deploy produksi-lokal XAMPP di `http://localhost/loker/` selesai dan terverifikasi. Migrasi `2026_11_18_000000_add_is_premium_to_jobs_table` yang sempat `Pending` sudah dijalankan (`php artisan migrate`, non-destruktif) sehingga galat `Unknown column 'is_premium' in 'field list'` saat admin menyimpan loker hilang — smoke test simpan/ubah loker kini mengembalikan 302 dan pesan sukses, dengan nilai `is_premium` terbukti tersimpan lalu dikembalikan ke nilai semula. Atas izin eksplisit pemilik proyek, `.env` diubah hanya pada `APP_ENV=production` dan `APP_DEBUG=false` (rahasia tidak disentuh), lalu cache config/route/view dibangun ulang. Gerbang lulus: pint bersih, PHPUnit 135/135 (483 asersi), `composer install --no-dev --optimize-autoloader` (percobaan pertama terpotong timeout, diulang dengan batas lebih lama hingga selesai), E2E Playwright 4/4. Smoke test: tamu `/admin` → `/login`, pengguna biasa → dasbor, login admin → dasbor 200, detail loker 200, CSS dan logo 200. Screenshot hasil E2E dikembalikan ke versi sebelumnya agar diff PR tetap kecil. Atas izin eksplisit pemilik proyek, `php artisan db:seed --force` dijalankan setelah migrasi agar kolom `is_premium` terisi: 260 loker aktif, 23 divisi, 34 loker premium, dan badge Premium Employer tampil di dasbor. Seeder memakai `updateOrCreate`, sehingga data loker yang ada ditimpa nilai seeder.
 
@@ -24,6 +24,7 @@ Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori
 
 | Tanggal | Task | PR/Commit | Catatan |
 |---|---|---|---|
+| 2026-11-25 | T-055 Deploy hosting publik InfinityFree | branch `docs/T-055-deploy-publik`, di-merge ke `main` lewat PR #15 | Website live di `https://lokerdekat.rf.gd/loker/`; 6916 file terekstrak, SQL ter-import, file sementara dihapus; status T-055 = done |
 | 2026-11-22 | T-054 Deploy produksi-lokal XAMPP dan verifikasi | branch `docs/T-054-deploy-lokal`, di-merge ke `main` lewat PR #13 | Migrasi `is_premium` di-aply (tidak ada yang Pending); `.env` produksi + cache dibangun; pint bersih, phpunit 135/135, build produksi, E2E 4/4; smoke test simpan loker admin tanpa 500; status T-054 = done |
 | 2026-11-22 | T-053 Paginasi daftar loker dasbor | branch `feat/T-053-paginasi-dasbor`, di-merge ke `main` | 20 loker per halaman, tombol angka + Sebelumnya/Berikutnya, filter terbawa, halaman di luar rentang jatuh ke halaman terakhir; `DashboardPaginationTest` 5/5, phpunit 135/135, E2E 4/4 | status T-053 = done |
 | 2026-11-22 | T-052 Perbanyak loker dan pastikan semua divisi terwakili | branch `feat/T-052-perbanyak-loker`, di-merge ke `main` | 260 loker di seeder (23 divisi, 11–14 tiap divisi), aman di DB tanpa kolom `is_premium`; DB lokal terisi 260 loker aktif; PHPUnit 130/130, E2E 3/3, pint bersih | status T-052 = done |
@@ -83,18 +84,17 @@ Tidak ada
 
 ## Next Up
 
-1. Selesaikan `T-055`: pemilik proyek membuat akun InfinityFree, mengaktifkan SSL, mengisi `DB_*` di `.env`, meng-upload `lokerdekat.zip`, dan meng-import `lokerdekat.sql` sesuai `DEPLOY.md`.
-2. Setelah situs live, verifikasi `https://lokerdekat.rf.gd/loker/` dari HP/laptop lain dan ganti password admin lewat `/profil`.
+Ganti password akun demo (khususnya admin) lewat `/profil` di `https://lokerdekat.rf.gd/loker/`, karena password `password` diketahui umum.
 
 ## Blockers
 
-`2026-11-22 | T-055 | Akun hosting InfinityFree belum dibuat dan kredensial tidak diberikan agen (sesuai permintaan pemilik proyek) | Artefak deploy sudah disiapkan lengkap; tidak bisa melangkah lebih jauh tanpa panel hosting | pemilik proyek — ikuti langkah 1 sampai 7 di DEPLOY.md, lalu kabari hasilnya`
+Tidak ada.
 
 ## Session Log
 
 Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan untuk sesi berikutnya`.
 
-`2026-11-22 | agen coding (T-055) | T-055 | Riset hosting dari situs resmi, pilih InfinityFree, buat DEPLOY.md + template .env + zip aplikasi + dump SQL + .env produksi dengan APP_KEY; ADR-012 dicatat | status T-055 = blocked; menunggu aksi pemilik proyek di panel hosting`
+`2026-11-25 | agen coding (T-055) | T-055 | Deploy publik sampai live di https://lokerdekat.rf.gd/loker/; unzip manual 6916 file, import SQL, cleanup file sementara; verifikasi dari HP pemilik proyek | status T-055 = done; website publik aktif, password demo masih perlu diganti`
 
 `2026-11-22 | agen coding (T-054) | T-054 | Migrasi is_premium yang Pending di-aply; mode produksi di .env dan cache dibangun; pint/phpunit/build/E2E lulus; galat 500 saat simpan loker di panel admin teratasi; atas izin pemilik proyek db:seed dijalankan ulang sehingga 34 loker premium tampil; PR #13 di-review dan di-merge dengan persetujuan pemilik proyek | status T-054 = done; sudah di main`
 
