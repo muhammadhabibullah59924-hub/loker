@@ -4,9 +4,11 @@ Dokumen hidup. Diperbarui di **akhir setiap sesi** supaya sesi berikutnya (oleh 
 
 ## Current State
 
-Tanggal: 2026-11-22
+Tanggal: 2026-11-26
 
-**Sesi ini — `T-055` (branch `docs/T-055-deploy-publik`, sudah di-deploy dan diverifikasi 2026-11-25):** website LokerDekat kini **live di `https://lokerdekat.rf.gd/loker/`** dan sudah dibuka dari HP pemilik proyek (halaman depan tampil). Setelah riset dari situs resmi, dipilih InfinityFree (PHP 8.4, MySQL 8.0/MariaDB 11.4, SSL gratis, tanpa kartu kredit) — ADR-012. Proses: akun `if0_43505054` dibuat pemilik proyek; kredensial FTP/DB diberikan untuk dieksekusi agen; upload `lokerdekat.zip` dan `lokerdekat.sql` via FTP; `.env` produksi diisi (`APP_KEY`, `APP_URL=https://lokerdekat.rf.gd/loker`, `DB_*`, `SESSION_SECURE_COOKIE=true`). Kendala teknis: `ZipArchive::extractTo()` di hosting hanya membuat folder, dan ZIP pertama memakai backslash sehingga file tidak terbentuk; atasi dengan membangun ulang ZIP memakai Python `zipfile` (separator `/`) dan skrip unzip manual — hasil **6916 file terekstrak, 0 gagal**. Database ter-import, file sementara (`*.zip`, `*.sql`, skrip setup/diag/status) sudah dihapus dari server publik. Artefak dokumen: `DEPLOY.md`, `.env.hosting.example`. Password admin bawaan masih `password` dan wajib diganti pemilik proyek lewat `/profil`.
+**Sesi ini — `T-057` (branch `docs/T-057-tampil-github`, status `review`):** menindaklanjuti masukan dosen agar repo GitHub memuat tautan website, menampilkan website dengan baik, dan memberikan cara penggunaannya. README kini memuat tautan demo `https://lokerdekat.rf.gd/loker/`, lima screenshot baru (halaman depan, statistik dasbor, daftar loker, detail dengan peta, tampilan HP), dan seksi **Cara Penggunaan** untuk pencari kerja serta admin; panduan lengkap ditulis di `docs/PANDUAN_PENGGUNAAN.md`. Screenshot diambil dari branch `fix/T-056-peta-hp` sesuai keputusan pemilik proyek; keluaran E2E dialihkan ke `docs/screenshots/e2e/` (di-ignore) supaya tidak menimpa gambar showcase. ADR-014 tercatat. Gerbang lulus: pint bersih, PHPUnit 135/135 (483 asersi), E2E 4/4, dan `composer install --no-dev --optimize-autoloader` berhasil. Catatan: MySQL XAMPP sempat mati sehingga E2E awalnya 500; layanan dinyalakan sebelum pengambilan screenshot dan gerbang dijalankan ulang. `php artisan test` tidak tersedia di Laravel 13.38.0 sehingga tes dijalankan dengan `vendor/bin/phpunit`. Kolom **Website** di About GitHub dan *default branch* masih harus diubah manual oleh pemilik proyek (tidak ada `gh` CLI). Tautan live tidak merespons dari environment pengembangan, tetapi tetap dipasang sesuai keputusan pemilik proyek.
+
+**Sebelumnya — `T-055` (branch `docs/T-055-deploy-publik`, sudah di-deploy dan diverifikasi 2026-11-25):** website LokerDekat kini **live di `https://lokerdekat.rf.gd/loker/`** dan sudah dibuka dari HP pemilik proyek (halaman depan tampil). Setelah riset dari situs resmi, dipilih InfinityFree (PHP 8.4, MySQL 8.0/MariaDB 11.4, SSL gratis, tanpa kartu kredit) — ADR-012. Proses: akun `if0_43505054` dibuat pemilik proyek; kredensial FTP/DB diberikan untuk dieksekusi agen; upload `lokerdekat.zip` dan `lokerdekat.sql` via FTP; `.env` produksi diisi (`APP_KEY`, `APP_URL=https://lokerdekat.rf.gd/loker`, `DB_*`, `SESSION_SECURE_COOKIE=true`). Kendala teknis: `ZipArchive::extractTo()` di hosting hanya membuat folder, dan ZIP pertama memakai backslash sehingga file tidak terbentuk; atasi dengan membangun ulang ZIP memakai Python `zipfile` (separator `/`) dan skrip unzip manual — hasil **6916 file terekstrak, 0 gagal**. Database ter-import, file sementara (`*.zip`, `*.sql`, skrip setup/diag/status) sudah dihapus dari server publik. Artefak dokumen: `DEPLOY.md`, `.env.hosting.example`. Password admin bawaan masih `password` dan wajib diganti pemilik proyek lewat `/profil`.
 
 **Sebelumnya — `T-054` (branch `docs/T-054-deploy-lokal`, sudah di-merge ke `main` 2026-11-22 lewat PR #13 dengan persetujuan pemilik proyek):** deploy produksi-lokal XAMPP di `http://localhost/loker/` selesai dan terverifikasi. Migrasi `2026_11_18_000000_add_is_premium_to_jobs_table` yang sempat `Pending` sudah dijalankan (`php artisan migrate`, non-destruktif) sehingga galat `Unknown column 'is_premium' in 'field list'` saat admin menyimpan loker hilang — smoke test simpan/ubah loker kini mengembalikan 302 dan pesan sukses, dengan nilai `is_premium` terbukti tersimpan lalu dikembalikan ke nilai semula. Atas izin eksplisit pemilik proyek, `.env` diubah hanya pada `APP_ENV=production` dan `APP_DEBUG=false` (rahasia tidak disentuh), lalu cache config/route/view dibangun ulang. Gerbang lulus: pint bersih, PHPUnit 135/135 (483 asersi), `composer install --no-dev --optimize-autoloader` (percobaan pertama terpotong timeout, diulang dengan batas lebih lama hingga selesai), E2E Playwright 4/4. Smoke test: tamu `/admin` → `/login`, pengguna biasa → dasbor, login admin → dasbor 200, detail loker 200, CSS dan logo 200. Screenshot hasil E2E dikembalikan ke versi sebelumnya agar diff PR tetap kecil. Atas izin eksplisit pemilik proyek, `php artisan db:seed --force` dijalankan setelah migrasi agar kolom `is_premium` terisi: 260 loker aktif, 23 divisi, 34 loker premium, dan badge Premium Employer tampil di dasbor. Seeder memakai `updateOrCreate`, sehingga data loker yang ada ditimpa nilai seeder.
 
@@ -24,6 +26,7 @@ Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori
 
 | Tanggal | Task | PR/Commit | Catatan |
 |---|---|---|---|
+| 2026-11-26 | T-057 Perbarui tampilan GitHub: tautan website, showcase, dan cara penggunaan | branch `docs/T-057-tampil-github` | README memuat demo live + 5 screenshot baru + Cara Penggunaan; `docs/PANDUAN_PENGGUNAAN.md`; E2E screenshots di-ignore; pint, phpunit 135/135, E2E 4/4, build produksi lulus; ADR-014 |
 | 2026-11-25 | T-055 Deploy hosting publik InfinityFree | branch `docs/T-055-deploy-publik`, di-merge ke `main` lewat PR #15 | Website live di `https://lokerdekat.rf.gd/loker/`; 6916 file terekstrak, SQL ter-import, file sementara dihapus; status T-055 = done |
 | 2026-11-22 | T-054 Deploy produksi-lokal XAMPP dan verifikasi | branch `docs/T-054-deploy-lokal`, di-merge ke `main` lewat PR #13 | Migrasi `is_premium` di-aply (tidak ada yang Pending); `.env` produksi + cache dibangun; pint bersih, phpunit 135/135, build produksi, E2E 4/4; smoke test simpan loker admin tanpa 500; status T-054 = done |
 | 2026-11-22 | T-053 Paginasi daftar loker dasbor | branch `feat/T-053-paginasi-dasbor`, di-merge ke `main` | 20 loker per halaman, tombol angka + Sebelumnya/Berikutnya, filter terbawa, halaman di luar rentang jatuh ke halaman terakhir; `DashboardPaginationTest` 5/5, phpunit 135/135, E2E 4/4 | status T-053 = done |
@@ -80,11 +83,15 @@ Sesudah `T-001`, kerangka Laravel 13.38.0 terpasang di folder proyek, repositori
 
 ## In Progress
 
-Tidak ada
+T-057 — branch `docs/T-057-tampil-github` siap di-review; belum di-merge ke `main`.
 
 ## Next Up
 
-Ganti password akun demo (khususnya admin) lewat `/profil` di `https://lokerdekat.rf.gd/loker/`, karena password `password` diketahui umum.
+1. Review PR `docs/T-057-tampil-github` oleh manusia, lalu merge ke `main` (jangan di-merge sendiri oleh agen).
+2. Setelah merge, ubah *default branch* repo GitHub dari `feat/T-002-migrasi` ke `main` agar README terbaru tampil di halaman repo.
+3. Isi kolom **About → Website** di GitHub dengan `https://lokerdekat.rf.gd/loker/` (opsional: perbarui deskripsi dan topics).
+4. Review dan merge T-056 (`fix/T-056-peta-hp`), lalu deploy ulang ke hosting menurut `DEPLOY.md` agar perbaikan peta tampil publik dan sesuai screenshot.
+5. Ganti password akun demo (khususnya admin) lewat `/profil` di `https://lokerdekat.rf.gd/loker/`, karena password `password` diketahui umum.
 
 ## Blockers
 
@@ -93,6 +100,8 @@ Tidak ada.
 ## Session Log
 
 Format entri: `tanggal | siapa (manusia atau nama alat) | task | hasil | catatan untuk sesi berikutnya`.
+
+`2026-11-26 | agen coding (T-057) | T-057 | README memuat tautan demo, 5 screenshot baru, dan Cara Penggunaan; panduan lengkap di docs/PANDUAN_PENGGUNAAN.md; screenshot E2E dipindah ke docs/screenshots/e2e/ dan di-ignore; ADR-014; pint bersih, phpunit 135/135, E2E 4/4, build produksi lulus | status T-057 = review; screenshot diambil dari fix/T-056-peta-hp; About Website + default branch diubah manual oleh pemilik proyek; php artisan test tidak tersedia (pakai vendor/bin/phpunit); MySQL XAMPP harus aktif saat E2E`
 
 `2026-11-25 | agen coding (T-055) | T-055 | Deploy publik sampai live di https://lokerdekat.rf.gd/loker/; unzip manual 6916 file, import SQL, cleanup file sementara; verifikasi dari HP pemilik proyek | status T-055 = done; website publik aktif, password demo masih perlu diganti`
 

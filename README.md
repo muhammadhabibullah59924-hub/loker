@@ -5,6 +5,8 @@
 [![CI](https://github.com/muhammadhabibullah59924-hub/loker/actions/workflows/ci.yml/badge.svg)](https://github.com/muhammadhabibullah59924-hub/loker/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
+**Demo langsung:** [https://lokerdekat.rf.gd/loker/](https://lokerdekat.rf.gd/loker/) — buka di laptop atau HP, lalu izinkan akses lokasi untuk melihat loker terdekat.
+
 ## About
 
 Anak muda di Probolinggo sering hanya ikut grup lowongan tanpa tahu harus melangkah ke mana mencari loker yang benar-benar bisa mereka datangi. LokerDekat menjawabnya dengan menampilkan lowongan **diurutkan dari yang paling dekat** ke lokasi pengguna, lengkap dengan nama PT, alamat jalan, dan divisi yang lowong. Pengguna umum cukup mendaftar, mengizinkan lokasi, lalu memilih loker; admin mengelola isi katalog lewat panel tersendiri. Website ini murni informasi lowongan — tidak ada fitur lamaran atau unggah CV.
@@ -24,13 +26,54 @@ LokerDekat lahir dari semangat membantu mengurangi angka pengangguran. Dengan me
 
 ## Screenshots
 
-Tampilan dasbor setelah login:
+Halaman depan LokerDekat:
 
-![Dasbor LokerDekat](docs/screenshots/dashboard.png)
+![Halaman depan LokerDekat](docs/screenshots/landing.png)
 
-Halaman detail loker dengan peta:
+Statistik dan filter pada dasbor setelah masuk:
 
-![Detail Loker](docs/screenshots/detail-loker.png)
+![Statistik dan filter dasbor](docs/screenshots/dashboard-statistik.png)
+
+Daftar loker diurutkan dari yang paling dekat, lengkap dengan nama PT, alamat, divisi, dan jarak:
+
+![Daftar loker terdekat](docs/screenshots/dashboard.png)
+
+Detail loker berisi ringkasan, deskripsi, syarat, dan peta lokasi:
+
+![Detail loker dan peta lokasi](docs/screenshots/detail-loker.png)
+
+Tampilan daftar loker di layar HP:
+
+![Dasbor LokerDekat di HP](docs/screenshots/dashboard-mobile.png)
+
+## Cara Penggunaan
+
+### Pencari kerja
+
+1. Buka [https://lokerdekat.rf.gd/loker/](https://lokerdekat.rf.gd/loker/) (atau `http://localhost/loker/` bila dijalankan secara lokal).
+2. Klik **Daftar**, isi nama, email, dan kata sandi, lalu masuk. Bila sudah punya akun, klik **Masuk**.
+3. Pada dasbor, izinkan akses lokasi saat diminta browser agar loker diurutkan dari yang paling dekat. Bila izin ditolak, daftar tetap tampil diurutkan dari pusat Kota Probolinggo disertai pesan pengingat.
+4. Persempit hasil dengan **Cari loker**, **Tipe loker**, **Radius jarak**, **Urutkan**, dan chip divisi/tipe. Filter diterapkan otomatis; tombol **Cari loker** tetap tersedia tanpa JavaScript.
+5. Klik judul loker untuk membuka detail: alamat, deskripsi, syarat, dan peta lokasi. Bila ubin peta tidak termuat, alamat tetap terbaca sebagai teks biasa.
+6. Klik **Simpan favorit** untuk menyimpan loker, lalu buka menu **Favorit** untuk melihatnya kembali.
+7. Buka **Profil** untuk mengubah nama, email, atau kata sandi.
+
+### Pengelola (admin)
+
+1. Masuk memakai akun admin, lalu buka **Panel Admin** di navbar. Halaman `/admin` hanya bisa diakses peran admin.
+2. Di panel, periksa ringkasan jumlah loker tayang, nonaktif, premium, dan gunakan filter kata kunci/status/tipe.
+3. Klik **Tambah loker** untuk membuat loker baru atau **Ubah** pada loker yang ada. Isi nama PT, alamat, divisi, kota, koordinat, tipe, jumlah kebutuhan, dan tanggal; centang **Premium Employer** bila perlu. Titik lintang/bujur dapat dipilih lewat peta pada form.
+4. Simpan perubahan. Loker tanpa koordinat tidak tayang di dasbor (sesuai R2).
+5. Pakai **Nonaktifkan** bila loker tidak ingin ditampilkan tanpa menghapus datanya, dan buka **Laporan Favorit** untuk melihat peringkat loker paling difavoritkan.
+
+### Akun demo
+
+| Peran | Email | Kata sandi |
+|---|---|---|
+| Admin | `admin@lokerdekat.test` | `password` |
+| Pencari kerja | `pencari@lokerdekat.test` | `password` |
+
+Seluruh data loker bersifat **fiktif** untuk keperluan demo. Kata sandi demo diketahui umum, jadi ganti lewat halaman **Profil** setelah akun dipakai. Panduan lebih lengkap ada di [docs/PANDUAN_PENGGUNAAN.md](docs/PANDUAN_PENGGUNAAN.md).
 
 ## Tech Stack
 
@@ -88,6 +131,7 @@ loker/
 | Dokumen | Fungsi |
 |---|---|
 | [DEPLOY.md](DEPLOY.md) | Panduan deploy ke hosting publik (InfinityFree) agar bisa dibuka dari HP/laptop lain |
+| [docs/PANDUAN_PENGGUNAAN.md](docs/PANDUAN_PENGGUNAAN.md) | Panduan langkah demi langkah untuk pencari kerja dan pengelola loker |
 | [AGENTS.md](AGENTS.md) | Ringkasan singkat untuk agen AI |
 | [docs/PRD.md](docs/PRD.md) | Masalah, tujuan, dan acceptance criteria |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Susunan sistem dan model data |

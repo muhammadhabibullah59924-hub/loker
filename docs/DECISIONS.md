@@ -120,6 +120,16 @@ Semua ADR di bawah memakai tanggal 2026-10-25 kecuali dibuat kemudian.
 - **Konsekuensi:** Aplikasi bergantung pada ketersediaan layanan gratis dan tidak punya jaminan SLA; pembaruan kode berikutnya harus meng-upload ulang file secara manual. Rahasia (`APP_KEY`, `DB_PASSWORD`) tidak pernah masuk repo. Password akun demo harus diganti pemilik segera setelah login pertama lewat halaman `/profil`. Saat deploy, `ZipArchive::extractTo()` di hosting hanya membuat folder tanpa menulis file, jadi ekstraksi dilakukan dengan skrip `file_put_contents()`; ZIP juga harus dibuat dengan separator `/` (bukan `\` dari Windows) agar struktur folder benar di Linux.
 - **Alternatif yang dipertimbangkan:** (1) Byet.host — gratis, PHP 8.3, MySQL 8, layak sebagai cadangan; (2) Hostinger — mudah dan ada SSH, tapi berbayar sehingga ditolak karena anggaran gratis; (3) VPS — kontrol penuh tetapi terlalu berat untuk kebutuhan dan keahlian saat ini; (4) mengakses XAMPP lewat IP LAN — gratis, tetapi tidak publik dan Geolocation tetap bermasalah tanpa HTTPS.
 
+### ADR-014: Showcase website di halaman GitHub
+
+- **Status:** Accepted
+- **Tanggal:** 2026-11-26
+- **Konteks:** Dosen pembimbing meminta bagian About repo GitHub memuat tautan website, menampilkan website sebaik-baiknya, dan memberikan cara penggunaannya. Halaman repo saat itu masih menampilkan README versi awal karena *default branch* masih `feat/T-002-migrasi`, dan screenshot lama (T-019) memperlihatkan desain dasbor lama serta peta abu-abu.
+- **Keputusan:** Screenshot baru diambil dari branch `fix/T-056-peta-hp` (kode terbaik yang tersedia saat ini) untuk halaman depan, dasbor, detail loker, dan tampilan HP, lalu dipasang di `README.md` bersama tautan demo dan seksi **Cara Penggunaan**. Panduan lengkap ditaruh di `docs/PANDUAN_PENGGUNAAN.md`. Keluaran `tests/e2e/loker-screenshot.spec.ts` dialihkan ke `docs/screenshots/e2e/` supaya menjalankan E2E tidak menimpa gambar showcase. Kolom *Website* pada About dan *default branch* diubah manual oleh pemilik proyek lewat UI GitHub karena `gh` CLI tidak terpasang di mesin pengembangan.
+- **Konsekuensi:** Tidak ada dependensi atau layanan baru. Screenshot merepresentasikan kode T-056 yang belum tentu sudah ada di `main` pada saat PR ini dibuka, sehingga T-056 sebaiknya di-merge lebih dulu agar tampilan di repo dan di kode konsisten. Tautan demo bergantung pada ketersediaan hosting gratis.
+- **Alternatif yang dipertimbangkan:** (1) GIF demo interaktif — ditolak karena ukuran berkas dan kebutuhan alat rekam; (2) redesign UI lebih lanjut — ditolak karena di luar cakupan permintaan dan F1–F6 sudah lulus evals; (3) memakai screenshot lama — ditolak karena tidak menggambarkan tampilan terkini.
+- **Catatan penomoran:** ADR-013 dibuat di branch `fix/T-056-peta-hp` yang belum di-merge ke `main`; ADR ini sengaja bernomor 014 agar tidak bentrok saat branch tersebut masuk.
+
 ## Delegated Choices
 
 Semua pilihan dibuat langsung oleh mahasiswa.
