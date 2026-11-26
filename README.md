@@ -2,18 +2,78 @@
 
 > Website info loker yang mengurutkan lowongan dari yang paling dekat ke lokasi pengguna, lengkap dengan peta dan divisi yang lowong.
 
+[![CI](https://github.com/muhammadhabibullah59924-hub/loker/actions/workflows/ci.yml/badge.svg)](https://github.com/muhammadhabibullah59924-hub/loker/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+
+**Demo langsung:** [https://lokerdekat.rf.gd/loker/](https://lokerdekat.rf.gd/loker/) — buka di laptop atau HP, lalu izinkan akses lokasi untuk melihat loker terdekat.
+
 ## About
 
 Anak muda di Probolinggo sering hanya ikut grup lowongan tanpa tahu harus melangkah ke mana mencari loker yang benar-benar bisa mereka datangi. LokerDekat menjawabnya dengan menampilkan lowongan **diurutkan dari yang paling dekat** ke lokasi pengguna, lengkap dengan nama PT, alamat jalan, dan divisi yang lowong. Pengguna umum cukup mendaftar, mengizinkan lokasi, lalu memilih loker; admin mengelola isi katalog lewat panel tersendiri. Website ini murni informasi lowongan — tidak ada fitur lamaran atau unggah CV.
 
+## Misi
+
+LokerDekat lahir dari semangat membantu mengurangi angka pengangguran. Dengan menyajikan lowongan secara terdekat-first, kami membantu para pencari kerja menemukan peluang yang cocok lebih cepat dan tepat.
+
 ## Features
 
-- `F1` — Masuk dan daftar akun (must) — **direncanakan**
-- `F2` — Dasbor loker terurut terdekat (must) — **direncanakan**
-- `F3` — Peta dan lokasi loker (must) — **direncanakan**
-- `F4` — Kelola data loker (admin) (must) — **direncanakan**
-- `F5` — Pencarian dan filter loker (should) — **direncanakan**
-- `F6` — Simpan loker favorit (could) — **direncanakan**
+- `F1` — Masuk dan daftar akun (must) — **selesai**
+- `F2` — Dasbor loker terurut terdekat (must) — **selesai**
+- `F3` — Peta dan lokasi loker (must) — **selesai**
+- `F4` — Kelola data loker (admin) (must) — **selesai**
+- `F5` — Pencarian dan filter loker (should) — **selesai**
+- `F6` — Simpan loker favorit (could) — **selesai**
+
+## Screenshots
+
+Halaman depan LokerDekat:
+
+![Halaman depan LokerDekat](docs/screenshots/landing.png)
+
+Statistik dan filter pada dasbor setelah masuk:
+
+![Statistik dan filter dasbor](docs/screenshots/dashboard-statistik.png)
+
+Daftar loker diurutkan dari yang paling dekat, lengkap dengan nama PT, alamat, divisi, dan jarak:
+
+![Daftar loker terdekat](docs/screenshots/dashboard.png)
+
+Detail loker berisi ringkasan, deskripsi, syarat, dan peta lokasi:
+
+![Detail loker dan peta lokasi](docs/screenshots/detail-loker.png)
+
+Tampilan daftar loker di layar HP:
+
+![Dasbor LokerDekat di HP](docs/screenshots/dashboard-mobile.png)
+
+## Cara Penggunaan
+
+### Pencari kerja
+
+1. Buka [https://lokerdekat.rf.gd/loker/](https://lokerdekat.rf.gd/loker/) (atau `http://localhost/loker/` bila dijalankan secara lokal).
+2. Klik **Daftar**, isi nama, email, dan kata sandi, lalu masuk. Bila sudah punya akun, klik **Masuk**.
+3. Pada dasbor, izinkan akses lokasi saat diminta browser agar loker diurutkan dari yang paling dekat. Bila izin ditolak, daftar tetap tampil diurutkan dari pusat Kota Probolinggo disertai pesan pengingat.
+4. Persempit hasil dengan **Cari loker**, **Tipe loker**, **Radius jarak**, **Urutkan**, dan chip divisi/tipe. Filter diterapkan otomatis; tombol **Cari loker** tetap tersedia tanpa JavaScript.
+5. Klik judul loker untuk membuka detail: alamat, deskripsi, syarat, dan peta lokasi. Bila ubin peta tidak termuat, alamat tetap terbaca sebagai teks biasa.
+6. Klik **Simpan favorit** untuk menyimpan loker, lalu buka menu **Favorit** untuk melihatnya kembali.
+7. Buka **Profil** untuk mengubah nama, email, atau kata sandi.
+
+### Pengelola (admin)
+
+1. Masuk memakai akun admin, lalu buka **Panel Admin** di navbar. Halaman `/admin` hanya bisa diakses peran admin.
+2. Di panel, periksa ringkasan jumlah loker tayang, nonaktif, premium, dan gunakan filter kata kunci/status/tipe.
+3. Klik **Tambah loker** untuk membuat loker baru atau **Ubah** pada loker yang ada. Isi nama PT, alamat, divisi, kota, koordinat, tipe, jumlah kebutuhan, dan tanggal; centang **Premium Employer** bila perlu. Titik lintang/bujur dapat dipilih lewat peta pada form.
+4. Simpan perubahan. Loker tanpa koordinat tidak tayang di dasbor (sesuai R2).
+5. Pakai **Nonaktifkan** bila loker tidak ingin ditampilkan tanpa menghapus datanya, dan buka **Laporan Favorit** untuk melihat peringkat loker paling difavoritkan.
+
+### Akun demo
+
+| Peran | Email | Kata sandi |
+|---|---|---|
+| Admin | `admin@lokerdekat.test` | `password` |
+| Pencari kerja | `pencari@lokerdekat.test` | `password` |
+
+Seluruh data loker bersifat **fiktif** untuk keperluan demo. Kata sandi demo diketahui umum, jadi ganti lewat halaman **Profil** setelah akun dipakai. Panduan lebih lengkap ada di [docs/PANDUAN_PENGGUNAAN.md](docs/PANDUAN_PENGGUNAAN.md).
 
 ## Tech Stack
 
@@ -35,7 +95,7 @@ Versi tidak ditulis di sini karena belum diverifikasi; periksa dengan `composer 
 5. Jalankan persiapan lingkungan: `cp .env.example .env && php artisan key:generate` (lewati langkah salin bila `.env` sudah ada).
 6. Nyalakan Apache dan MySQL lewat XAMPP Control Panel, lalu buat basis data `db_loker_v2` dengan charset `utf8` (`CREATE DATABASE db_loker_v2 CHARACTER SET utf8 COLLATE utf8_general_ci;`) — lihat ADR-008.
 7. Jalankan migrasi dan seeder: `php artisan migrate --seed`, kemudian mode pengembangan: `php artisan serve` (tersedia setelah `T-001`).
-8. Buka `http://localhost:8000` (atau `http://localhost/loker` bila dijalankan lewat Apache) di browser.
+8. Buka `http://localhost/loker` di browser. Berkas `index.php` dan `.htaccess` pada root proyek menjadi jembatan menuju `public/` (ADR-005) sehingga tidak perlu mengubah konfigurasi XAMPP. Bila memakai `php artisan serve`, buka `http://127.0.0.1:8000`.
 9. Akun demo hasil seeder: `admin@lokerdekat.test` (admin) dan `pencari@lokerdekat.test` (pengguna), kata sandi `password`.
 
 ## Scripts and Commands
@@ -70,6 +130,8 @@ loker/
 
 | Dokumen | Fungsi |
 |---|---|
+| [DEPLOY.md](DEPLOY.md) | Panduan deploy ke hosting publik (InfinityFree) agar bisa dibuka dari HP/laptop lain |
+| [docs/PANDUAN_PENGGUNAAN.md](docs/PANDUAN_PENGGUNAAN.md) | Panduan langkah demi langkah untuk pencari kerja dan pengelola loker |
 | [AGENTS.md](AGENTS.md) | Ringkasan singkat untuk agen AI |
 | [docs/PRD.md](docs/PRD.md) | Masalah, tujuan, dan acceptance criteria |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Susunan sistem dan model data |
@@ -86,6 +148,10 @@ loker/
 | [docs/REVIEW.md](docs/REVIEW.md) | Checklist review dan template PR |
 | [docs/LESSONS.md](docs/LESSONS.md) | Kesalahan berulang dan pelajaran |
 
+## License
+
+Proyek ini menggunakan lisensi [MIT License](LICENSE).
+
 ## Contributing
 
 Ikuti `docs/WORKFLOW.md`: satu task per cabang, PR kecil, CI hijau, dan review manusia sebelum merge. Pesan commit mengikuti `docs/CODE_STYLE.md` (Conventional Commits). Agen AI bekerja mengikuti `AGENTS.md` dan `docs/GUARDRAILS.md`.
@@ -96,4 +162,4 @@ Proyek ini disusun dengan bantuan alat AI, yaitu **GitHub Copilot**, termasuk pe
 
 ## Status
 
-Tahap perencanaan; paket dokumen proyek siap, implementasi belum dimulai — lihat [docs/PROGRESS.md](docs/PROGRESS.md).
+Implementasi LokerDekat (F1–F6) sudah selesai. Website dapat dibuka secara lokal di `http://localhost/loker/` (XAMPP, mode produksi) **dan** secara publik di **`https://lokerdekat.rf.gd/loker/`** (InfinityFree, HTTPS). Seluruh gerbang `docs/EVALS.md` lulus (lint, tes, build produksi, E2E). Panduan deploy publik ada di [DEPLOY.md](DEPLOY.md). Lihat [docs/PROGRESS.md](docs/PROGRESS.md) dan [docs/EVALS.md](docs/EVALS.md).
