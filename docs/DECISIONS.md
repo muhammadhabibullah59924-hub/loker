@@ -130,6 +130,15 @@ Semua ADR di bawah memakai tanggal 2026-10-25 kecuali dibuat kemudian.
 - **Alternatif yang dipertimbangkan:** (1) GIF demo interaktif — ditolak karena ukuran berkas dan kebutuhan alat rekam; (2) redesign UI lebih lanjut — ditolak karena di luar cakupan permintaan dan F1–F6 sudah lulus evals; (3) memakai screenshot lama — ditolak karena tidak menggambarkan tampilan terkini.
 - **Catatan penomoran:** ADR-013 dibuat di branch `fix/T-056-peta-hp` yang belum di-merge ke `main`; ADR ini sengaja bernomor 014 agar tidak bentrok saat branch tersebut masuk.
 
+### ADR-015: Format showcase README meniru repo sejawat
+
+- **Status:** Accepted
+- **Tanggal:** 2026-11-26
+- **Konteks:** Pemilik proyek menunjukkan repo `oelofficial97-coder/saudara-order` sebagai contoh tampilan GitHub yang baik dan meminta LokerDekat disamakan, bahkan lebih jelas. Masukan dosen sebelumnya sudah menghasilkan 5 screenshot, tetapi README belum mengajarkan cara kerja tiap fitur dan belum punya alur/arsitektur visual.
+- **Keputusan:** README ditulis ulang dengan pola: badge + tautan cepat, Ringkasan Proyek, **Tampilan Aplikasi** dalam tabel dua kolom (gambar bisa diklik + nomor + deskripsi + label F1–F6), Cara Penggunaan ringkas, diagram Mermaid untuk **Alur Sistem** dan **Arsitektur Sistem**, tabel fitur, tech stack, pengujian, status, dan dokumentasi. Tambahan 6 screenshot diambil untuk menunjukkan cara kerja F1 (masuk), F4 (panel/form/pemilih titik/laporan), dan F6 (favorit), sehingga total 11 gambar. Screenshot laporan admin sengaja dibatasi pada tabel agregat agar nama/email pengguna tidak tampil di README publik.
+- **Konsekuensi:** Tidak ada perubahan stack atau dependensi; diagram Mermaid dan badge memakai fitur GitHub/shields.io bawaan. README lebih panjang tetapi tiap bagian memetakan bukti ke fitur. Setelah gerbang lulus, PR #17 di-merge dan *default branch* diganti ke `main` agar showcase menjadi tampilan permanen; About diisi deskripsi + tautan website.
+- **Alternatif yang dipertimbangkan:** (1) Menyalin mentah README teman — ditolak karena stack dan fiturnya berbeda; (2) hanya menambah screenshot tanpa struktur — ditolak karena tidak menjelaskan cara kerja; (3) GIF demo — ditolak karena ukuran dan alat rekam.
+
 ## Delegated Choices
 
 Semua pilihan dibuat langsung oleh mahasiswa.
