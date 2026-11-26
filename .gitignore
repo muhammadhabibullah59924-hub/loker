@@ -60,3 +60,5 @@ Homestead.yaml
 /test-results/
 /playwright-report/
 /playwright/.cache/
+# T-057: hasil screenshot E2E bukan showcase README
+/docs/screenshots/e2e/

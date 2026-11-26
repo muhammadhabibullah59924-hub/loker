@@ -120,6 +120,25 @@ Semua ADR di bawah memakai tanggal 2026-10-25 kecuali dibuat kemudian.
 - **Konsekuensi:** Aplikasi bergantung pada ketersediaan layanan gratis dan tidak punya jaminan SLA; pembaruan kode berikutnya harus meng-upload ulang file secara manual. Rahasia (`APP_KEY`, `DB_PASSWORD`) tidak pernah masuk repo. Password akun demo harus diganti pemilik segera setelah login pertama lewat halaman `/profil`. Saat deploy, `ZipArchive::extractTo()` di hosting hanya membuat folder tanpa menulis file, jadi ekstraksi dilakukan dengan skrip `file_put_contents()`; ZIP juga harus dibuat dengan separator `/` (bukan `\` dari Windows) agar struktur folder benar di Linux.
 - **Alternatif yang dipertimbangkan:** (1) Byet.host — gratis, PHP 8.3, MySQL 8, layak sebagai cadangan; (2) Hostinger — mudah dan ada SSH, tapi berbayar sehingga ditolak karena anggaran gratis; (3) VPS — kontrol penuh tetapi terlalu berat untuk kebutuhan dan keahlian saat ini; (4) mengakses XAMPP lewat IP LAN — gratis, tetapi tidak publik dan Geolocation tetap bermasalah tanpa HTTPS.
 
+### ADR-014: Showcase website di halaman GitHub
+
+- **Status:** Accepted
+- **Tanggal:** 2026-11-26
+- **Konteks:** Dosen pembimbing meminta bagian About repo GitHub memuat tautan website, menampilkan website sebaik-baiknya, dan memberikan cara penggunaannya. Halaman repo saat itu masih menampilkan README versi awal karena *default branch* masih `feat/T-002-migrasi`, dan screenshot lama (T-019) memperlihatkan desain dasbor lama serta peta abu-abu.
+- **Keputusan:** Screenshot baru diambil dari branch `fix/T-056-peta-hp` (kode terbaik yang tersedia saat ini) untuk halaman depan, dasbor, detail loker, dan tampilan HP, lalu dipasang di `README.md` bersama tautan demo dan seksi **Cara Penggunaan**. Panduan lengkap ditaruh di `docs/PANDUAN_PENGGUNAAN.md`. Keluaran `tests/e2e/loker-screenshot.spec.ts` dialihkan ke `docs/screenshots/e2e/` supaya menjalankan E2E tidak menimpa gambar showcase. Kolom *Website* pada About dan *default branch* diubah manual oleh pemilik proyek lewat UI GitHub karena `gh` CLI tidak terpasang di mesin pengembangan.
+- **Konsekuensi:** Tidak ada dependensi atau layanan baru. Screenshot merepresentasikan kode T-056 yang belum tentu sudah ada di `main` pada saat PR ini dibuka, sehingga T-056 sebaiknya di-merge lebih dulu agar tampilan di repo dan di kode konsisten. Tautan demo bergantung pada ketersediaan hosting gratis.
+- **Alternatif yang dipertimbangkan:** (1) GIF demo interaktif — ditolak karena ukuran berkas dan kebutuhan alat rekam; (2) redesign UI lebih lanjut — ditolak karena di luar cakupan permintaan dan F1–F6 sudah lulus evals; (3) memakai screenshot lama — ditolak karena tidak menggambarkan tampilan terkini.
+- **Catatan penomoran:** ADR-013 dibuat di branch `fix/T-056-peta-hp` yang belum di-merge ke `main`; ADR ini sengaja bernomor 014 agar tidak bentrok saat branch tersebut masuk.
+
+### ADR-015: Format showcase README meniru repo sejawat
+
+- **Status:** Accepted
+- **Tanggal:** 2026-11-26
+- **Konteks:** Pemilik proyek menunjukkan repo `oelofficial97-coder/saudara-order` sebagai contoh tampilan GitHub yang baik dan meminta LokerDekat disamakan, bahkan lebih jelas. Masukan dosen sebelumnya sudah menghasilkan 5 screenshot, tetapi README belum mengajarkan cara kerja tiap fitur dan belum punya alur/arsitektur visual.
+- **Keputusan:** README ditulis ulang dengan pola: badge + tautan cepat, Ringkasan Proyek, **Tampilan Aplikasi** dalam tabel dua kolom (gambar bisa diklik + nomor + deskripsi + label F1–F6), Cara Penggunaan ringkas, diagram Mermaid untuk **Alur Sistem** dan **Arsitektur Sistem**, tabel fitur, tech stack, pengujian, status, dan dokumentasi. Tambahan 6 screenshot diambil untuk menunjukkan cara kerja F1 (masuk), F4 (panel/form/pemilih titik/laporan), dan F6 (favorit), sehingga total 11 gambar. Screenshot laporan admin sengaja dibatasi pada tabel agregat agar nama/email pengguna tidak tampil di README publik.
+- **Konsekuensi:** Tidak ada perubahan stack atau dependensi; diagram Mermaid dan badge memakai fitur GitHub/shields.io bawaan. README lebih panjang tetapi tiap bagian memetakan bukti ke fitur. Setelah gerbang lulus, PR #17 di-merge dan *default branch* diganti ke `main` agar showcase menjadi tampilan permanen; About diisi deskripsi + tautan website.
+- **Alternatif yang dipertimbangkan:** (1) Menyalin mentah README teman — ditolak karena stack dan fiturnya berbeda; (2) hanya menambah screenshot tanpa struktur — ditolak karena tidak menjelaskan cara kerja; (3) GIF demo — ditolak karena ukuran dan alat rekam.
+
 ## Delegated Choices
 
 Semua pilihan dibuat langsung oleh mahasiswa.
