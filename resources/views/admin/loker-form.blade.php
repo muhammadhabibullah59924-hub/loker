@@ -3,8 +3,8 @@
 @section('title', ($loker ? 'Ubah Loker — ' : 'Tambah Loker — ') . 'LokerDekat')
 
 @section('styles')
-    {{-- Peta pemilih titik dari CDN yang sama dengan halaman detail (F3). --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+    {{-- Peta pemilih titik memakai aset lokal yang sama dengan halaman detail (ADR-013). --}}
+    <link rel="stylesheet" href="{{ asset('vendor/leaflet/leaflet.css') }}?v=1.9.4">
 @endsection
 
 @section('content')
@@ -268,7 +268,7 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="{{ asset('vendor/leaflet/leaflet.js') }}?v=1.9.4"></script>
     <script>
         (function () {
             const peta = document.getElementById('peta-pilih');

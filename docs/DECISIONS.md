@@ -120,6 +120,15 @@ Semua ADR di bawah memakai tanggal 2026-10-25 kecuali dibuat kemudian.
 - **Konsekuensi:** Aplikasi bergantung pada ketersediaan layanan gratis dan tidak punya jaminan SLA; pembaruan kode berikutnya harus meng-upload ulang file secara manual. Rahasia (`APP_KEY`, `DB_PASSWORD`) tidak pernah masuk repo. Password akun demo harus diganti pemilik segera setelah login pertama lewat halaman `/profil`. Saat deploy, `ZipArchive::extractTo()` di hosting hanya membuat folder tanpa menulis file, jadi ekstraksi dilakukan dengan skrip `file_put_contents()`; ZIP juga harus dibuat dengan separator `/` (bukan `\` dari Windows) agar struktur folder benar di Linux.
 - **Alternatif yang dipertimbangkan:** (1) Byet.host — gratis, PHP 8.3, MySQL 8, layak sebagai cadangan; (2) Hostinger — mudah dan ada SSH, tapi berbayar sehingga ditolak karena anggaran gratis; (3) VPS — kontrol penuh tetapi terlalu berat untuk kebutuhan dan keahlian saat ini; (4) mengakses XAMPP lewat IP LAN — gratis, tetapi tidak publik dan Geolocation tetap bermasalah tanpa HTTPS.
 
+### ADR-013: Aset peta Leaflet disimpan lokal
+
+- **Status:** Accepted
+- **Tanggal:** 2026-11-26
+- **Konteks:** Setelah deploy publik (T-055), pemilik proyek melaporkan peta pada halaman detail tidak tampil dari HP: kotak abu-abu kosong, ubin tanpa gambar, dan peta terpotong. Penyebabnya bukan data loker (memang dummy sesuai aturan proyek), melainkan ketergantungan pada CDN jsDelivr dan ubin OpenStreetMap yang bisa gagal di jaringan seluler, ditambah kode lama yang mengembalikan tanpa pesan saat pustaka tidak termuat.
+- **Keputusan:** Menyalin aset Leaflet **1.9.4** (versi yang sudah ter-pin) dari jsDelivr ke `public/vendor/leaflet/` dan memuatnya lewat `asset()` di halaman detail maupun form admin. Halaman detail juga menampilkan pesan galat berbahasa Indonesia, tautan lompat ke peta, tautan permanen ke OpenStreetMap memakai `mlat`/`mlng`, penanganan `tileerror`, serta `invalidateSize()` saat ukuran layar berubah. Aturan `.gitignore` diubah dari `vendor/` menjadi `/vendor/` agar hanya vendor Composer akar yang diabaikan.
+- **Konsekuensi:** Peta tidak lagi bergantung pada ketersediaan jsDelivr, sehingga lebih tahan dibuka dari HP; ubin tetap memakai OpenStreetMap tanpa API key atau biaya. Biayanya adalah ~163 KB aset statis di repo dan keharusan meng-upload ulang berkas saat pembaruan berikutnya. Tidak ada dependensi Composer atau paket CDN baru, tidak ada skema data yang berubah, dan koordinat pengguna tetap tidak disimpan.
+- **Alternatif yang dipertimbangkan:** (1) Tetap memakai CDN — ditolak karena persis yang gagal di HP; (2) mengganti penyedia ubin berbayar — ditolak karena proyek gratis dan butuh API key; (3) gambar peta statis — ditolak karena menghilangkan interaksi dan tetap membutuhkan sumber gambar eksternal.
+
 ## Delegated Choices
 
 Semua pilihan dibuat langsung oleh mahasiswa.

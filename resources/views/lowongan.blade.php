@@ -3,8 +3,8 @@
 @section('title', $loker->company_name . ' — LokerDekat')
 
 @section('styles')
-    {{-- Pustaka peta dari CDN tanpa kunci API (docs/ARCHITECTURE.md). --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+    {{-- Pustaka peta disimpan lokal agar tidak bergantung pada CDN saat dibuka dari HP (ADR-013). --}}
+    <link rel="stylesheet" href="{{ asset('vendor/leaflet/leaflet.css') }}?v=1.9.4">
 @endsection
 
 @section('content')
@@ -13,7 +13,11 @@
             <a class="d-inline-block" href="{{ route('dasbor') }}">&larr; Kembali ke dasbor</a>
         </nav>
 
-        <p class="hero-dasbor__eyebrow mb-2">Detail loker</p>
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-3">
+            <p class="hero-dasbor__eyebrow mb-0">Detail loker</p>
+            {{-- T-056: di HP peta ada di bawah, jadi disediakan tautan lompat. --}}
+            <a class="btn btn-sm btn-outline-secondary" href="#peta-loker">Lihat peta lokasi</a>
+        </div>
 
         <div class="row g-4">
             <div class="col-12 col-lg-7">
@@ -117,6 +121,16 @@
                                  aria-label="Peta lokasi {{ $loker->company_name }} di {{ $loker->address }}">
                             </div>
 
+                            {{-- T-056: galat tidak ditelan diam-diam; pengguna diberi langkah berikutnya. --}}
+                            <p id="peta-gagal" class="alert alert-warning small mt-2 mb-0 d-none" role="alert">
+                                Peta tidak dapat ditampilkan di perangkat ini. Buka lokasi melalui tautan OpenStreetMap di bawah, atau gunakan alamat PT yang tertulis di halaman ini.
+                            </p>
+
+                            {{-- T-056: tetap bisa dipakai walau JavaScript, CDN, atau ubin peta gagal. --}}
+                            <a class="small d-inline-block mt-2"
+                               href="https://www.openstreetmap.org/?mlat={{ $loker->latitude }}&amp;mlng={{ $loker->longitude }}#map=16/{{ $loker->latitude }}/{{ $loker->longitude }}"
+                               target="_blank" rel="noopener noreferrer">Buka lokasi di OpenStreetMap</a>
+
                             <noscript>
                                 <p class="text-secondary mt-2 mb-0">
                                     Peta membutuhkan JavaScript. Alamat lokasi PT: {{ $loker->address }}
@@ -199,13 +213,29 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="{{ asset('vendor/leaflet/leaflet.js') }}?v=1.9.4"></script>
     <script>
         (function () {
             const peta = document.getElementById('peta-loker');
+            const pesanGagal = document.getElementById('peta-gagal');
 
-            // Pustaka tidak termuat: alamat sudah tampil sebagai teks di sebelah kiri.
+            const tampilkanPesanGagal = function () {
+                if (pesanGagal) {
+                    pesanGagal.classList.remove('d-none');
+                }
+            };
+
+            const hentikanPetaKosong = function () {
+                if (peta) {
+                    peta.classList.add('job-map--gagal');
+                }
+
+                tampilkanPesanGagal();
+            };
+
+            // Pustaka tidak termuat: jangan biarkan kotak abu-abu tanpa penjelasan.
             if (!peta || typeof L === 'undefined') {
+                hentikanPetaKosong();
                 return;
             }
 
@@ -213,18 +243,36 @@
             const lng = parseFloat(peta.dataset.lng);
 
             if (Number.isNaN(lat) || Number.isNaN(lng)) {
+                hentikanPetaKosong();
                 return;
             }
 
             const tampilan = L.map(peta).setView([lat, lng], 16);
+            let jumlahGalatUbin = 0;
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" rel="noopener noreferrer" target="_blank">OpenStreetMap</a>'
+            }).on('tileerror', function () {
+                jumlahGalatUbin += 1;
+
+                // Ubin gagal berulang: peta tetap ada, tapi pengguna diberi tautan OSM.
+                if (jumlahGalatUbin >= 3) {
+                    tampilkanPesanGagal();
+                }
             }).addTo(tampilan);
 
             // Teks biasa, bukan HTML, supaya nama PT tidak bisa menyuntikkan skrip.
             L.marker([lat, lng]).addTo(tampilan).bindPopup(document.createTextNode(peta.dataset.nama));
+
+            // T-056: layout HP selesai setelah rendering, ukuran peta dihitung ulang.
+            const perbaruiUkuran = function () {
+                tampilan.invalidateSize();
+            };
+
+            window.addEventListener('load', perbaruiUkuran);
+            window.addEventListener('resize', perbaruiUkuran);
+            window.addEventListener('orientationchange', perbaruiUkuran);
         })();
     </script>
 @endsection

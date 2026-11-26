@@ -37,7 +37,8 @@ Thumbs.db
 npm-debug.log*
 
 # Tambahan untuk ekosistem: php
-vendor/
+# Hanya vendor Composer di akar yang diabaikan; aset peta di public/vendor/ ikut ter-commit (ADR-013).
+/vendor/
 storage/*.key
 storage/logs/
 bootstrap/cache/*.php

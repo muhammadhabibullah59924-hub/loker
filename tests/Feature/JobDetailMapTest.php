@@ -42,16 +42,64 @@ class JobDetailMapTest extends TestCase
     }
 
     /**
-     * Pustaka peta diambil dari CDN dengan versi yang dipin, bukan versi karangan.
+     * T-056: pustaka peta disimpan lokal dengan versi yang dipin (ADR-013).
      */
-    public function test_pustaka_peta_dimuat_dari_cdn_dengan_versi_persis(): void
+    public function test_pustaka_peta_dimuat_dari_aset_lokal_versi_1_9_4(): void
     {
         $loker = $this->buatLoker();
 
         $response = $this->actingAs($this->pengguna)->get('/lowongan/'.$loker->id);
 
-        $response->assertSee('cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js', false);
-        $response->assertSee('cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css', false);
+        $response->assertSee('vendor/leaflet/leaflet.js', false);
+        $response->assertSee('vendor/leaflet/leaflet.css', false);
+        $response->assertDontSee('cdn.jsdelivr.net/npm/leaflet', false);
+    }
+
+    /**
+     * T-056: tautan lompat tersedia karena di HP peta berada di bawah konten.
+     */
+    public function test_detail_menyediakan_tautan_lompat_ke_peta(): void
+    {
+        $loker = $this->buatLoker();
+
+        $response = $this->actingAs($this->pengguna)->get('/lowongan/'.$loker->id);
+
+        $response->assertStatus(200);
+        $response->assertSee('Lihat peta lokasi');
+        $response->assertSee('href="#peta-loker"', false);
+    }
+
+    /**
+     * T-056: kegagalan peta memberi pesan bahasa Indonesia dan tautan OSM.
+     */
+    public function test_detail_menampilkan_pesan_gagal_dan_tautan_openstreetmap(): void
+    {
+        $loker = $this->buatLoker();
+
+        $response = $this->actingAs($this->pengguna)->get('/lowongan/'.$loker->id);
+
+        $response->assertStatus(200);
+        $response->assertSee('id="peta-gagal"', false);
+        $response->assertSee('Peta tidak dapat ditampilkan di perangkat ini', false);
+        $response->assertSee('Buka lokasi di OpenStreetMap');
+        $response->assertSee('mlat='.$loker->latitude, false);
+        $response->assertSee('mlng='.$loker->longitude, false);
+    }
+
+    /**
+     * T-056: skrip menangani pustaka gagal, ubin gagal, dan perubahan ukuran layar.
+     */
+    public function test_skrip_peta_memiliki_penanganan_gagal_dan_penyegaran_ukuran(): void
+    {
+        $loker = $this->buatLoker();
+
+        $response = $this->actingAs($this->pengguna)->get('/lowongan/'.$loker->id);
+
+        $response->assertStatus(200);
+        $response->assertSee("typeof L === 'undefined'", false);
+        $response->assertSee("classList.add('job-map--gagal')", false);
+        $response->assertSee("on('tileerror'", false);
+        $response->assertSee('invalidateSize()', false);
     }
 
     /**

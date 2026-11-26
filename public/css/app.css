@@ -564,6 +564,19 @@ a:hover {
     height: 280px;
     border-radius: 8px;
     background-color: #e2e8f0;
+    /* T-056: tautan lompat tidak tertutup navbar lengket. */
+    scroll-margin-top: 88px;
+}
+
+/* T-056: peta kosong disembunyikan bila pustaka/koordinat tidak tersedia. */
+.job-map--gagal {
+    display: none;
+}
+
+@media (max-width: 575.98px) {
+    .job-map {
+        height: 220px;
+    }
 }
 
 /* T-038: sidebar detail loker lengket di layar lebar. */
